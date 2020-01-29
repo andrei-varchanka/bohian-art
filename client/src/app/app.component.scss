@@ -1,0 +1,9 @@
+@import "~src/shared/styles/variables";
+
+.app {
+  &__content {
+    width: 100%;
+    max-width: $max-content-width;
+    margin: 0 auto;
+  }
+}

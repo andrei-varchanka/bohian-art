@@ -1,0 +1,37 @@
+$mqube-mobile-max-width: 767px;
+$mqube-tablet-min-width: 768px;
+$mqube-tablet-max-width: 1023px;
+$mqube-tablet-horizontal-min-width: 1024px;
+$mqube-tablet-horizontal-max-width: 1366px;
+
+@mixin mqube-mobile {
+  @media screen and (max-width: $mqube-mobile-max-width) {
+    @content;
+  }
+}
+
+@mixin mqube-tablet {
+  @media screen and (min-width: $mqube-tablet-min-width) and (max-width: $mqube-tablet-max-width) {
+    @content;
+  }
+}
+
+@mixin mqube-tablet-horizontal {
+  @media screen and (min-width: $mqube-tablet-horizontal-min-width) and (max-width: $mqube-tablet-horizontal-max-width) {
+    @content;
+  }
+}
+
+@mixin mqube-tablet-and-less {
+  @media screen and (max-width: $mqube-tablet-max-width) {
+    @content;
+  }
+}
+
+@mixin mqube-tablet-horizontal-and-less {
+  @media screen and (max-width: $mqube-tablet-horizontal-max-width) {
+    @content;
+  }
+}
+
+
