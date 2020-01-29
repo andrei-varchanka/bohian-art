@@ -1,9 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import User from './model/user.js';
+
 const app = express();
-const mongoose = require('mongoose');
 const url = 'mongodb://localhost:27017/bohian-art';
-const User = require('./model/user');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

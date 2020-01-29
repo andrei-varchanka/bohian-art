@@ -4,5 +4,18 @@
 
 прошёл https://code.tutsplus.com/tutorials/creating-a-blogging-app-using-angular-mongodb-home--cms-30129?ec_unit=translation-info-language
 
-https://medium.com/passpill-project/files-with-mjs-extension-for-javascript-modules-ced195d7c84a
-.mjs - modularized JavaScript
+пройти метанит
+
+https://blog.cloudboost.io/adding-swagger-to-existing-node-js-project-92a6624b855b
+
+https://github.com/GenFirst/swagger-to-existing-nodejs-project
+
+https://www.npmjs.com/package/swagger-ui-express
+
+https://swagger.io/docs/swagger-inspector/how-to-create-an-openapi-definition-using-swagger/
+
+https://www.npmjs.com/package/swagger-jsdoc
+
+https://levelup.gitconnected.com/swagger-time-to-document-that-express-api-you-built-9b8faaeae563
+
+
