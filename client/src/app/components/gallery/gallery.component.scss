@@ -2,9 +2,18 @@
 .gallery {
   padding: 20px;
   display: flex;
-  flex-wrap: wrap;
-  background-color: aquamarine;
-  justify-content: space-between;
+  flex-direction: column;
+
+  .add-new-button {
+    max-width: 200px;
+    margin-left: 20px;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
   .item {
     width: 300px;

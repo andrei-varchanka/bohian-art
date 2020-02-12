@@ -1,0 +1,36 @@
+.image-uploader {
+  &__drop-area {
+    height: 60px;
+    border: 1px dashed rgba(0, 0, 0, 0.54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    &_hint {
+      margin-top: 5px;
+    }
+  }
+
+  &__file {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px auto;
+
+    &_delete {
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+
+      img {
+        width: 30px;
+      }
+    }
+  }
+}

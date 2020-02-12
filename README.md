@@ -4,7 +4,7 @@
 
 прошёл https://code.tutsplus.com/tutorials/creating-a-blogging-app-using-angular-mongodb-home--cms-30129?ec_unit=translation-info-language
 
-пройти метанит
+пройти метанит https://metanit.com/web/nodejs/4.16.php
 
 https://blog.cloudboost.io/adding-swagger-to-existing-node-js-project-92a6624b855b
 
