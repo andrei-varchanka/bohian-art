@@ -1,14 +1,14 @@
-import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 
+const saltRounds = 10;
+const existingUserError = "Such username has already been used";
 const usernameError = "Invalid username";
 const passwordError = "Invalid password";
 
 export const login = async (request, response, next) => {
-
     const { username, password } = request.body;
-
     const user = await User.findOne({ username: username });
     if (!user) {
         return response.status(401).send({
@@ -28,12 +28,78 @@ export const login = async (request, response, next) => {
             }
         });
     }
-
     const payload = { username: user.username, password: user.password };
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
-
     response.send({
         success: true,
         token: 'Bearer ' + token
+    });
+};
+
+export const createUser = async (request, response, next) => {
+    const { username, password } = request.body;
+    const existingUser = await User.findOne({ username: username });
+    if (existingUser) {
+        return response.status(400).send({
+            error: {
+                username: existingUserError,
+                password: null
+            }
+        });
+    }
+    const user = new User({
+        username,
+        password
+    });
+    const salt = await bcrypt.genSalt(saltRounds);
+    user.password = await bcrypt.hash(user.password, salt);
+    const newUser = await User.create(user);
+    response.send(newUser);
+};
+
+export const updateUser = async (req, res, next) => {
+    const userId = req.params["userId"];
+    const updatedObj = req.body;
+    if (updatedObj.password) {
+        const salt = await bcrypt.genSalt(saltRounds);
+        updatedObj.password = await bcrypt.hash(updatedObj.password, salt);
+    }
+    User.findByIdAndUpdate(userId, req.body, {new: true}, function (err, user) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(user);
+        }
+    });
+};
+
+export const getById = (req, res, next, id) => {
+    User.findOne({_id: id}, function (err, user) {
+        if (err) {
+            next(err);
+        } else {
+            req.user = user;
+            next();
+        }
+    });
+};
+
+export const deleteUser = function (req, res, next) {
+    req.user.remove(function (err) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(req.user);
+        }
+    });
+};
+
+export const getAllUsers = function (req, res, next) {
+    User.find(function (err, users) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(users);
+        }
     });
 };

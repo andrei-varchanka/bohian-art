@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
+import normalize from 'normalize-mongoose';
 
 const Schema = mongoose.Schema;
 
 // create a schema
 const userSchema = new Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String }
-}, { collection : 'user' });
+    username: {type: String, required: true, unique: true},
+    password: {type: String, required: true}
+}, {collection: 'user'});
+
+userSchema.plugin(normalize);
 
 const User = mongoose.model('User', userSchema);
 

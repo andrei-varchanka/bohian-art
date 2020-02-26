@@ -29,7 +29,7 @@ const validate = data => {
     };
 };
 
-export const validateLogin = function(request, response, next) {
+export const validateUser = (request, response, next) => {
 
     const { errors, isValid } = validate(request.body);
     if (!isValid) {
