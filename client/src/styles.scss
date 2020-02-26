@@ -12,7 +12,7 @@ body {
   background-color: $grey-1;
 }
 
-button:focus {
+div:focus, button:focus {
   outline: none;
 }
 

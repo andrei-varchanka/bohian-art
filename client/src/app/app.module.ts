@@ -42,6 +42,7 @@ import {ImageUploaderComponent} from "./components/image-uploader/image-uploader
     MaterialModules,
   ],
   providers: [RouterModule],
+  entryComponents: [LoginComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

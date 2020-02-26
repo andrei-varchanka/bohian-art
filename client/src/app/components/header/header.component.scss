@@ -1,4 +1,5 @@
 @import "~src/shared/styles/colors";
+@import "~src/shared/styles/variables";
 
 .header {
   background-color: $mat-primary;
@@ -8,4 +9,18 @@
   z-index: 1;
   width: 100%;
   height: 80px;
+
+  &__content {
+    max-width: $max-content-width;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+
+    .logo {
+      font-size: 27px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+  }
 }
