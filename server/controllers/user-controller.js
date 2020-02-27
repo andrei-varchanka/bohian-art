@@ -73,24 +73,20 @@ export const updateUser = async (req, res, next) => {
     });
 };
 
-export const getById = (req, res, next, id) => {
-    User.findOne({_id: id}, function (err, user) {
+export const getById = (req, res, next) => {
+    User.findOne({_id: req.params['userId']}, function (err, user) {
         if (err) {
             next(err);
         } else {
-            req.user = user;
-            next();
+            res.json(user);
         }
     });
 };
 
 export const deleteUser = function (req, res, next) {
-    req.user.remove(function (err) {
-        if (err) {
-            next(err);
-        } else {
-            res.json(req.user);
-        }
+    User.remove({_id: req.params['userId']}, (err, result) => {
+        if (err) return console.log(err);
+        res.json(result);
     });
 };
 

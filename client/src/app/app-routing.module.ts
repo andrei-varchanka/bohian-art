@@ -4,13 +4,15 @@ import {GalleryComponent} from "./components/gallery/gallery.component";
 import {HomeComponent} from "./components/home/home.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingAddingComponent} from "./components/painting-adding/painting-adding.component";
+import {PlaygroundComponent} from "./components/playground/playground.component";
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
   {path: 'home', component: HomeComponent},
   {path: 'gallery', component: GalleryComponent},
   {path: 'gallery/:id', component: PaintingComponent},
-  {path: 'add-painting', component: PaintingAddingComponent}
+  {path: 'add-painting', component: PaintingAddingComponent},
+  {path: 'playground', component: PlaygroundComponent}
 ];
 
 @NgModule({

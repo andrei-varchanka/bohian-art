@@ -17,6 +17,7 @@ import {FooterComponent} from './components/footer/footer.component';
 import {DragDropDirective} from "./directives/drag-drop.directive";
 import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
+import { PlaygroundComponent } from './components/playground/playground.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {ImageUploaderComponent} from "./components/image-uploader/image-uploader
     FooterComponent,
     ImageUploaderComponent,
     DragDropDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    PlaygroundComponent
   ],
   imports: [
     AppRoutingModule,
