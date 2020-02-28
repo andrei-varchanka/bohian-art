@@ -74,7 +74,7 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const getById = (req, res, next) => {
-    User.findOne({_id: req.params['userId']}, function (err, user) {
+    User.findOne({_id: req.params['userId']}, (err, user) => {
         if (err) {
             next(err);
         } else {
@@ -83,15 +83,15 @@ export const getById = (req, res, next) => {
     });
 };
 
-export const deleteUser = function (req, res, next) {
+export const deleteUser = (req, res, next) => {
     User.remove({_id: req.params['userId']}, (err, result) => {
         if (err) return console.log(err);
         res.json(result);
     });
 };
 
-export const getAllUsers = function (req, res, next) {
-    User.find(function (err, users) {
+export const getAllUsers = (req, res, next) => {
+    User.find((err, users) => {
         if (err) {
             next(err);
         } else {
