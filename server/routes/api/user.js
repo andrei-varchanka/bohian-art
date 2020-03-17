@@ -14,6 +14,27 @@ router.use(express.json());
  *   description: User management
  */
 
+/**
+ * @swagger
+ * path:
+ *  /users/auth:
+ *    post:
+ *      summary: Authorize user
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *        "200":
+ *          description: A user schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ */
 router.post('/auth',
     validateUser,
     userController.login
@@ -22,7 +43,7 @@ router.post('/auth',
 /**
  * @swagger
  * path:
- *  /:
+ *  /users:
  *    post:
  *      summary: Create a new user
  *      tags: [Users]
@@ -40,13 +61,12 @@ router.post('/auth',
  *              schema:
  *                $ref: '#/components/schemas/User'
  */
-router
-    .post('/', validateUser, userController.createUser)
-    .get('/', userController.getAllUsers);
+router.post('/', validateUser, userController.createUser);
 
-router.route('/:userId')
-    .get(userController.getById)
-    .put(userController.updateUser)
-    .delete(userController.deleteUser);
+router.get('/', passport.authenticate('jwt', { session: false }), userController.getAllUsers);
+
+router.route('/:userId').get(passport.authenticate('jwt', { session: false }), userController.getById);
+router.route('/:userId').put(passport.authenticate('jwt', { session: false }), userController.updateUser);
+router.route('/:userId').delete(passport.authenticate('jwt', { session: false }), userController.deleteUser);
 
 export default router;
