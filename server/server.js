@@ -36,7 +36,10 @@ const options = {
             }
         }
     },
-    apis: ['./models/user/user.js', './models/user/auth-user-response.js', './routes/api/user.js']
+    apis: ['./models/user/user.js',
+        './models/user/auth-user-response.js',
+        './models/user/user-response.js',
+        './routes/api/user.js']
 };
 const specs = swaggerJSDoc(options);
 app.get('swagger.json', (req, res) => {

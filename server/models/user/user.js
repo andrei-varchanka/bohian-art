@@ -5,19 +5,20 @@ const Schema = mongoose.Schema;
 
 /**
  * @swagger
- *  components:
- *    schemas:
- *      User:
- *        type: object
- *        required:
- *          - username
- *          - password
- *        properties:
- *          username:
- *            type: string
- *          password:
- *            type: string
- *            format: password
+ * definitions:
+ *  User:
+ *    type: object
+ *    properties:
+ *      id:
+ *        type: string
+ *      username:
+ *        type: string
+ *      password:
+ *        type: string
+ *        format: password
+ *      required:
+ *        - username
+ *        - password
  */
 const userSchema = new Schema({
     username: {type: String, required: true, unique: true},

@@ -26,13 +26,13 @@ router.use(express.json());
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/User'
+ *              $ref: '#/definitions/User'
  *      responses:
  *        "200":
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/definitions/AuthUserResponse'
  */
 router.post('/auth',
     validateUser,
@@ -51,13 +51,13 @@ router.post('/auth',
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/User'
+ *              $ref: '#/definitions/User'
  *      responses:
  *        "200":
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/definitions/UserResponse'
  */
 router.post('/', validateUser, userController.createUser);
 
