@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import User from '../models/user.js';
+import User from '../models/user/user.js';
+import {AuthUserResponse} from "../models/user/auth-user-response.js";
+import {UserResponse} from "../models/user/user-response.js";
 
 const saltRounds = 10;
 const existingUserError = "Such username has already been used";
@@ -11,50 +13,28 @@ export const login = async (request, response, next) => {
     const { username, password } = request.body;
     const user = await User.findOne({ username: username });
     if (!user) {
-        return response.status(401).send({
-            error: {
-                username: usernameError,
-                password: null
-            }
-        });
+        return response.status(401).send(new AuthUserResponse(null, false, usernameError));
     }
-
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-        return response.status(401).send({
-            error: {
-                username: null,
-                password: passwordError
-            }
-        });
+        return response.status(401).send(new AuthUserResponse(null, false, passwordError));
     }
     const payload = { username: user.username, password: user.password };
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
-    response.send({
-        success: true,
-        token: 'Bearer ' + token
-    });
+    response.send(new AuthUserResponse('Bearer' + token, true, null));
 };
 
 export const createUser = async (request, response, next) => {
     const { username, password } = request.body;
     const existingUser = await User.findOne({ username: username });
     if (existingUser) {
-        return response.status(400).send({
-            error: {
-                username: existingUserError,
-                password: null
-            }
-        });
+        return response.status(400).send(new UserResponse(null, false, existingUserError));
     }
-    const user = new User({
-        username,
-        password
-    });
+    const user = new User({username, password});
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = await User.create(user);
-    response.send(newUser);
+    response.send(new UserResponse(newUser, true, null));
 };
 
 export const updateUser = async (req, res, next) => {

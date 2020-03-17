@@ -29,7 +29,6 @@ router.use(express.json());
  *              $ref: '#/components/schemas/User'
  *      responses:
  *        "200":
- *          description: A user schema
  *          content:
  *            application/json:
  *              schema:
@@ -55,7 +54,6 @@ router.post('/auth',
  *              $ref: '#/components/schemas/User'
  *      responses:
  *        "200":
- *          description: A user schema
  *          content:
  *            application/json:
  *              schema:

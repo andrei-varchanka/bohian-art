@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from  'swagger-jsdoc';
-import User from './models/user.js';
+import User from './models/user/user.js';
 import passport from './config/passport.js';
 import {url} from './config/config.js';
 import mainRouter from './routes/index.js'
@@ -36,7 +36,7 @@ const options = {
             }
         }
     },
-    apis: ['./models/user.js', './routes/api/user.js']
+    apis: ['./models/user/user.js', './models/user/auth-user-response.js', './routes/api/user.js']
 };
 const specs = swaggerJSDoc(options);
 app.get('swagger.json', (req, res) => {

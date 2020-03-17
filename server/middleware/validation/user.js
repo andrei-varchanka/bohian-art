@@ -1,5 +1,6 @@
 import validator from 'validator';
 import {isEmpty} from './is-empty.js';
+import {UserResponse} from "../../models/user/user-response.js";
 
 const validate = data => {
     let errors = {};
@@ -33,10 +34,7 @@ export const validateUser = (request, response, next) => {
 
     const { errors, isValid } = validate(request.body);
     if (!isValid) {
-
-        return response.status(400).send({
-            error: errors
-        });
+        return response.status(400).send(new UserResponse(null, false, errors));
     }
 
     request.errors = errors;
