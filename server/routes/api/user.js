@@ -21,18 +21,17 @@ router.use(express.json());
  *    post:
  *      summary: Authorize user
  *      tags: [Users]
- *      requestBody:
+ *      parameters:
+ *      - in: body
+ *        name: body
  *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/definitions/User'
+ *        schema:
+ *          $ref: '#/definitions/User'
  *      responses:
  *        "200":
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/definitions/AuthUserResponse'
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/AuthUserResponse'
  *        "401":
  *          description: Invalid credentials
  */
@@ -48,18 +47,17 @@ router.post('/auth',
  *    post:
  *      summary: Create a new user
  *      tags: [Users]
- *      requestBody:
+ *      parameters:
+ *      - in: body
+ *        name: body
  *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/definitions/User'
+ *        schema:
+ *          $ref: '#/definitions/User'
  *      responses:
  *        "200":
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/definitions/UserResponse'
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/UserResponse'
  *        "400":
  *          description: Such user have already created
  */
@@ -73,20 +71,93 @@ router.post('/', validateUser, userController.createUser);
  *      summary: Get all users
  *      tags: [Users]
  *      security:
- *        - bearerAuth: []
+ *      - bearerAuth: []
  *      responses:
  *        "200":
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/definitions/UsersResponse'
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/UsersResponse'
  *        "401":
  *          description: Unauthorized
  */
 router.get('/', passport.authenticate('jwt', { session: false }), userController.getAllUsers);
 
+
+/**
+ * @swagger
+ * path:
+ *  /users/{userId}:
+ *    get:
+ *      summary: Get the user by id
+ *      tags: [Users]
+ *      security:
+ *      - bearerAuth: []
+ *      parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        type: string
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/UserResponse'
+ *        "401":
+ *          description: Unauthorized
+ */
 router.route('/:userId').get(passport.authenticate('jwt', { session: false }), userController.getById);
+
+/**
+ * @swagger
+ * path:
+ *  /users/{userId}:
+ *    put:
+ *      summary: Update the user
+ *      tags: [Users]
+ *      security:
+ *      - bearerAuth: []
+ *      parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        type: string
+ *      - name: body
+ *        in: body
+ *        required: true
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/UserResponse'
+ *        "401":
+ *          description: Unauthorized
+ */
 router.route('/:userId').put(passport.authenticate('jwt', { session: false }), userController.updateUser);
+
+/**
+ * @swagger
+ * path:
+ *  /users/{userId}:
+ *    delete:
+ *      summary: Delete the user
+ *      tags: [Users]
+ *      security:
+ *      - bearerAuth: []
+ *      parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        type: string
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          schema:
+ *            $ref: '#/definitions/BaseResponse'
+ *        "401":
+ *          description: Unauthorized
+ */
 router.route('/:userId').delete(passport.authenticate('jwt', { session: false }), userController.deleteUser);
 
 export default router;

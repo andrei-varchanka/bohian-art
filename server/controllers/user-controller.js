@@ -4,6 +4,7 @@ import User from '../models/user/user.js';
 import {AuthUserResponse} from "../models/user/auth-user-response.js";
 import {UserResponse} from "../models/user/user-response.js";
 import {UsersResponse} from "../models/user/users-response.js";
+import {BaseResponse} from "../models/base-response.js";
 
 const saltRounds = 10;
 const existingUserError = "Such username has already been used";
@@ -40,16 +41,11 @@ export const createUser = async (request, response, next) => {
 
 export const updateUser = async (req, res, next) => {
     const userId = req.params["userId"];
-    const updatedObj = req.body;
-    if (updatedObj.password) {
-        const salt = await bcrypt.genSalt(saltRounds);
-        updatedObj.password = await bcrypt.hash(updatedObj.password, salt);
-    }
     User.findByIdAndUpdate(userId, req.body, {new: true}, function (err, user) {
         if (err) {
             next(err);
         } else {
-            res.json(user);
+            res.json(new UserResponse(user, true, null));
         }
     });
 };
@@ -59,7 +55,7 @@ export const getById = (req, res, next) => {
         if (err) {
             next(err);
         } else {
-            res.json(user);
+            res.json(new UserResponse(user, true, null));
         }
     });
 };
@@ -67,7 +63,7 @@ export const getById = (req, res, next) => {
 export const deleteUser = (req, res, next) => {
     User.remove({_id: req.params['userId']}, (err, result) => {
         if (err) return console.log(err);
-        res.json(result);
+        res.json(new BaseResponse(true, null));
     });
 };
 
