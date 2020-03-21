@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/user/user.js';
 import {AuthUserResponse} from "../models/user/auth-user-response.js";
 import {UserResponse} from "../models/user/user-response.js";
+import {UsersResponse} from "../models/user/users-response.js";
 
 const saltRounds = 10;
 const existingUserError = "Such username has already been used";
@@ -21,7 +22,7 @@ export const login = async (request, response, next) => {
     }
     const payload = { username: user.username, password: user.password };
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
-    response.send(new AuthUserResponse('Bearer' + token, true, null));
+    response.send(new AuthUserResponse('Bearer ' + token, true, null));
 };
 
 export const createUser = async (request, response, next) => {
@@ -75,7 +76,7 @@ export const getAllUsers = (req, res, next) => {
         if (err) {
             next(err);
         } else {
-            res.json(users);
+            res.json(new UsersResponse(users, true, null));
         }
     });
 };

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerJSDoc from  'swagger-jsdoc';
+import swaggerJSDoc from 'swagger-jsdoc';
 import User from './models/user/user.js';
 import passport from './config/passport.js';
 import {url} from './config/config.js';
@@ -19,7 +19,6 @@ app.use(morgan('dev'));
 // Swagger set up
 const options = {
     swaggerDefinition: {
-        openapi: "3.0.0",
         info: {
             title: "Time to document that Express API you built",
             version: "1.0.0",
@@ -36,10 +35,7 @@ const options = {
             }
         }
     },
-    apis: ['./models/user/user.js',
-        './models/user/auth-user-response.js',
-        './models/user/user-response.js',
-        './routes/api/user.js']
+    apis: ['./models/user/*.js', './routes/api/*.js']
 };
 const specs = swaggerJSDoc(options);
 app.get('swagger.json', (req, res) => {

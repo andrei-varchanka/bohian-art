@@ -1,4 +1,5 @@
 # bohian-art
+MEAN stack: Mongo, Express, Angular, Node
 
 https://blog.cloudboost.io/adding-swagger-to-existing-node-js-project-92a6624b855b
 
@@ -7,6 +8,10 @@ https://github.com/GenFirst/swagger-to-existing-nodejs-project
 https://www.npmjs.com/package/swagger-ui-express
 
 https://swagger.io/docs/swagger-inspector/how-to-create-an-openapi-definition-using-swagger/
+
+https://swagger.io/docs/specification/data-models/data-types/#array
+
+https://editor.swagger.io/?_ga=2.128090764.1645200559.1584724894-1071405972.1580288264
 
 https://www.npmjs.com/package/swagger-jsdoc
 

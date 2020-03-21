@@ -33,6 +33,8 @@ router.use(express.json());
  *            application/json:
  *              schema:
  *                $ref: '#/definitions/AuthUserResponse'
+ *        "401":
+ *          description: Invalid credentials
  */
 router.post('/auth',
     validateUser,
@@ -58,9 +60,29 @@ router.post('/auth',
  *            application/json:
  *              schema:
  *                $ref: '#/definitions/UserResponse'
+ *        "400":
+ *          description: Such user have already created
  */
 router.post('/', validateUser, userController.createUser);
 
+/**
+ * @swagger
+ * path:
+ *  /users:
+ *    get:
+ *      summary: Get all users
+ *      tags: [Users]
+ *      security:
+ *        - bearerAuth: []
+ *      responses:
+ *        "200":
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/definitions/UsersResponse'
+ *        "401":
+ *          description: Unauthorized
+ */
 router.get('/', passport.authenticate('jwt', { session: false }), userController.getAllUsers);
 
 router.route('/:userId').get(passport.authenticate('jwt', { session: false }), userController.getById);
