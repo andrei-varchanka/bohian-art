@@ -19,5 +19,20 @@ https://levelup.gitconnected.com/swagger-time-to-document-that-express-api-you-b
 
 https://itnext.io/setting-up-swagger-in-a-node-js-application-d3c4d7aa56d4
 
-openapi??
+--------
+openapi + github actions
+
+https://github.community/t5/GitHub-Actions/Github-Actions-Compare-and-find-differences-between-two-OAS-V3/td-p/48221
+
+https://qiita.com/n_komiya/items/8310fdb7e2002e89eb13
+https://github.com/yumemi-nkomiya/github-actions-sample-openapi/blob/master/.github/workflows/generate.yaml
+
+
+use local openapi-generator - bad option
+https://qiita.com/u_nation/items/dcabf7abe84bfa85542b
+https://github.com/u-nation/sample-openapi/blob/master/.github/actions/code-gen/Dockerfile
+
+uses: actions/setup-java@v1 !
+
+
 

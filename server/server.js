@@ -38,7 +38,7 @@ const options = {
     apis: ['./models/user/*.js', './models/*.js', './routes/api/*.js']
 };
 const specs = swaggerJSDoc(options);
-app.get('swagger.json', (req, res) => {
+app.get('/swagger.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(specs)
 });
