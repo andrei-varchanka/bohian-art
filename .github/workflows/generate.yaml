@@ -31,15 +31,15 @@ jobs:
       # openapi generate
       - uses: docker://openapitools/openapi-generator-cli
         with:
-          args: generate -i ./petstore.yaml -g swift5 -o ./client/
+          args: generate -i ./petstore.yaml -g typescript-angular -o ./client/src/api --additional-properties=fileNaming=camelCase --enable-post-process-file
 
       # Create pull request
       - uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: client
+          path: client/src/api
           commit-message: update client
           title: update client
           body: update client
           branch: feature/update_client
-          branch-suffix: short-commit-hash # 同じプルリクは作らない
+          branch-suffix: short-commit-hash
