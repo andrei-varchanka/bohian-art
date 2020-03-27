@@ -33,6 +33,7 @@ jobs:
           args: generate -i ./petstore.yaml -g typescript-angular -o ./client --additional-properties=fileNaming=camelCase --enable-post-process-file
 
       - run: |
+          cd .github/workflows
           sed -i 's/0.0.0/'1.0.$(date +%s)'/g' ./package.json
           cp ./package.json ./client/package.json
           cp ./tsconfig.json ./client/tsconfig.json
