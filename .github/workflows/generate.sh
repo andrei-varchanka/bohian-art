@@ -20,7 +20,7 @@ npm i npx
 
 npx openapi-generator generate -i ./petstore.yaml -g typescript-angular -o service --additional-properties=fileNaming=camelCase --enable-post-process-file
 
-sed -i 's/0.0.0/'$1'/g' ./package.json
+# sed -i 's/0.0.0/'$1'/g' ./package.json
 
 cp ./package.json ./service/package.json
 cp ./tsconfig.json ./service/tsconfig.json

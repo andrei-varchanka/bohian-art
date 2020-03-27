@@ -28,9 +28,9 @@ jobs:
           repository: andrei-varchanka/bohian-art
           path: client
       - uses: actions/setup-node@v1
-          with:
-            node-version: 12
-            registry-url: https://npm.pkg.github.com/
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
 
       - run: ./generate.sh
 
