@@ -21,12 +21,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # clientをcheckout
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: andrei-varchanka/bohian-art
-          path: client
       - uses: actions/setup-node@v1
         with:
           node-version: 12
