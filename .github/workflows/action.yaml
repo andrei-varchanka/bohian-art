@@ -26,20 +26,26 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: andrei-varchanka/bohian-art
-          path: client/src/app/api
+          path: client
+      - uses: actions/setup-node@v1
+          with:
+            node-version: 12
+            registry-url: https://npm.pkg.github.com/
 
-      # openapi generate
-      - uses: docker://openapitools/openapi-generator-cli
-        with:
-          args: generate -i ./petstore.yaml -g typescript-angular -o ./client/src/app/api --additional-properties=fileNaming=camelCase --enable-post-process-file
+      - run: ./generate.sh
 
-      # Create pull request
-      - uses: peter-evans/create-pull-request@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: client/src/app/api
-          commit-message: update client
-          title: update client
-          body: update client
-          branch: feature/update_client
-          branch-suffix: short-commit-hash
+#      # openapi generate
+#      - uses: docker://openapitools/openapi-generator-cli
+#        with:
+#          args: generate -i ./petstore.yaml -g typescript-angular -o ./client --additional-properties=fileNaming=camelCase --enable-post-process-file
+#
+#      # Create pull request
+#      - uses: peter-evans/create-pull-request@v2
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          path: client/src/app/api
+#          commit-message: update client
+#          title: update client
+#          body: update client
+#          branch: feature/update_client
+#          branch-suffix: short-commit-hash
