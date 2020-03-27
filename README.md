@@ -1,39 +1,180 @@
-# bohian-art
-MEAN stack: Mongo, Express, Angular, Node
+## @
 
-https://blog.cloudboost.io/adding-swagger-to-existing-node-js-project-92a6624b855b
+### Building
 
-https://github.com/GenFirst/swagger-to-existing-nodejs-project
+To install the required dependencies and to build the typescript sources run:
+```
+npm install
+npm run build
+```
 
-https://www.npmjs.com/package/swagger-ui-express
+### publishing
 
-https://swagger.io/docs/swagger-inspector/how-to-create-an-openapi-definition-using-swagger/
+First build the package then run ```npm publish```
 
-https://swagger.io/docs/specification/data-models/data-types/#array
+### consuming
 
-https://editor.swagger.io/?_ga=2.128090764.1645200559.1584724894-1071405972.1580288264
+Navigate to the folder of your consuming project and run one of next commands.
 
-https://www.npmjs.com/package/swagger-jsdoc
+_published:_
 
-https://levelup.gitconnected.com/swagger-time-to-document-that-express-api-you-built-9b8faaeae563
+```
+npm install @ --save
+```
 
-https://itnext.io/setting-up-swagger-in-a-node-js-application-d3c4d7aa56d4
+_without publishing (not recommended):_
 
---------
-####openapi + github actions
-https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/typescript-angular.md
-https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/typescript-angular-v8-provided-in-root/builds
+```
+npm install PATH_TO_GENERATED_PACKAGE/-.tgz --save
+```
 
-https://github.community/t5/GitHub-Actions/Github-Actions-Compare-and-find-differences-between-two-OAS-V3/td-p/48221
+_It's important to take the tgz file, otherwise you'll get trouble with links on windows_
 
-https://qiita.com/n_komiya/items/8310fdb7e2002e89eb13
-https://github.com/yumemi-nkomiya/github-actions-sample-openapi/blob/master/.github/workflows/generate.yaml
-https://github.com/peter-evans/create-pull-request
+_using `npm link`:_
 
-use local openapi-generator - bad option
-https://qiita.com/u_nation/items/dcabf7abe84bfa85542b
-https://github.com/u-nation/sample-openapi/blob/master/.github/actions/code-gen/Dockerfile
+In PATH_TO_GENERATED_PACKAGE:
+```
+npm link
+```
+
+In your project:
+```
+npm link 
+```
+
+__Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
+Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
+Published packages are not effected by this issue.
 
 
+#### General usage
+
+In your Angular project:
 
 
+```
+// without configuring providers
+import { ApiModule } from '';
+import { HttpClientModule } from '@angular/common/http';
+
+
+@NgModule({
+    imports: [
+        ApiModule,
+        // make sure to import the HttpClientModule in the AppModule only,
+        // see https://github.com/angular/angular/issues/20575
+        HttpClientModule
+    ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+```
+// configuring providers
+import { ApiModule, Configuration, ConfigurationParameters } from '';
+
+export function apiConfigFactory (): Configuration => {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  }
+  return new Configuration(params);
+}
+
+@NgModule({
+    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+```
+import { DefaultApi } from '';
+
+export class AppComponent {
+	 constructor(private apiGateway: DefaultApi) { }
+}
+```
+
+Note: The ApiModule is restricted to being instantiated once app wide.
+This is to ensure that all services are treated as singletons.
+
+#### Using multiple OpenAPI files / APIs / ApiModules
+In order to use multiple `ApiModules` generated from different OpenAPI files,
+you can create an alias name when importing the modules
+in order to avoid naming conflicts:
+```
+import { ApiModule } from 'my-api-path';
+import { ApiModule as OtherApiModule } from 'my-other-api-path';
+import { HttpClientModule } from '@angular/common/http';
+
+
+@NgModule({
+  imports: [
+    ApiModule,
+    OtherApiModule,
+    // make sure to import the HttpClientModule in the AppModule only,
+    // see https://github.com/angular/angular/issues/20575
+    HttpClientModule
+  ]
+})
+export class AppModule {
+
+}
+```
+
+
+### Set service base path
+If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+
+```
+import { BASE_PATH } from '';
+
+bootstrap(AppComponent, [
+    { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
+]);
+```
+or
+
+```
+import { BASE_PATH } from '';
+
+@NgModule({
+    imports: [],
+    declarations: [ AppComponent ],
+    providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+
+#### Using @angular/cli
+First extend your `src/environments/*.ts` files by adding the corresponding base path:
+
+```
+export const environment = {
+  production: false,
+  API_BASE_PATH: 'http://127.0.0.1:8080'
+};
+```
+
+In the src/app/app.module.ts:
+```
+import { BASE_PATH } from '';
+import { environment } from '../environments/environment';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [ ],
+  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule { }
+```  
