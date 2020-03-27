@@ -33,10 +33,9 @@ jobs:
           args: generate -i ./petstore.yaml -g typescript-angular -o ./client --additional-properties=fileNaming=camelCase --enable-post-process-file
 
       - run: |
-          cd .github/workflows
-          sed -i 's/0.0.0/'1.0.$(date +%s)'/g' ./package.json
-          cp ./package.json ./client/package.json
-          cp ./tsconfig.json ./client/tsconfig.json
+          sed -i 's/0.0.0/'1.0.$(date +%s)'/g' .github/workflows/package.json
+          cp .github/workflows/package.json ./client/package.json
+          cp .github/workflows/tsconfig.json ./client/tsconfig.json
           cd client
           npm install --save rxjs
           npm install --save zone.js@0.9.1
@@ -45,8 +44,8 @@ jobs:
           npm install -g @angular/compiler-cli@8.2.14 @angular/platform-server@8.2.14 @angular/compiler@8.2.14
           ngc
           cd ..
-          cp ./.npmrc ./dist/.npmrc
-          cp ./package.json ./dist/package.json
+          cp .github/workflows/.npmrc ./dist/.npmrc
+          cp .github/workflows/package.json ./dist/package.json
           cd dist
           npm publish
 
