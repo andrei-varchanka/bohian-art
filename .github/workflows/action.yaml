@@ -26,7 +26,15 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
 
-      - run: sh ./generate.sh
+      - run: |
+            mkdir -p ./service
+            if java -version 2>&1 >/dev/null | egrep -q "\S+\s+version" ; then
+            echo "Java installed."
+            else
+            apt-get install default-jdk -y
+            fi
+            npm install @openapitools/openapi-generator-cli -g
+            npm i npx
 
 #      # openapi generate
 #      - uses: docker://openapitools/openapi-generator-cli
