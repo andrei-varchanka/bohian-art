@@ -1,47 +1,45 @@
+# This is a basic workflow to help you get started with Actions
 
-# service="UnderwritingService"
+name: generate
 
-# echo Version $1
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch and petstore.yaml
+on:
+  push:
+    branches: [ master ]
+    # paths: petstore.yaml
 
-mkdir -p ./service
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-# curl https://staging.api.mqube.com/swagger/docs/v1/$service > ./spec.json
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-#apt-get update -y && apt-get upgrade -y
-if java -version 2>&1 >/dev/null | egrep -q "\S+\s+version" ; then
-	echo "Java installed."
-else
-	apt-get install default-jdk -y
-fi
+      # clientをcheckout
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: andrei-varchanka/bohian-art
+          path: client
 
-npm install @openapitools/openapi-generator-cli -g
+      # openapi generate
+      - uses: docker://openapitools/openapi-generator-cli
+        with:
+          args: generate -i ./petstore.yaml -g typescript-angular -o ./client --additional-properties=fileNaming=camelCase --enable-post-process-file
 
-npm i npx
-
-npx openapi-generator generate -i ./petstore.yaml -g typescript-angular -o service --additional-properties=fileNaming=camelCase --enable-post-process-file
-
-# sed -i 's/0.0.0/'$1'/g' ./package.json
-
-cp ./package.json ./service/package.json
-cp ./tsconfig.json ./service/tsconfig.json
-
-cd service
-
-npm install --save rxjs
-npm install --save zone.js@0.9.1
-npm install --save @angular/core@8.2.14
-npm install --save @angular/common@8.2.14
-
-npm install -g @angular/compiler-cli@8.2.14 @angular/platform-server@8.2.14 @angular/compiler@8.2.14
-
-ngc
-
-cd ..
-
-cp ./.npmrc ./dist/.npmrc
-cp ./package.json ./dist/package.json
-
-cd dist
-
-npm publish
-
+      # Create pull request
+      - uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: client
+          commit-message: update client
+          title: update client
+          body: update client
+          branch: feature/update_client
+          branch-suffix: short-commit-hash

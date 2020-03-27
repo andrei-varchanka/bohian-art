@@ -34,6 +34,6 @@ use local openapi-generator - bad option
 https://qiita.com/u_nation/items/dcabf7abe84bfa85542b
 https://github.com/u-nation/sample-openapi/blob/master/.github/actions/code-gen/Dockerfile
 
-
+https://itnext.io/simplify-your-npm-publish-workflow-using-github-actions-691249bc7e59
 
 
