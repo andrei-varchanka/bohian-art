@@ -26,7 +26,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: andrei-varchanka/bohian-art
-          path: client
+          path: client/src/app/api
 
       # openapi generate
       - uses: docker://openapitools/openapi-generator-cli

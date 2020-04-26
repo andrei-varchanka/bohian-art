@@ -36,4 +36,6 @@ https://github.com/u-nation/sample-openapi/blob/master/.github/actions/code-gen/
 
 https://itnext.io/simplify-your-npm-publish-workflow-using-github-actions-691249bc7e59
 
+попробовать https://github.com/cyclosproject/ng-openapi-gen или https://github.com/cyclosproject/ng-swagger-gen
 
+https://www.npmtrends.com/ng-openapi-gen-vs-ng-swagger-gen-vs-nswag-vs-swagger-js-codegen
