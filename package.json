@@ -1,0 +1,19 @@
+{
+  "name": "@andrei-varchanka/bohian-art",
+  "version": "1.0.1587933119",
+  "description": "API Library for Angular",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": "git://github.com/andrei-varchanka/bohian-art.git",
+  "dependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "rxjs": "^6.5.5",
+    "zone.js": "^0.9.1"
+  }
+}
