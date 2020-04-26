@@ -46,6 +46,7 @@ jobs:
       - run: |
           ngc
           cd ..
+      - run: |
           cp .github/workflows/.npmrc ./dist/.npmrc
           cp .github/workflows/package.json ./dist/package.json
           cd dist
