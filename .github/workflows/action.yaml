@@ -26,18 +26,37 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: andrei-varchanka/bohian-art
-          path: client/src/app/api
 
       # openapi generate
       - uses: docker://openapitools/openapi-generator-cli
         with:
-          args: generate -i ./petstore.yaml -g typescript-angular -o ./client/src/app/api --additional-properties=fileNaming=camelCase --enable-post-process-file
+          args: generate -i ./petstore.yaml -g typescript-angular -o ./client --additional-properties=fileNaming=camelCase --enable-post-process-file
+
+      - run: |
+          sed -i 's/0.0.0/'1.0.$(date +%s)'/g' .github/workflows/package.json
+          cp .github/workflows/package.json ./client/package.json
+          cp .github/workflows/tsconfig.json ./client/tsconfig.json
+          cd client
+          npm install --save rxjs
+          npm install --save zone.js@0.9.1
+          npm install --save @angular/core@8.2.14
+          npm install --save @angular/common@8.2.14
+          sudo npm install -g @angular/compiler-cli@8.2.14 @angular/platform-server@8.2.14 @angular/compiler@8.2.14
+
+      - run: |
+          ngc
+          cd ..
+      - run: |
+          cp .github/workflows/.npmrc ./dist/.npmrc
+          cp .github/workflows/package.json ./dist/package.json
+          cd dist
+          npm publish
 
       # Create pull request
       - uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: client/src/app/api
+          path: client
           commit-message: update client
           title: update client
           body: update client
