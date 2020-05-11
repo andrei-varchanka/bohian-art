@@ -1,0 +1,193 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Swagger Petstore"
+host: "localhost:3000"
+basePath: "/"
+tags:
+- name: "Users"
+  description: "User management"
+schemes:
+- "https"
+- "http"
+paths:
+  /users/auth:
+    post:
+      summary: "Authorize user"
+      tags: 
+      - "Users"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/AuthUserResponse"
+        401:
+          description: "Invalid credentials"
+  /users:
+    get:
+      summary: "Get all users"
+      tags: 
+      - "Users"
+      security:
+      - bearer_auth: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "/definitions/UsersResponse"
+        401:
+          description: "Unauthorized"
+    post:
+      summary: "Create a new user"
+      tags:
+      - "Users"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        400:
+          description: "Such user have already created"
+  /users/{userId}:
+    get:
+      summary: "Get the user by id"
+      tags:
+      - "Users"
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        401:
+          description: "Unauthorized"
+    put:
+      summary: "Update the user"
+      tags:
+      - "Users"
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        401:
+          description: "Unauthorized"
+    delete:
+      summary: "Delete the user"
+      tags:
+      - "Users"
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BaseResponse"
+        401:
+          description: "Unauthorized"
+securityDefinitions:
+  bearer_auth:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  BaseResponse:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      errorMessage:
+        type: "string"
+    required:
+    - "success"
+    - "errorMessage"
+  AuthUserResponse:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+      success:
+        type: "boolean"
+      errorMessage:
+        type: "string"
+    required:
+    - "token"
+    - "success"
+    - "errorMessage"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      username:
+        type: "string"
+      password:
+        type: "string"
+        format: "password"
+    required:
+    - "username"
+    - "password"
+  UserResponse:
+    type: object
+    properties:
+      user:
+        $ref: "#/definitions/User"
+      success:
+        type: boolean
+      errorMessage:
+        type: string
+    required:
+    - user
+    - success
+    - errorMessage
+  UsersResponse:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: "#/definitions/User"
+      success:
+        type: boolean
+      errorMessage:
+        type: string
+    required:
+    - users
+    - success
+    - errorMessage

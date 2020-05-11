@@ -18,6 +18,7 @@ import {DragDropDirective} from "./directives/drag-drop.directive";
 import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 import { PlaygroundComponent } from './components/playground/playground.component';
+// import {ApiModule} from "./api/api.module";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModules,
+    // ApiModule.forRoot({ rootUrl: 'https://localhost:3000'})
   ],
   providers: [RouterModule],
   entryComponents: [LoginComponent],
