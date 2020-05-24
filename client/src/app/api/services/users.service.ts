@@ -20,12 +20,12 @@ import { BaseResponse } from '../models/base-response';
   providedIn: 'root',
 })
 class UsersService extends __BaseService {
-  static readonly postUsersAuthPath = '/users/auth';
-  static readonly getUsersPath = '/users';
-  static readonly postUsersPath = '/users';
-  static readonly getUsersUserIdPath = '/users/{userId}';
-  static readonly putUsersUserIdPath = '/users/{userId}';
-  static readonly deleteUsersUserIdPath = '/users/{userId}';
+  static readonly authPath = '/users/auth';
+  static readonly getAllUsersPath = '/users';
+  static readonly createUserPath = '/users';
+  static readonly getUserPath = '/users/{userId}';
+  static readonly updateUserPath = '/users/{userId}';
+  static readonly deleteUserPath = '/users/{userId}';
 
   constructor(
     config: __Configuration,
@@ -39,7 +39,7 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  postUsersAuthResponse(body: User): __Observable<__StrictHttpResponse<AuthUserResponse>> {
+  authResponse(body: User): __Observable<__StrictHttpResponse<AuthUserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -66,8 +66,8 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  postUsersAuth(body: User): __Observable<AuthUserResponse> {
-    return this.postUsersAuthResponse(body).pipe(
+  auth(body: User): __Observable<AuthUserResponse> {
+    return this.authResponse(body).pipe(
       __map(_r => _r.body as AuthUserResponse)
     );
   }
@@ -76,7 +76,7 @@ class UsersService extends __BaseService {
    * Get all users
    * @return OK
    */
-  getUsersResponse(): __Observable<__StrictHttpResponse<UsersResponse>> {
+  getAllUsersResponse(): __Observable<__StrictHttpResponse<UsersResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -101,8 +101,8 @@ class UsersService extends __BaseService {
    * Get all users
    * @return OK
    */
-  getUsers(): __Observable<UsersResponse> {
-    return this.getUsersResponse().pipe(
+  getAllUsers(): __Observable<UsersResponse> {
+    return this.getAllUsersResponse().pipe(
       __map(_r => _r.body as UsersResponse)
     );
   }
@@ -112,7 +112,7 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  postUsersResponse(body: User): __Observable<__StrictHttpResponse<UserResponse>> {
+  createUserResponse(body: User): __Observable<__StrictHttpResponse<UserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -139,8 +139,8 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  postUsers(body: User): __Observable<UserResponse> {
-    return this.postUsersResponse(body).pipe(
+  createUser(body: User): __Observable<UserResponse> {
+    return this.createUserResponse(body).pipe(
       __map(_r => _r.body as UserResponse)
     );
   }
@@ -150,7 +150,7 @@ class UsersService extends __BaseService {
    * @param userId undefined
    * @return OK
    */
-  getUsersUserIdResponse(userId: string): __Observable<__StrictHttpResponse<UserResponse>> {
+  getUserResponse(userId: string): __Observable<__StrictHttpResponse<UserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -177,15 +177,15 @@ class UsersService extends __BaseService {
    * @param userId undefined
    * @return OK
    */
-  getUsersUserId(userId: string): __Observable<UserResponse> {
-    return this.getUsersUserIdResponse(userId).pipe(
+  getUser(userId: string): __Observable<UserResponse> {
+    return this.getUserResponse(userId).pipe(
       __map(_r => _r.body as UserResponse)
     );
   }
 
   /**
    * Update the user
-   * @param params The `UsersService.PutUsersUserIdParams` containing the following parameters:
+   * @param params The `UsersService.UpdateUserParams` containing the following parameters:
    *
    * - `userId`:
    *
@@ -193,7 +193,7 @@ class UsersService extends __BaseService {
    *
    * @return OK
    */
-  putUsersUserIdResponse(params: UsersService.PutUsersUserIdParams): __Observable<__StrictHttpResponse<UserResponse>> {
+  updateUserResponse(params: UsersService.UpdateUserParams): __Observable<__StrictHttpResponse<UserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -218,7 +218,7 @@ class UsersService extends __BaseService {
   }
   /**
    * Update the user
-   * @param params The `UsersService.PutUsersUserIdParams` containing the following parameters:
+   * @param params The `UsersService.UpdateUserParams` containing the following parameters:
    *
    * - `userId`:
    *
@@ -226,8 +226,8 @@ class UsersService extends __BaseService {
    *
    * @return OK
    */
-  putUsersUserId(params: UsersService.PutUsersUserIdParams): __Observable<UserResponse> {
-    return this.putUsersUserIdResponse(params).pipe(
+  updateUser(params: UsersService.UpdateUserParams): __Observable<UserResponse> {
+    return this.updateUserResponse(params).pipe(
       __map(_r => _r.body as UserResponse)
     );
   }
@@ -237,7 +237,7 @@ class UsersService extends __BaseService {
    * @param userId undefined
    * @return OK
    */
-  deleteUsersUserIdResponse(userId: string): __Observable<__StrictHttpResponse<BaseResponse>> {
+  deleteUserResponse(userId: string): __Observable<__StrictHttpResponse<BaseResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -264,8 +264,8 @@ class UsersService extends __BaseService {
    * @param userId undefined
    * @return OK
    */
-  deleteUsersUserId(userId: string): __Observable<BaseResponse> {
-    return this.deleteUsersUserIdResponse(userId).pipe(
+  deleteUser(userId: string): __Observable<BaseResponse> {
+    return this.deleteUserResponse(userId).pipe(
       __map(_r => _r.body as BaseResponse)
     );
   }
@@ -274,9 +274,9 @@ class UsersService extends __BaseService {
 module UsersService {
 
   /**
-   * Parameters for putUsersUserId
+   * Parameters for updateUser
    */
-  export interface PutUsersUserIdParams {
+  export interface UpdateUserParams {
     userId: string;
     body: User;
   }
