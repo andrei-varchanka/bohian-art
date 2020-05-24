@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FormsValidators} from "../../helpers/forms-validators";
+import {UsersService} from "../../api/services/users.service";
+import {ContextService} from "../../services/context-service";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,11 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor( public dialogRef: MatDialogRef<LoginComponent>, private formBuilder: FormBuilder) { }
+  constructor(public dialogRef: MatDialogRef<LoginComponent>,
+              private formBuilder: FormBuilder,
+              private usersService: UsersService,
+              private contextService: ContextService) {
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -38,9 +44,29 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log(this.loginForm.controls.email.value + ' ' + this.loginForm.controls.password.value);
-    this.dialogRef.close();
+    this.usersService.auth({
+      username: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value
+    }).subscribe(response => {
+      if (response.success) {
+        this.contextService.setCurrentUser(response.user);
+        this.dialogRef.close();
+        window.location.reload();
+      }
+    });
   }
 
+  register(): void {
+    this.usersService.createUser({
+      username: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value
+    }).subscribe(response => {
+      if (response.success) {
+        this.contextService.setCurrentUser(response.user);
+        this.dialogRef.close();
+        window.location.reload();
+      }
+    });
+  }
 
 }

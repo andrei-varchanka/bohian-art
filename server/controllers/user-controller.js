@@ -15,15 +15,15 @@ export const login = async (request, response, next) => {
     const { username, password } = request.body;
     const user = await User.findOne({ username: username });
     if (!user) {
-        return response.status(401).send(new AuthUserResponse(null, false, usernameError));
+        return response.status(401).send(new AuthUserResponse(null, null, false, usernameError));
     }
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-        return response.status(401).send(new AuthUserResponse(null, false, passwordError));
+        return response.status(401).send(new AuthUserResponse(null, null, false, passwordError));
     }
     const payload = { username: user.username, password: user.password };
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
-    response.send(new AuthUserResponse('Bearer ' + token, true, null));
+    response.send(new AuthUserResponse(user, 'Bearer ' + token, true, null));
 };
 
 export const createUser = async (request, response, next) => {

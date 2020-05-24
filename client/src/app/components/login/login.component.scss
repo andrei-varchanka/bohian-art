@@ -6,4 +6,10 @@
   mat-form-field {
     width: 100%;
   }
+
+  &-button {
+    & + .login-button {
+      margin-left: 16px;
+    }
+  }
 }

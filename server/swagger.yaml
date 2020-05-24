@@ -146,6 +146,8 @@ definitions:
   AuthUserResponse:
     type: "object"
     properties:
+      user:
+        $ref: "#/definitions/User"
       token:
         type: "string"
       success:
@@ -153,6 +155,7 @@ definitions:
       errorMessage:
         type: "string"
     required:
+    - "user"
     - "token"
     - "success"
     - "errorMessage"
