@@ -6,7 +6,7 @@
     "start": "ng serve --proxy-config proxy.json",
     "build": "ng build",
     "test": "ng test",
-    "generate-api": "ng-openapi-gen --input petstore.yaml --output ./src/app/api",
+    "generate-api": "ng-swagger-gen --input ../server/swagger.yaml --output ./src/app/api",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

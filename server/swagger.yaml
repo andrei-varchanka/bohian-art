@@ -41,7 +41,7 @@ paths:
         200:
           description: "OK"
           schema:
-            $ref: "/definitions/UsersResponse"
+            $ref: "#/definitions/UsersResponse"
         401:
           description: "Unauthorized"
     post:
@@ -164,30 +164,30 @@ definitions:
     - "username"
     - "password"
   UserResponse:
-    type: object
+    type: "object"
     properties:
       user:
         $ref: "#/definitions/User"
       success:
-        type: boolean
+        type: "boolean"
       errorMessage:
-        type: string
+        type: "string"
     required:
-    - user
-    - success
-    - errorMessage
+    - "user"
+    - "success"
+    - "errorMessage"
   UsersResponse:
-    type: object
+    type: "object"
     properties:
       users:
-        type: array
+        type: "array"
         items:
           $ref: "#/definitions/User"
       success:
-        type: boolean
+        type: "boolean"
       errorMessage:
-        type: string
+        type: "string"
     required:
-    - users
-    - success
-    - errorMessage
+    - "users"
+    - "success"
+    - "errorMessage"
