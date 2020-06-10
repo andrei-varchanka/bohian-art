@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../api/models/user";
 import {ContextService} from "../../services/context-service";
+import {PaintingsService} from "../../api/services/paintings.service";
+import {Painting} from "../../api/models/painting";
 
 @Component({
   selector: 'app-gallery',
@@ -11,14 +13,19 @@ export class GalleryComponent implements OnInit {
 
   array: any[];
 
+  paintings: Painting[];
+
   user: User;
 
-  constructor(private contextService: ContextService) {
+  constructor(private contextService: ContextService, private paintingService: PaintingsService) {
   }
 
   ngOnInit() {
     this.user = this.contextService.getCurrentUser();
     this.array = Array.from(Array(20), (x, i) => i);
+    this.paintingService.getAllPaintings().subscribe(response => {
+      this.paintings = response.paintings;
+    });
   }
 
 }

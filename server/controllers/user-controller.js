@@ -50,7 +50,7 @@ export const updateUser = async (req, res, next) => {
     });
 };
 
-export const getById = (req, res, next) => {
+export const getUserById = (req, res, next) => {
     User.findOne({_id: req.params['userId']}, (err, user) => {
         if (err) {
             next(err);

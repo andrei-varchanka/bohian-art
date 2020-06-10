@@ -1,29 +1,31 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  description: ""
   version: "1.0.0"
-  title: "Swagger Petstore"
+  title: "Bohian-art API"
 host: "localhost:3000"
 basePath: "/"
 tags:
-- name: "Users"
-  description: "User management"
+  - name: "Users"
+    description: "User management"
+  - name: "Paintings"
+    description: "Painting Management"
 schemes:
-- "https"
-- "http"
+  - "https"
+  - "http"
 paths:
   /users/auth:
     post:
       summary: "Authorize user"
       operationId: "auth"
-      tags: 
-      - "Users"
+      tags:
+        - "Users"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         200:
           description: "OK"
@@ -35,10 +37,10 @@ paths:
     get:
       summary: "Get all users"
       operationId: "getAllUsers"
-      tags: 
-      - "Users"
+      tags:
+        - "Users"
       security:
-      - bearer_auth: []
+        - bearer_auth: []
       responses:
         200:
           description: "OK"
@@ -50,13 +52,13 @@ paths:
       summary: "Create a new user"
       operationId: "createUser"
       tags:
-      - "Users"
+        - "Users"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         200:
           description: "OK"
@@ -69,14 +71,14 @@ paths:
       summary: "Get the user by id"
       operationId: "getUser"
       tags:
-      - "Users"
+        - "Users"
       security:
-      - bearer_auth: []
+        - bearer_auth: []
       parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "string"
+        - name: "userId"
+          in: "path"
+          required: true
+          type: "string"
       responses:
         200:
           description: "OK"
@@ -88,19 +90,19 @@ paths:
       summary: "Update the user"
       operationId: "updateUser"
       tags:
-      - "Users"
+        - "Users"
       security:
-      - bearer_auth: []
+        - bearer_auth: []
       parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "string"
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
+        - name: "userId"
+          in: "path"
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
       responses:
         200:
           description: "OK"
@@ -112,14 +114,84 @@ paths:
       summary: "Delete the user"
       operationId: "deleteUser"
       tags:
-      - "Users"
+        - "Users"
       security:
-      - bearer_auth: []
+        - bearer_auth: []
       parameters:
-      - name: "userId"
-        in: "path"
-        required: true
-        type: "string"
+        - name: "userId"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BaseResponse"
+        401:
+          description: "Unauthorized"
+  /paintings:
+    get:
+      summary: "Get all paintings"
+      operationId: "getAllPaintings"
+      tags:
+        - "Paintings"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaintingsResponse"
+        401:
+          description: "Unauthorized"
+    post:
+      summary: "Upload a new painting"
+      operationId: "uploadPainting"
+      tags:
+        - "Paintings"
+      security:
+        - bearer_auth: []
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Painting"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaintingResponse"
+        401:
+          description: "Unauthorized"
+  /paintings/{paintingId}:
+    get:
+      summary: "Get the painting by id"
+      operationId: "getPainting"
+      tags:
+        - "Paintings"
+      parameters:
+        - name: "paintingId"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaintingResponse"
+        401:
+          description: "Unauthorized"
+    delete:
+      summary: "Delete the painting"
+      operationId: "deletePainting"
+      tags:
+        - "Paintings"
+      security:
+        - bearer_auth: []
+      parameters:
+        - name: "paintingId"
+          in: "path"
+          required: true
+          type: "string"
       responses:
         200:
           description: "OK"
@@ -141,8 +213,8 @@ definitions:
       errorMessage:
         type: "string"
     required:
-    - "success"
-    - "errorMessage"
+      - "success"
+      - "errorMessage"
   AuthUserResponse:
     type: "object"
     properties:
@@ -155,10 +227,10 @@ definitions:
       errorMessage:
         type: "string"
     required:
-    - "user"
-    - "token"
-    - "success"
-    - "errorMessage"
+      - "user"
+      - "token"
+      - "success"
+      - "errorMessage"
   User:
     type: "object"
     properties:
@@ -170,8 +242,8 @@ definitions:
         type: "string"
         format: "password"
     required:
-    - "username"
-    - "password"
+      - "username"
+      - "password"
   UserResponse:
     type: "object"
     properties:
@@ -182,9 +254,9 @@ definitions:
       errorMessage:
         type: "string"
     required:
-    - "user"
-    - "success"
-    - "errorMessage"
+      - "user"
+      - "success"
+      - "errorMessage"
   UsersResponse:
     type: "object"
     properties:
@@ -197,6 +269,49 @@ definitions:
       errorMessage:
         type: "string"
     required:
-    - "users"
-    - "success"
-    - "errorMessage"
+      - "users"
+      - "success"
+      - "errorMessage"
+  Painting:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      contentType:
+        type: "string"
+      data:
+        type: "object"
+    required:
+      - "name"
+      - "contentType"
+      - "data"
+  PaintingResponse:
+    type: "object"
+    properties:
+      painting:
+        $ref: "#/definitions/Painting"
+      success:
+        type: "boolean"
+      errorMessage:
+        type: "string"
+    required:
+      - "painting"
+      - "success"
+      - "errorMessage"
+  PaintingsResponse:
+    type: "object"
+    properties:
+      paintings:
+        type: "array"
+        items:
+          $ref: "#/definitions/Painting"
+      success:
+        type: "boolean"
+      errorMessage:
+        type: "string"
+    required:
+      - "users"
+      - "success"
+      - "errorMessage"

@@ -14,12 +14,12 @@ router.post('/auth',
 
 router.post('/', validateUser, userController.createUser);
 
-router.get('/', passport.authenticate('jwt', { session: false }), userController.getAllUsers);
+router.get('/', passport.authenticate('jwt', {session: false}), userController.getAllUsers);
 
-router.route('/:userId').get(passport.authenticate('jwt', { session: false }), userController.getById);
+router.route('/:userId').get(passport.authenticate('jwt', {session: false}), userController.getUserById);
 
-router.route('/:userId').put(passport.authenticate('jwt', { session: false }), userController.updateUser);
+router.route('/:userId').put(passport.authenticate('jwt', {session: false}), userController.updateUser);
 
-router.route('/:userId').delete(passport.authenticate('jwt', { session: false }), userController.deleteUser);
+router.route('/:userId').delete(passport.authenticate('jwt', {session: false}), userController.deleteUser);
 
 export default router;
