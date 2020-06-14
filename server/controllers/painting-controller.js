@@ -6,12 +6,22 @@ import {PaintingsResponse} from "../models/painting/paintings-response.js";
 
 export const uploadPainting = async (request, response, next) => {
     const base64String = Buffer.from(request.file.buffer).toString('base64');
-    const obj = {
+    const image = {
         data: base64String,
         name: request.file.originalname,
         contentType: request.file.mimetype
     };
-    const newPainting = await Painting.create(obj);
+    const painting = {
+        image: image,
+        name: request.body.name,
+        author: request.body.author,
+        genres: request.body.genres,
+        height: request.body.height,
+        width: request.body.width,
+        price: request.body.price,
+        description: request.body.description
+    };
+    const newPainting = await Painting.create(painting);
     response.send(new PaintingResponse(newPainting, true, null));
 
 };

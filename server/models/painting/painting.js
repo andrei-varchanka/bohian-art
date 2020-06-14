@@ -3,10 +3,21 @@ import normalize from 'normalize-mongoose';
 
 const Schema = mongoose.Schema;
 
+const File = new Schema({
+        data: String,
+        name: String,
+        contentType: String
+    });
+
 const paintingSchema = new Schema({
-    data: String,
+    image: File,
     name: String,
-    contentType: String
+    author: String,
+    genres: [String],
+    height: Number,
+    width: Number,
+    price: Number,
+    description: String
 }, {collection: 'painting'});
 
 paintingSchema.plugin(normalize);
