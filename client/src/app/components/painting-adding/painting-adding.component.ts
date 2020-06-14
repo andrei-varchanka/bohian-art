@@ -20,7 +20,7 @@ export class PaintingAddingComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       author: [null, [Validators.required]],
-      genre: [null, [Validators.required]],
+      genres: [null, [Validators.required]],
       height: [null, [Validators.required]],
       width: [null, [Validators.required]],
       price: [null, [Validators.required]],
@@ -47,11 +47,25 @@ export class PaintingAddingComponent implements OnInit {
     this.images = event;
   }
 
+  setGenres(genres) {
+    this.form.controls.genres.setValue(genres);
+  }
+
+  checkInteger(event) {
+    return event.charCode !== 46;
+  }
+
+  checkNumberFormat(event, formControlName: string) {
+    const correctedValue = event.target.value.replace(/([^\d]*)(\d*(\.\d{0,2})?)(.*)/, '$2');
+    event.target.value = correctedValue;
+    this.form.controls[formControlName].setValue(correctedValue, {emitEvent: false});
+  }
+
   deleteImages() {
     this.images = null;
   }
 
   submit() {
-
+    console.log(this.form.value);
   }
 }
