@@ -10,7 +10,7 @@ export class PaintingAddingComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  genres = ['Still life', 'Landscape', 'Portrait', 'Animalism', 'Nude'];
+  genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
 
   images: File[];
 
@@ -18,9 +18,13 @@ export class PaintingAddingComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      author: ['', [Validators.required]],
-      genre: ['', [Validators.required]],
+      name: [null, [Validators.required]],
+      author: [null, [Validators.required]],
+      genre: [null, [Validators.required]],
+      height: [null, [Validators.required]],
+      width: [null, [Validators.required]],
+      price: [null, [Validators.required]],
+      description: [null]
     });
   }
 

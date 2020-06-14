@@ -10,15 +10,7 @@
       <mat-error>{{getErrorMessage('author')}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Genre</mat-label>
-      <mat-select formControlName="genre">
-        <mat-option *ngFor="let genre of genres"
-                    [value]="genre">
-          {{genre}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <app-checkbox-group [items]="genres"></app-checkbox-group>
 
     <app-image-uploader
       [fileSrcs]="[]"

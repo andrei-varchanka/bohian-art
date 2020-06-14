@@ -21,6 +21,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
 import {ContextService} from "./services/context-service";
+import { CheckboxGroupComponent } from './components/checkbox-group/checkbox-group.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {ContextService} from "./services/context-service";
     ImageUploaderComponent,
     DragDropDirective,
     SafeHtmlPipe,
-    PlaygroundComponent
+    PlaygroundComponent,
+    CheckboxGroupComponent
   ],
   imports: [
     AppRoutingModule,
