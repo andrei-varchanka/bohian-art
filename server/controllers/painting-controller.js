@@ -5,8 +5,9 @@ import {PaintingsResponse} from "../models/painting/paintings-response.js";
 
 
 export const uploadPainting = async (request, response, next) => {
+    const base64String = Buffer.from(request.file.buffer).toString('base64');
     const obj = {
-        data: request.file.buffer,
+        data: base64String,
         name: request.file.originalname,
         contentType: request.file.mimetype
     };

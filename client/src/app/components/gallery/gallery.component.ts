@@ -3,6 +3,7 @@ import {User} from "../../api/models/user";
 import {ContextService} from "../../services/context-service";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-gallery',
@@ -17,7 +18,7 @@ export class GalleryComponent implements OnInit {
 
   user: User;
 
-  constructor(private contextService: ContextService, private paintingService: PaintingsService) {
+  constructor(private contextService: ContextService, private paintingService: PaintingsService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -26,6 +27,10 @@ export class GalleryComponent implements OnInit {
     this.paintingService.getAllPaintings().subscribe(response => {
       this.paintings = response.paintings;
     });
+  }
+
+  getImageSrc(painting: Painting) {
+    return 'data:image/jpeg;base64, ' + painting.data;
   }
 
 }

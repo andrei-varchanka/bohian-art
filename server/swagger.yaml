@@ -282,7 +282,7 @@ definitions:
       contentType:
         type: "string"
       data:
-        type: "object"
+        type: "string"
     required:
       - "name"
       - "contentType"

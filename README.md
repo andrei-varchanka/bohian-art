@@ -17,6 +17,3 @@ https://itnext.io/setting-up-swagger-in-a-node-js-application-d3c4d7aa56d4
 
 https://github.com/cyclosproject/ng-swagger-gen
 
-image https://github.com/Skycocoo/Store-Image-with-Mongoose/blob/master/routes/imagefile.js
-
-//todo return base64 image

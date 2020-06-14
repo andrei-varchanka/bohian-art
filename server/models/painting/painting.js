@@ -4,7 +4,7 @@ import normalize from 'normalize-mongoose';
 const Schema = mongoose.Schema;
 
 const paintingSchema = new Schema({
-    data: Buffer,
+    data: String,
     name: String,
     contentType: String
 }, {collection: 'painting'});

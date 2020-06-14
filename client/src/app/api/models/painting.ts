@@ -1,7 +1,7 @@
 /* tslint:disable */
 export interface Painting {
   contentType: string;
-  data: {};
+  data: string;
   id?: string;
   name: string;
 }
