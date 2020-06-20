@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PaintingsService} from "../../api/services/paintings.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-painting-adding',
@@ -14,7 +16,7 @@ export class PaintingAddingComponent implements OnInit {
 
   images: File[];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -66,6 +68,18 @@ export class PaintingAddingComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value);
+    const paintingDto = {
+      image: this.images[0],
+      name: this.form.controls.name.value,
+      author: this.form.controls.author.value,
+      genres: this.form.controls.genres.value,
+      width: +this.form.controls.width.value,
+      height: +this.form.controls.height.value,
+      price: +this.form.controls.price.value,
+      description: this.form.controls.description.value
+    };
+    this.paintingService.uploadPainting(paintingDto).subscribe(response => {
+      this.router.navigate(['/']);
+    });
   }
 }

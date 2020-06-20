@@ -12,8 +12,8 @@ const usernameError = "Invalid username";
 const passwordError = "Invalid password";
 
 export const login = async (request, response, next) => {
-    const { username, password } = request.body;
-    const user = await User.findOne({ username: username });
+    const {username, password} = request.body;
+    const user = await User.findOne({username: username});
     if (!user) {
         return response.status(401).send(new AuthUserResponse(null, null, false, usernameError));
     }
@@ -21,14 +21,14 @@ export const login = async (request, response, next) => {
     if (!validPassword) {
         return response.status(401).send(new AuthUserResponse(null, null, false, passwordError));
     }
-    const payload = { username: user.username, password: user.password };
+    const payload = {username: user.username, password: user.password};
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
     response.send(new AuthUserResponse(user, 'Bearer ' + token, true, null));
 };
 
 export const createUser = async (request, response, next) => {
-    const { username, password } = request.body;
-    const existingUser = await User.findOne({ username: username });
+    const {username, password} = request.body;
+    const existingUser = await User.findOne({username: username});
     if (existingUser) {
         return response.status(400).send(new UserResponse(null, false, existingUserError));
     }
@@ -36,7 +36,9 @@ export const createUser = async (request, response, next) => {
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = await User.create(user);
-    response.send(new UserResponse(newUser, true, null));
+    const payload = {username: user.username, password: user.password};
+    const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
+    response.send(new AuthUserResponse(newUser, 'Bearer ' + token, true, null));
 };
 
 export const updateUser = async (req, res, next) => {

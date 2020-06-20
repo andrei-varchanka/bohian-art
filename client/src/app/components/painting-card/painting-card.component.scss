@@ -1,0 +1,22 @@
+
+.painting-card {
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .left {
+    .name {
+      font-weight: 700;
+    }
+
+    .author {
+      font-size: 15px;
+    }
+  }
+
+  .right {
+    font-size: 20px;
+    font-weight: 300;
+  }
+}

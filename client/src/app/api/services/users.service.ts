@@ -112,7 +112,7 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  createUserResponse(body: User): __Observable<__StrictHttpResponse<UserResponse>> {
+  createUserResponse(body: User): __Observable<__StrictHttpResponse<AuthUserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -130,7 +130,7 @@ class UsersService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<UserResponse>;
+        return _r as __StrictHttpResponse<AuthUserResponse>;
       })
     );
   }
@@ -139,9 +139,9 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  createUser(body: User): __Observable<UserResponse> {
+  createUser(body: User): __Observable<AuthUserResponse> {
     return this.createUserResponse(body).pipe(
-      __map(_r => _r.body as UserResponse)
+      __map(_r => _r.body as AuthUserResponse)
     );
   }
 

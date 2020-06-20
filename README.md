@@ -17,3 +17,4 @@ https://itnext.io/setting-up-swagger-in-a-node-js-application-d3c4d7aa56d4
 
 https://github.com/cyclosproject/ng-swagger-gen
 
+https://swagger.io/docs/specification/2-0/file-upload/

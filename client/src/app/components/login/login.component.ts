@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
     }).subscribe(response => {
       if (response.success) {
         this.contextService.setCurrentUser(response.user);
+        this.contextService.setAuthToken(response.token);
         this.dialogRef.close();
         window.location.reload();
       }
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
     }).subscribe(response => {
       if (response.success) {
         this.contextService.setCurrentUser(response.user);
+        this.contextService.setAuthToken(response.token);
         this.dialogRef.close();
         window.location.reload();
       }

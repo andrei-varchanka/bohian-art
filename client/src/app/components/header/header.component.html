@@ -2,6 +2,7 @@
   <div class="header__content">
     <div class="logo" [routerLink]="'/'">BOHIAN ART</div>
     <div class="actions">
+      <button class="add-new-button" *ngIf="contextService.getCurrentUser()" mat-raised-button color="primary" [routerLink]="'/add-painting'">Add new painting</button>
       <button class="login-button" *ngIf="!contextService.getCurrentUser()" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>
       <button class="login-button" *ngIf="contextService.getCurrentUser()" mat-raised-button color="primary" (click)="logout()">Log out</button>
     </div>

@@ -63,7 +63,7 @@ paths:
         200:
           description: "OK"
           schema:
-            $ref: "#/definitions/UserResponse"
+            $ref: "#/definitions/AuthUserResponse"
         400:
           description: "Such user have already created"
   /users/{userId}:
@@ -149,12 +149,42 @@ paths:
         - "Paintings"
       security:
         - bearer_auth: []
+      consumes:
+        - "multipart/form-data"
       parameters:
-        - in: "body"
-          name: "body"
+        - in: "formData"
+          name: "image"
+          type: "file"
           required: true
-          schema:
-            $ref: "#/definitions/Painting"
+        - in: "formData"
+          name: "name"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "author"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "genres"
+          type: "array"
+          items:
+            type: "string"
+          required: true
+        - in: "formData"
+          name: "height"
+          type: "integer"
+          required: true
+        - in: "formData"
+          name: "width"
+          type: "integer"
+          required: true
+        - in: "formData"
+          name: "price"
+          type: "number"
+          required: true
+        - in: "formData"
+          name: "description"
+          type: "string"
       responses:
         200:
           description: "OK"
@@ -277,16 +307,39 @@ definitions:
     properties:
       id:
         type: "string"
+      image:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+          contentType:
+            type: "string"
+          data:
+            type: "string"
       name:
         type: "string"
-      contentType:
+      author:
         type: "string"
-      data:
+      genres:
+        type: "array"
+        items:
+          type: "string"
+      height:
+        type: "integer"
+      width:
+        type: "integer"
+      price:
+        type: "number"
+      description:
         type: "string"
     required:
       - "name"
-      - "contentType"
-      - "data"
+      - "image"
+      - "author"
+      - "genres"
+      - "height"
+      - "width"
+      - "price"
   PaintingResponse:
     type: "object"
     properties:

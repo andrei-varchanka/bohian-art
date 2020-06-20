@@ -1,8 +1,7 @@
 <div class="gallery">
-  <button class="add-new-button" *ngIf="user" mat-raised-button color="primary" [routerLink]="'/add-painting'">Add new painting</button>
   <div class="items">
     <div class="item" *ngFor="let item of paintings">
-      <img [src]="getImageSrc(item) | safeHtml"  alt="{{item.name}}">
+      <app-painting-card [src]="getImageSrc(item)" [name]="item.name" [author]="item.author" [price]="item.price"></app-painting-card>
     </div>
   </div>
 </div>

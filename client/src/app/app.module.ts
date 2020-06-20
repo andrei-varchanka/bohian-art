@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app-routing.module";
@@ -22,6 +22,8 @@ import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
 import {ContextService} from "./services/context-service";
 import { CheckboxGroupComponent } from './components/checkbox-group/checkbox-group.component';
+import {JwtInterceptor} from "./interceptors/jwt-interceptor";
+import { PaintingCardComponent } from './components/painting-card/painting-card.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { CheckboxGroupComponent } from './components/checkbox-group/checkbox-gro
     DragDropDirective,
     SafeHtmlPipe,
     PlaygroundComponent,
-    CheckboxGroupComponent
+    CheckboxGroupComponent,
+    PaintingCardComponent
   ],
   imports: [
     AppRoutingModule,
@@ -49,7 +52,9 @@ import { CheckboxGroupComponent } from './components/checkbox-group/checkbox-gro
     MaterialModules,
     ApiModule.forRoot({ rootUrl: 'http://localhost:3000'})
   ],
-  providers: [RouterModule, CookieService, ContextService],
+  providers: [
+    RouterModule, CookieService, ContextService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    ],
   entryComponents: [LoginComponent],
   bootstrap: [AppComponent]
 })
