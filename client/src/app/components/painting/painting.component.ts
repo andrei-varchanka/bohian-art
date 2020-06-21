@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {PaintingsService} from "../../api/services/paintings.service";
+import {Painting} from "../../api/models/painting";
+import {getImageSrc} from "../../utils/image";
 
 @Component({
   selector: 'app-painting',
@@ -7,9 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaintingComponent implements OnInit {
 
-  constructor() { }
+  painting: Painting;
+
+  constructor(private route: ActivatedRoute, private paintingService: PaintingsService) {
+  }
 
   ngOnInit() {
+    const paintingId = this.route.snapshot.params.id;
+    this.paintingService.getPainting(paintingId).subscribe(response => {
+      this.painting = response.painting;
+    });
+  }
+
+  getImageSrc() {
+    if (this.painting) {
+      return getImageSrc(this.painting);
+    }
   }
 
 }

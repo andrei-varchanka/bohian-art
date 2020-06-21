@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FormsValidators} from "../../helpers/forms-validators";
+import {FormsValidators} from "../../utils/forms-validators";
 import {UsersService} from "../../api/services/users.service";
 import {ContextService} from "../../services/context-service";
 

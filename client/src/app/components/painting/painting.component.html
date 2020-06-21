@@ -1,1 +1,39 @@
-<p>painting works!</p>
+<div class="painting">
+  <ng-container *ngIf="painting">
+    <mat-card class="image">
+      <img mat-card-image [src]="getImageSrc() | safeHtml" [alt]="painting.name">
+    </mat-card>
+    <div class="details-wrapper">
+      <mat-card class="details">
+        <div class="field title">{{painting.name}}</div>
+        <div class="field">
+          <div class="label">Author:</div>
+          <div class="value">{{painting.author}}</div>
+        </div>
+        <div class="field">
+          <div class="label">Genre:</div>
+          <div class="value">{{painting.genres.join(', ')}}</div>
+        </div>
+        <div class="field">
+          <div class="label">Size:</div>
+          <div class="value">{{painting.height + ' x ' + painting.width + ' (cm)'}}</div>
+        </div>
+        <div class="field">
+          <div class="label">Description:</div>
+          <div class="value">{{painting.description}}</div>
+        </div>
+      </mat-card>
+      <mat-card class="details">
+        <div class="price">{{painting.price + ' BYN'}}</div>
+      </mat-card>
+      <mat-card class="details">
+        <div class="field subtitle">Contacts</div>
+        <div class="field">
+          <div class="label">Phone number:</div>
+          <div class="value">{{painting.description}}</div>
+        </div>
+      </mat-card>
+
+    </div>
+  </ng-container>
+</div>

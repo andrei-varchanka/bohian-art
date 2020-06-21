@@ -1,7 +1,7 @@
 <div class="gallery">
   <div class="items">
     <div class="item" *ngFor="let item of paintings">
-      <app-painting-card [src]="getImageSrc(item)" [name]="item.name" [author]="item.author" [price]="item.price"></app-painting-card>
+      <app-painting-card [painting]="item"></app-painting-card>
     </div>
   </div>
 </div>

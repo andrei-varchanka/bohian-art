@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Painting} from "../../api/models";
+import {Router} from "@angular/router";
+import {getImageSrc} from "../../utils/image";
 
 @Component({
   selector: 'app-painting-card',
@@ -11,17 +14,23 @@ export class PaintingCardComponent implements OnInit {
   src: string;
 
   @Input()
-  name: string;
+  painting: Painting;
 
-  @Input()
-  author: string;
-
-  @Input()
-  price: number;
-
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+
   }
+
+  getImageSrc() {
+    if (this.painting) {
+      return getImageSrc(this.painting);
+    }
+  }
+
+  open() {
+    this.router.navigate(['/gallery/' + this.painting.id]);
+  }
+
 
 }
