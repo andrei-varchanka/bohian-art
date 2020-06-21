@@ -50,7 +50,8 @@ export class RegistrationComponent implements OnInit {
   register(): void {
     this.usersService.createUser({
       username: this.registrationForm.controls.email.value,
-      password: this.registrationForm.controls.password.value
+      password: this.registrationForm.controls.password.value,
+      phone: this.registrationForm.controls.phone.value
     }).subscribe(response => {
       if (response.success) {
         this.contextService.setCurrentUser(response.user);

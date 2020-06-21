@@ -16,7 +16,7 @@ router.post('/', validateUser, userController.createUser);
 
 router.get('/', passport.authenticate('jwt', {session: false}), userController.getAllUsers);
 
-router.route('/:userId').get(passport.authenticate('jwt', {session: false}), userController.getUserById);
+router.route('/:userId').get(userController.getUserById);
 
 router.route('/:userId').put(passport.authenticate('jwt', {session: false}), userController.updateUser);
 

@@ -8,5 +8,6 @@ export interface Painting {
   image: {name?: string, contentType?: string, data?: string};
   name: string;
   price: number;
+  userId: string;
   width: number;
 }

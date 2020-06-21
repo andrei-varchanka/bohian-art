@@ -13,6 +13,7 @@ const paintingSchema = new Schema({
     image: File,
     name: String,
     author: String,
+    userId: String,
     genres: [String],
     height: Number,
     width: Number,

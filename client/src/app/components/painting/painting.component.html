@@ -1,5 +1,5 @@
 <div class="painting">
-  <ng-container *ngIf="painting">
+  <ng-container *ngIf="painting && user">
     <mat-card class="image">
       <img mat-card-image [src]="getImageSrc() | safeHtml" [alt]="painting.name">
     </mat-card>
@@ -28,9 +28,13 @@
       </mat-card>
       <mat-card class="details">
         <div class="field subtitle">Contacts</div>
-        <div class="field">
+        <div class="field" *ngIf="user.phone">
           <div class="label">Phone number:</div>
-          <div class="value">{{painting.description}}</div>
+          <div class="value">{{user.phone}}</div>
+        </div>
+        <div class="field">
+          <div class="label">E-mail:</div>
+          <div class="value">{{user.username}}</div>
         </div>
       </mat-card>
 

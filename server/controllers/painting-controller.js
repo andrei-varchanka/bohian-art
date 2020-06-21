@@ -15,6 +15,7 @@ export const uploadPainting = async (request, response, next) => {
         image: image,
         name: request.body.name,
         author: request.body.author,
+        userId: request.body.userId,
         genres: request.body.genres,
         height: request.body.height,
         width: request.body.width,

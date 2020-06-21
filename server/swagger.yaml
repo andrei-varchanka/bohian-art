@@ -72,8 +72,6 @@ paths:
       operationId: "getUser"
       tags:
         - "Users"
-      security:
-        - bearer_auth: []
       parameters:
         - name: "userId"
           in: "path"
@@ -322,6 +320,8 @@ definitions:
         type: "string"
       author:
         type: "string"
+      userId:
+        type: "string"
       genres:
         type: "array"
         items:
@@ -338,6 +338,7 @@ definitions:
       - "name"
       - "image"
       - "author"
+      - "userId"
       - "genres"
       - "height"
       - "width"
