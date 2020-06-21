@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FormsValidators} from "../../utils/forms-validators";
 import {UsersService} from "../../api/services/users.service";
 import {ContextService} from "../../services/context-service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
               private formBuilder: FormBuilder,
               private usersService: UsersService,
-              private contextService: ContextService) {
+              private contextService: ContextService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -57,18 +59,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  register(): void {
-    this.usersService.createUser({
-      username: this.loginForm.controls.email.value,
-      password: this.loginForm.controls.password.value
-    }).subscribe(response => {
-      if (response.success) {
-        this.contextService.setCurrentUser(response.user);
-        this.contextService.setAuthToken(response.token);
-        this.dialogRef.close();
-        window.location.reload();
-      }
-    });
+  redirectToRegistration() {
+    this.dialogRef.close();
+    this.router.navigate(['/registration']);
   }
 
 }

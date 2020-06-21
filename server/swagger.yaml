@@ -271,6 +271,8 @@ definitions:
       password:
         type: "string"
         format: "password"
+      phone:
+        type: "string"
     required:
       - "username"
       - "password"

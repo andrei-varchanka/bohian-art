@@ -17,13 +17,15 @@ import {FooterComponent} from './components/footer/footer.component';
 import {DragDropDirective} from "./directives/drag-drop.directive";
 import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
-import { PlaygroundComponent } from './components/playground/playground.component';
+import {PlaygroundComponent} from './components/playground/playground.component';
 import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
 import {ContextService} from "./services/context-service";
-import { CheckboxGroupComponent } from './components/checkbox-group/checkbox-group.component';
+import {CheckboxGroupComponent} from './components/checkbox-group/checkbox-group.component';
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
-import { PaintingCardComponent } from './components/painting-card/painting-card.component';
+import {PaintingCardComponent} from './components/painting-card/painting-card.component';
+import {RegistrationComponent} from './components/registration/registration.component';
+import {AuthGuard} from "./components/guards/auth-guard";
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { PaintingCardComponent } from './components/painting-card/painting-card.
     SafeHtmlPipe,
     PlaygroundComponent,
     CheckboxGroupComponent,
-    PaintingCardComponent
+    PaintingCardComponent,
+    RegistrationComponent
   ],
   imports: [
     AppRoutingModule,
@@ -50,11 +53,15 @@ import { PaintingCardComponent } from './components/painting-card/painting-card.
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModules,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:3000'})
+    ApiModule.forRoot({rootUrl: 'http://localhost:3000'})
   ],
   providers: [
-    RouterModule, CookieService, ContextService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
-    ],
+    RouterModule,
+    CookieService,
+    ContextService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    AuthGuard
+  ],
   entryComponents: [LoginComponent],
   bootstrap: [AppComponent]
 })

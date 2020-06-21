@@ -27,12 +27,12 @@ export const login = async (request, response, next) => {
 };
 
 export const createUser = async (request, response, next) => {
-    const {username, password} = request.body;
+    const {username, password, phone} = request.body;
     const existingUser = await User.findOne({username: username});
     if (existingUser) {
         return response.status(400).send(new UserResponse(null, false, existingUserError));
     }
-    const user = new User({username, password});
+    const user = new User({username, password, phone});
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = await User.create(user);

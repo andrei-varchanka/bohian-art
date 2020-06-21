@@ -1,4 +1,4 @@
-import { FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import {FormControl, ValidatorFn, ValidationErrors, FormGroup} from '@angular/forms';
 
 // @dynamic
 export class FormsValidators {
@@ -131,5 +131,25 @@ export class FormsValidators {
     }
 
     return null;
+  }
+
+  static confirmMatch(field: string) {
+    return (control: FormControl) => {
+      const value1 = control.value as string;
+
+      if (!value1) {
+        return null;
+      }
+
+      const confirmationField = (control.parent as FormGroup).get(field);
+
+      if (!confirmationField) {
+        return null;
+      }
+
+      if (value1 !== confirmationField.value) {
+        return {invalidConfirmation: true};
+      }
+    };
   }
 }

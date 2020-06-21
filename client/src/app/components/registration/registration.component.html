@@ -1,0 +1,40 @@
+
+<div class="registration">
+  <div class="image">
+    <img  src="../../../assets/img/paint-gallery-show.svg" [alt]="'image'">
+  </div>
+  <div class="registration-form" [formGroup]="registrationForm">
+    <div class="title">Registration</div>
+    <p>Please enter your account details</p>
+
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email"/>
+      <mat-error>{{getErrorMessage('email')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input [type]="hidePassword1 ? 'password' : 'text'" matInput placeholder="Password"
+             formControlName="password"/>
+      <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword1 = !hidePassword1">
+        <mat-icon>{{hidePassword1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error>{{getErrorMessage('password')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input [type]="hidePassword2 ? 'password' : 'text'" matInput placeholder="Confirm password"
+             formControlName="confirm"/>
+      <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2">
+        <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error>{{getErrorMessage('confirm')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Phone number" formControlName="phone"/>
+      <mat-error>{{getErrorMessage('phone')}}</mat-error>
+    </mat-form-field>
+
+    <button class="registration-button" mat-raised-button color="primary" (click)="register()">Sign Up</button>
+  </div>
+</div>

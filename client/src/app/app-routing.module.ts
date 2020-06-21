@@ -5,13 +5,16 @@ import {HomeComponent} from "./components/home/home.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingAddingComponent} from "./components/painting-adding/painting-adding.component";
 import {PlaygroundComponent} from "./components/playground/playground.component";
+import {AuthGuard} from "./components/guards/auth-guard";
+import {RegistrationComponent} from "./components/registration/registration.component";
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
   {path: 'home', component: HomeComponent},
+  {path: 'registration', component: RegistrationComponent},
   {path: 'gallery', component: GalleryComponent},
   {path: 'gallery/:id', component: PaintingComponent},
-  {path: 'add-painting', component: PaintingAddingComponent},
+  {path: 'add-painting', component: PaintingAddingComponent, canActivate: [AuthGuard]},
   {path: 'playground', component: PlaygroundComponent}
 ];
 
