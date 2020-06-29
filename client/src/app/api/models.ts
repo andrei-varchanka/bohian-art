@@ -1,4 +1,5 @@
 export { BaseResponse } from './models/base-response';
+export { AuthUser } from './models/auth-user';
 export { AuthUserResponse } from './models/auth-user-response';
 export { User } from './models/user';
 export { UserResponse } from './models/user-response';

@@ -8,8 +8,9 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { AuthUserResponse } from '../models/auth-user-response';
-import { User } from '../models/user';
+import { AuthUser } from '../models/auth-user';
 import { UsersResponse } from '../models/users-response';
+import { User } from '../models/user';
 import { UserResponse } from '../models/user-response';
 import { BaseResponse } from '../models/base-response';
 
@@ -39,7 +40,7 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  authResponse(body: User): __Observable<__StrictHttpResponse<AuthUserResponse>> {
+  authResponse(body: AuthUser): __Observable<__StrictHttpResponse<AuthUserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -66,7 +67,7 @@ class UsersService extends __BaseService {
    * @param body undefined
    * @return OK
    */
-  auth(body: User): __Observable<AuthUserResponse> {
+  auth(body: AuthUser): __Observable<AuthUserResponse> {
     return this.authResponse(body).pipe(
       __map(_r => _r.body as AuthUserResponse)
     );

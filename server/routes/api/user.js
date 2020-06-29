@@ -7,10 +7,7 @@ import {validateUser} from "../../middleware/validation/user.js";
 const router = express.Router();
 router.use(express.json());
 
-router.post('/auth',
-    validateUser,
-    userController.login
-);
+router.post('/auth', validateUser, userController.login);
 
 router.post('/', validateUser, userController.createUser);
 

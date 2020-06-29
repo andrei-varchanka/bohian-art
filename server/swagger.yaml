@@ -25,7 +25,7 @@ paths:
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/AuthUser"
       responses:
         200:
           description: "OK"
@@ -243,6 +243,17 @@ definitions:
     required:
       - "success"
       - "errorMessage"
+  AuthUser:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+        format: "password"
+    required:
+      - "email"
+      - "password"
   AuthUserResponse:
     type: "object"
     properties:
@@ -264,16 +275,22 @@ definitions:
     properties:
       id:
         type: "string"
-      username:
+      email:
         type: "string"
       password:
         type: "string"
         format: "password"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
       phone:
         type: "string"
     required:
-      - "username"
+      - "email"
       - "password"
+      - "firstName"
+      - "lastName"
   UserResponse:
     type: "object"
     properties:

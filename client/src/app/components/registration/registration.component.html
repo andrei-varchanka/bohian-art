@@ -8,6 +8,21 @@
     <p>Please enter your account details</p>
 
     <mat-form-field>
+      <input matInput placeholder="First name" formControlName="firstName"/>
+      <mat-error>{{getErrorMessage('firstName', 'first name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Last Name" formControlName="lastName"/>
+      <mat-error>{{getErrorMessage('lastName', 'last name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Phone number" formControlName="phone"/>
+      <mat-error>{{getErrorMessage('phone')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
       <input matInput placeholder="Email" formControlName="email"/>
       <mat-error>{{getErrorMessage('email')}}</mat-error>
     </mat-form-field>
@@ -27,12 +42,7 @@
       <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2">
         <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-error>{{getErrorMessage('confirm')}}</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Phone number" formControlName="phone"/>
-      <mat-error>{{getErrorMessage('phone')}}</mat-error>
+      <mat-error>{{getErrorMessage('confirm', 'email confirmation')}}</mat-error>
     </mat-form-field>
 
     <button class="registration-button" mat-raised-button color="primary" (click)="register()">Sign Up</button>

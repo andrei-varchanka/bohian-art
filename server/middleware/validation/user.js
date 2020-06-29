@@ -5,15 +5,15 @@ import {UserResponse} from "../../models/user/user-response.js";
 const validate = data => {
     let errors = {};
 
-    data.username = !isEmpty(data.username) ? data.username : '';
+    data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password : '';
 
-    if (!validator.isLength(data.username, { min: 4, max: 30 })) {
-        errors.username = 'Username must be between 5 and 30 characters';
+    if (!validator.isLength(data.email, { min: 4, max: 30 })) {
+        errors.email = 'Email must be between 5 and 30 characters';
     }
 
-    if (validator.isEmpty(data.username)) {
-        errors.username = 'Username is required';
+    if (validator.isEmpty(data.email)) {
+        errors.email = 'Email is required';
     }
 
     if (validator.isEmpty(data.password)) {

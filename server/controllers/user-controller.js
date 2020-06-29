@@ -7,36 +7,36 @@ import {UsersResponse} from "../models/user/users-response.js";
 import {BaseResponse} from "../models/base-response.js";
 
 const saltRounds = 10;
-const existingUserError = "Such username has already been used";
-const usernameError = "Invalid username";
+const existingUserError = "Such email has already been used";
+const emailError = "Invalid email";
 const passwordError = "Invalid password";
 
 export const login = async (request, response, next) => {
-    const {username, password} = request.body;
-    const user = await User.findOne({username: username});
+    const {email, password} = request.body;
+    const user = await User.findOne({email: email});
     if (!user) {
-        return response.status(401).send(new AuthUserResponse(null, null, false, usernameError));
+        return response.status(401).send(new AuthUserResponse(null, null, false, emailError));
     }
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
         return response.status(401).send(new AuthUserResponse(null, null, false, passwordError));
     }
-    const payload = {username: user.username, password: user.password};
+    const payload = {email: user.email, password: user.password};
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
     response.send(new AuthUserResponse(user, 'Bearer ' + token, true, null));
 };
 
 export const createUser = async (request, response, next) => {
-    const {username, password, phone} = request.body;
-    const existingUser = await User.findOne({username: username});
+    const {email, password, firstName, lastName, phone} = request.body;
+    const existingUser = await User.findOne({email: email});
     if (existingUser) {
         return response.status(400).send(new UserResponse(null, false, existingUserError));
     }
-    const user = new User({username, password, phone});
+    const user = new User({email, password, firstName, lastName, phone});
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = await User.create(user);
-    const payload = {username: user.username, password: user.password};
+    const payload = {email: user.email, password: user.password};
     const token = jwt.sign(payload, 'secret', {expiresIn: 86400});
     response.send(new AuthUserResponse(newUser, 'Bearer ' + token, true, null));
 };

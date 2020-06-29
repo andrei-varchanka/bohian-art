@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.usersService.auth({
-      username: this.loginForm.controls.email.value,
+      email: this.loginForm.controls.email.value,
       password: this.loginForm.controls.password.value
     }).subscribe(response => {
       if (response.success) {

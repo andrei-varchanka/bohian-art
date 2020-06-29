@@ -26,16 +26,21 @@ export class RegistrationComponent implements OnInit {
       email: ['', [Validators.required, FormsValidators.email]],
       password: ['', [Validators.required]],
       confirm: ['', [Validators.required, FormsValidators.confirmMatch('password')]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       phone: ['', []]
     });
   }
 
-  getErrorMessage(controlName: string): string {
+  getErrorMessage(controlName: string, inputName?: string): string {
+    if (!inputName) {
+      inputName = controlName;
+    }
     let errorText = '';
     const control = this.registrationForm.controls[controlName];
     if (control && control.errors) {
       if (control.hasError('required')) {
-        errorText = `You need to enter your ${controlName}`;
+        errorText = `You need to enter your ${inputName}`;
       }
       if (control.hasError('invalidEmail')) {
         errorText = 'Please enter a valid email';
@@ -49,8 +54,10 @@ export class RegistrationComponent implements OnInit {
 
   register(): void {
     this.usersService.createUser({
-      username: this.registrationForm.controls.email.value,
+      email: this.registrationForm.controls.email.value,
       password: this.registrationForm.controls.password.value,
+      firstName: this.registrationForm.controls.firstName.value,
+      lastName: this.registrationForm.controls.lastName.value,
       phone: this.registrationForm.controls.phone.value
     }).subscribe(response => {
       if (response.success) {

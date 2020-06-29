@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginComponent} from "../login/login.component";
 import {MatDialog} from "@angular/material";
 import {ContextService} from "../../services/context-service";
@@ -10,7 +10,8 @@ import {ContextService} from "../../services/context-service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private contextService: ContextService) { }
+  constructor(public dialog: MatDialog, private contextService: ContextService) {
+  }
 
   ngOnInit() {
   }
@@ -21,6 +22,11 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.contextService.logout();
+  }
+
+  getUserName() {
+    const user = this.contextService.getCurrentUser();
+    return user.firstName + ' ' + user.lastName;
   }
 
 }

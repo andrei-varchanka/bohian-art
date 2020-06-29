@@ -2,9 +2,29 @@
   <div class="header__content">
     <div class="logo" [routerLink]="'/'">BOHIAN ART</div>
     <div class="actions">
-      <button class="add-new-button" *ngIf="contextService.getCurrentUser()" mat-raised-button color="primary" [routerLink]="'/add-painting'">Add new painting</button>
-      <button class="login-button" *ngIf="!contextService.getCurrentUser()" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>
-      <button class="login-button" *ngIf="contextService.getCurrentUser()" mat-raised-button color="primary" (click)="logout()">Log out</button>
+      <ng-container *ngIf="!contextService.getCurrentUser()">
+        <button class="login-button" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>
+      </ng-container>
+      <ng-container *ngIf="contextService.getCurrentUser()" >
+        <button mat-button [matMenuTriggerFor]="menu">
+          <span>{{getUserName()}}</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu class="user-menu" #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>person</mat-icon>
+            <span>My profile</span>
+          </button>
+          <button mat-menu-item [routerLink]="'/add-painting'">
+            <mat-icon>add</mat-icon>
+            <span>Add new painting</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Log out</span>
+          </button>
+        </mat-menu>
+      </ng-container>
     </div>
   </div>
 </div>
