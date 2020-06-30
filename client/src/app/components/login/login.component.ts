@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
+  error: string;
+
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
               private formBuilder: FormBuilder,
               private usersService: UsersService,
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, FormsValidators.email]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
@@ -38,14 +40,12 @@ export class LoginComponent implements OnInit {
       if (control.hasError('required')) {
         errorText = `You need to enter your ${controlName}`;
       }
-      if (control.hasError('invalidEmail')) {
-        errorText = 'Please enter a valid email';
-      }
     }
     return errorText;
   }
 
   login(): void {
+    this.error = null;
     this.usersService.auth({
       email: this.loginForm.controls.email.value,
       password: this.loginForm.controls.password.value
@@ -56,6 +56,8 @@ export class LoginComponent implements OnInit {
         this.dialogRef.close();
         window.location.reload();
       }
+    }, error => {
+      this.error = error.error.errorMessage;
     });
   }
 

@@ -1,3 +1,4 @@
+@import "~src/shared/styles/colors";
 
 .login {
   max-width: 300px;
@@ -11,5 +12,12 @@
     & + .login-button {
       margin-left: 16px;
     }
+  }
+
+  .error {
+    font-size: 14px;
+    height: 20px;
+    color: $mat-warn;
+    margin-bottom: 8px;
   }
 }

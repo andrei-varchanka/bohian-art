@@ -26,6 +26,7 @@ import {JwtInterceptor} from "./interceptors/jwt-interceptor";
 import {PaintingCardComponent} from './components/painting-card/painting-card.component';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {AuthGuard} from "./components/guards/auth-guard";
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {AuthGuard} from "./components/guards/auth-guard";
     PlaygroundComponent,
     CheckboxGroupComponent,
     PaintingCardComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    UserComponent
   ],
   imports: [
     AppRoutingModule,

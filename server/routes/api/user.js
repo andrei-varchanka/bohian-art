@@ -1,13 +1,13 @@
 import express from 'express';
 import passport from 'passport';
 import * as userController from '../../controllers/user-controller.js';
-import {validateUser} from "../../middleware/validation/user.js";
+import {validateUser} from "../../middleware/validation/create-user.js";
 
 
 const router = express.Router();
 router.use(express.json());
 
-router.post('/auth', validateUser, userController.login);
+router.post('/auth', userController.login);
 
 router.post('/', validateUser, userController.createUser);
 

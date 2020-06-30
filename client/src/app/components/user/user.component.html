@@ -1,11 +1,5 @@
-
-<div class="registration">
-  <div class="image">
-    <img  src="../../../assets/img/paint-gallery-show.svg" [alt]="'image'">
-  </div>
-  <div class="registration-form" [formGroup]="form">
-    <div class="title">Registration</div>
-    <p>Please enter your account details</p>
+<div class="user">
+  <form class="form" *ngIf="user" [formGroup]="form">
 
     <mat-form-field>
       <input matInput placeholder="First name" formControlName="firstName"/>
@@ -45,6 +39,8 @@
       <mat-error>{{getErrorMessage('confirm', 'email confirmation')}}</mat-error>
     </mat-form-field>
 
-    <button class="registration-button" mat-raised-button color="primary" (click)="register()">Sign Up</button>
-  </div>
+
+  </form>
+  <button class="submit" mat-flat-button color="primary" (click)="submit()">Submit</button>
+
 </div>

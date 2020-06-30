@@ -43,6 +43,8 @@ export const createUser = async (request, response, next) => {
 
 export const updateUser = async (req, res, next) => {
     const userId = req.params["userId"];
+    const salt = await bcrypt.genSalt(saltRounds);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
     User.findByIdAndUpdate(userId, req.body, {new: true}, function (err, user) {
         if (err) {
             next(err);

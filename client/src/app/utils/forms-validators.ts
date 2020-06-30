@@ -118,21 +118,6 @@ export class FormsValidators {
     return null;
   }
 
-  static sortCode(control: FormControl): ValidationErrors {
-    const value = control.value;
-
-    if (value) {
-      const regex = new RegExp('(?!0{2}(-?0{2}){2})(\\d{2}(-\\d{2}){2})|(\\d{6})');
-      const match = regex.exec(value);
-
-      if (!match) {
-        return { invalidSortCode: true };
-      }
-    }
-
-    return null;
-  }
-
   static confirmMatch(field: string) {
     return (control: FormControl) => {
       const value1 = control.value as string;

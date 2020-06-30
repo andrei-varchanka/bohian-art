@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Router} from "@angular/router";
@@ -16,7 +16,8 @@ export class PaintingAddingComponent implements OnInit {
 
   images: File[];
 
-  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router) {
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -67,7 +68,21 @@ export class PaintingAddingComponent implements OnInit {
     this.images = null;
   }
 
+  isFormValid(): boolean {
+    let isFormValid = true;
+    if (this.form.invalid) {
+      for (let inner in this.form.controls) {
+        this.form.get(inner).markAsTouched();
+      }
+      isFormValid = false;
+    }
+    return isFormValid;
+  }
+
   submit() {
+    if (!this.isFormValid()) {
+      return;
+    }
     const paintingDto = {
       image: this.images[0],
       name: this.form.controls.name.value,
