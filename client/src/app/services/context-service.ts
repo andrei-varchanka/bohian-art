@@ -47,6 +47,5 @@ export class ContextService {
     this.setCurrentUser(null);
     this.deleteAuthToken();
     this.router.navigate(['/']);
-    window.location.replace(location.href);
   }
 }

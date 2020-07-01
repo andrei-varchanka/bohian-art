@@ -1,12 +1,22 @@
 
 .user {
   display: flex;
-  flex-direction: column;
-  padding: 20px;
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-left: 16px;
+
+    button.selected {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
 
   .form {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .submit {

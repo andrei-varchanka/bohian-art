@@ -17,6 +17,8 @@ router.route('/:userId').get(userController.getUserById);
 
 router.route('/:userId').put(passport.authenticate('jwt', {session: false}), userController.updateUser);
 
+router.route('/:userId/change-password').put(passport.authenticate('jwt', {session: false}), userController.changePassword);
+
 router.route('/:userId').delete(passport.authenticate('jwt', {session: false}), userController.deleteUser);
 
 export default router;

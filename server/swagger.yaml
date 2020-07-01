@@ -127,6 +127,36 @@ paths:
             $ref: "#/definitions/BaseResponse"
         401:
           description: "Unauthorized"
+  /users/{userId}/change-password:
+    put:
+      summary: "Change user password"
+      operationId: "changePassword"
+      tags:
+        - "Users"
+      security:
+        - bearer_auth: []
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          type: "string"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              password:
+                type: "string"
+            required:
+              - "password"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        401:
+          description: "Unauthorized"
   /paintings:
     get:
       summary: "Get all paintings"
@@ -284,6 +314,8 @@ definitions:
         type: "string"
       lastName:
         type: "string"
+      role:
+        type: "string"
       phone:
         type: "string"
     required:
@@ -291,6 +323,7 @@ definitions:
       - "password"
       - "firstName"
       - "lastName"
+      - "role"
   UserResponse:
     type: "object"
     properties:

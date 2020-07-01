@@ -17,9 +17,15 @@ export class UserComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
+  changePassForm: FormGroup = new FormGroup({});
+
+  passwordChanging: boolean;
+
   userId: string;
 
   user: User;
+
+  roles = ['Admin', 'Artist'];
 
   hidePassword1 = true;
 
@@ -34,11 +40,47 @@ export class UserComponent implements OnInit {
     if (this.userId) {
       this.userService.getUser(this.userId).subscribe(response => {
         this.user = response.user;
-        this.fillForm();
+        this.fillForms();
       });
     } else {
       this.router.navigate(['/']);
     }
+  }
+
+  fillForms() {
+    this.form = this.formBuilder.group({
+      email: [this.user.email, [Validators.required, FormsValidators.email]],
+      firstName: [this.user.firstName, [Validators.required]],
+      lastName: [this.user.lastName, [Validators.required]],
+      role: [this.user.role, [Validators.required]],
+      phone: [this.user.phone, []]
+    });
+    this.changePassForm = this.formBuilder.group({
+      password: ['', [Validators.required, FormsValidators.password]],
+      confirm: ['', [Validators.required, FormsValidators.confirmMatch('password')]]
+    });
+  }
+
+  isFormValid(): boolean {
+    let isFormValid = true;
+    if (this.form.invalid) {
+      for (let inner in this.form.controls) {
+        this.form.get(inner).markAsTouched();
+      }
+      isFormValid = false;
+    }
+    return isFormValid;
+  }
+
+  isPasswordsValid() {
+    let isFormValid = true;
+    if (this.changePassForm.invalid) {
+      for (let inner in this.changePassForm.controls) {
+        this.changePassForm.get(inner).markAsTouched();
+      }
+      isFormValid = false;
+    }
+    return isFormValid;
   }
 
   getErrorMessage(controlName: string, inputName?: string): string {
@@ -46,7 +88,7 @@ export class UserComponent implements OnInit {
       inputName = controlName;
     }
     let errorText = '';
-    const control = this.form.controls[controlName];
+    const control = this.passwordChanging ? this.changePassForm.controls[controlName] : this.form.controls[controlName];
     if (control && control.errors) {
       if (control.hasError('required')) {
         errorText = `You need to enter your ${inputName}`;
@@ -64,28 +106,6 @@ export class UserComponent implements OnInit {
     return errorText;
   }
 
-  fillForm() {
-    this.form = this.formBuilder.group({
-      email: [this.user.email, [Validators.required, FormsValidators.email]],
-      password: ['', [Validators.required, FormsValidators.password]],
-      confirm: ['', [Validators.required, FormsValidators.confirmMatch('password')]],
-      firstName: [this.user.firstName, [Validators.required]],
-      lastName: [this.user.lastName, [Validators.required]],
-      phone: [this.user.phone, []]
-    });
-  }
-
-  isFormValid(): boolean {
-    let isFormValid = true;
-    if (this.form.invalid) {
-      for (let inner in this.form.controls) {
-        this.form.get(inner).markAsTouched();
-      }
-      isFormValid = false;
-    }
-    return isFormValid;
-  }
-
   submit() {
     if (!this.isFormValid()) {
       return;
@@ -94,12 +114,28 @@ export class UserComponent implements OnInit {
       email: this.form.controls.email.value,
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
-      password: this.form.controls.password.value,
+      password: null,
+      role: this.form.controls.role.value,
       phone: this.form.controls.phone.value
     };
 
-    this.userService.updateUser({userId: this.userId, body: user}).pipe(mergeMap(response => {
-     return this.userService.auth({email: user.email, password: user.password});
+    this.userService.updateUser({userId: this.userId, body: user}).subscribe(response => {
+      this.context.setCurrentUser(response.user);
+      this.snackBar.open('Saved!', null, {duration: 2000});
+    });
+  }
+
+  changePassword() {
+    if (!this.isPasswordsValid()) {
+      return;
+    }
+    const password = this.changePassForm.controls.password.value;
+    this.userService.changePassword({
+      userId: this.userId,
+      body: {password}
+    }).pipe(mergeMap(response => {
+      const email = response.user.email;
+      return this.userService.auth({email, password});
     })).subscribe(response => {
       this.context.setAuthToken(response.token);
       this.context.setCurrentUser(response.user);

@@ -26,6 +26,10 @@ const validate = data => {
         errors.push('Password must be at least 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character');
     }
 
+    if (data.role !== 'Admin' && data.role !== 'Artist') {
+        errors.push('Wrong role')
+    }
+
     return {
         errors,
         isValid: isEmpty(errors)

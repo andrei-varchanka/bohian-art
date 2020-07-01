@@ -27,12 +27,12 @@ export const login = async (request, response, next) => {
 };
 
 export const createUser = async (request, response, next) => {
-    const {email, password, firstName, lastName, phone} = request.body;
+    const {email, password, firstName, lastName, role, phone} = request.body;
     const existingUser = await User.findOne({email: email});
     if (existingUser) {
         return response.status(400).send(new UserResponse(null, false, existingUserError));
     }
-    const user = new User({email, password, firstName, lastName, phone});
+    const user = new User({email, password, firstName, lastName, role, phone});
     const salt = await bcrypt.genSalt(saltRounds);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = await User.create(user);
@@ -43,9 +43,26 @@ export const createUser = async (request, response, next) => {
 
 export const updateUser = async (req, res, next) => {
     const userId = req.params["userId"];
+    User.findByIdAndUpdate(userId, {
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        role: req.body.role,
+        phone: req.body.phone,
+    }, {new: true}, function (err, user) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(new UserResponse(user, true, null));
+        }
+    });
+};
+
+export const changePassword = async (req, res, next) => {
+    const userId = req.params["userId"];
     const salt = await bcrypt.genSalt(saltRounds);
     req.body.password = await bcrypt.hash(req.body.password, salt);
-    User.findByIdAndUpdate(userId, req.body, {new: true}, function (err, user) {
+    User.findByIdAndUpdate(userId, {password: req.body.password}, {new: true}, function (err, user) {
         if (err) {
             next(err);
         } else {

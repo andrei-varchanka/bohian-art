@@ -27,6 +27,7 @@ class UsersService extends __BaseService {
   static readonly getUserPath = '/users/{userId}';
   static readonly updateUserPath = '/users/{userId}';
   static readonly deleteUserPath = '/users/{userId}';
+  static readonly changePasswordPath = '/users/{userId}/change-password';
 
   constructor(
     config: __Configuration,
@@ -270,6 +271,55 @@ class UsersService extends __BaseService {
       __map(_r => _r.body as BaseResponse)
     );
   }
+
+  /**
+   * Change user password
+   * @param params The `UsersService.ChangePasswordParams` containing the following parameters:
+   *
+   * - `userId`:
+   *
+   * - `body`:
+   *
+   * @return OK
+   */
+  changePasswordResponse(params: UsersService.ChangePasswordParams): __Observable<__StrictHttpResponse<UserResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    __body = params.body;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/users/${encodeURIComponent(params.userId)}/change-password`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<UserResponse>;
+      })
+    );
+  }
+  /**
+   * Change user password
+   * @param params The `UsersService.ChangePasswordParams` containing the following parameters:
+   *
+   * - `userId`:
+   *
+   * - `body`:
+   *
+   * @return OK
+   */
+  changePassword(params: UsersService.ChangePasswordParams): __Observable<UserResponse> {
+    return this.changePasswordResponse(params).pipe(
+      __map(_r => _r.body as UserResponse)
+    );
+  }
 }
 
 module UsersService {
@@ -280,6 +330,14 @@ module UsersService {
   export interface UpdateUserParams {
     userId: string;
     body: User;
+  }
+
+  /**
+   * Parameters for changePassword
+   */
+  export interface ChangePasswordParams {
+    userId: string;
+    body: {password: string};
   }
 }
 

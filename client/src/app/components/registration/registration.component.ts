@@ -77,6 +77,7 @@ export class RegistrationComponent implements OnInit {
       password: this.form.controls.password.value,
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
+      role: 'Artist',
       phone: this.form.controls.phone.value
     }).subscribe(response => {
       if (response.success) {
