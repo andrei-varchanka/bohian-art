@@ -14,7 +14,7 @@ export class PaintingAddingComponent implements OnInit {
 
   genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
 
-  images: File[];
+  images: File[] = [];
 
   constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router) {
   }
@@ -23,7 +23,7 @@ export class PaintingAddingComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required]],
       author: [null, [Validators.required]],
-      genres: [null, [Validators.required]],
+      genres: [[], [Validators.required]],
       height: [null, [Validators.required]],
       width: [null, [Validators.required]],
       price: [null, [Validators.required]],
@@ -40,6 +40,9 @@ export class PaintingAddingComponent implements OnInit {
     if (control && control.errors) {
       if (control.hasError('required')) {
         errorText = `Please fill in '${fieldName}' field`;
+      }
+      if (control.hasError('required') && controlName === 'genres') {
+        errorText = 'Please select at least one genre';
       }
     }
 

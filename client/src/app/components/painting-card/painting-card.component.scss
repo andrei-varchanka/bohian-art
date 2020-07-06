@@ -3,6 +3,9 @@
 
   img {
     cursor: pointer;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
   }
 
   .content {
@@ -23,5 +26,6 @@
   .right {
     font-size: 20px;
     font-weight: 300;
+    white-space: nowrap;
   }
 }

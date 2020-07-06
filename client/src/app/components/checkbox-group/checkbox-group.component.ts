@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-checkbox-group',
   templateUrl: './checkbox-group.component.html',
-  styleUrls: ['./checkbox-group.component.scss']
+  styleUrls: ['./checkbox-group.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CheckboxGroupComponent implements OnInit {
 
