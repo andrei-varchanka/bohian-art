@@ -44,12 +44,48 @@ export const deletePainting = (req, res, next) => {
     });
 };
 
-export const getAllPaintings = (req, res, next) => {
-    Painting.find((err, paintings) => {
-        if (err) {
-            next(err);
-        } else {
-            res.json(new PaintingsResponse(paintings, true, null));
-        }
-    });
+export const getAllPaintings = async (req, res, next) => {
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit;
+    var filterObj = {};
+    if (req.query.userId) {
+        filterObj.userId = req.query.userId;
+    }
+    if (req.query.price_from) {
+        filterObj.price = filterObj.price || {};
+        filterObj.price.$gte = +req.query.price_from;
+    }
+    if (req.query.price_to) {
+        filterObj.price = filterObj.price || {};
+        filterObj.price.$lte = +req.query.price_to;
+    }
+    if (req.query.width_from) {
+        filterObj.width = filterObj.width || {};
+        filterObj.width.$gte = +req.query.width_from;
+    }
+    if (req.query.width_to) {
+        filterObj.width = filterObj.width || {};
+        filterObj.width.$lte = +req.query.width_to;
+    }
+    if (req.query.height_from) {
+        filterObj.height = filterObj.height || {};
+        filterObj.height.$gte = +req.query.height_from;
+    }
+    if (req.query.height_to) {
+        filterObj.height = filterObj.height || {};
+        filterObj.height.$lte = +req.query.height_to;
+    }
+    if (req.query.genres) {
+        filterObj.genres = filterObj.genres || {};
+        filterObj.genres.$in = req.query.genres.toString().split(',');
+    }
+    
+    try {
+        const paintings = await Painting.find(filterObj).limit(limit).skip((page - 1) * limit).exec();
+        const count = await Painting.countDocuments(filterObj);
+        const totalPages = limit ? Math.ceil(count / limit) : null;
+        res.json(new PaintingsResponse(paintings, totalPages, page, true, null));
+    } catch (err) {
+        next(err);
+    }
 };
