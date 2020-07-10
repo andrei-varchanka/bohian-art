@@ -2,6 +2,7 @@ import Painting from '../models/painting/painting.js';
 import {PaintingResponse} from "../models/painting/painting-response.js";
 import {BaseResponse} from "../models/base-response.js";
 import {PaintingsResponse} from "../models/painting/paintings-response.js";
+import {PaintingsParametersResponse} from "../models/painting/paintings-parameters-response.js";
 
 
 export const uploadPainting = async (request, response, next) => {
@@ -85,6 +86,20 @@ export const getAllPaintings = async (req, res, next) => {
         const count = await Painting.countDocuments(filterObj);
         const totalPages = limit ? Math.ceil(count / limit) : null;
         res.json(new PaintingsResponse(paintings, totalPages, page, true, null));
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getParameters = async (req, res, next) => {
+    try {
+        const minPrice = (await Painting.find().sort({price : 1}).limit(1).exec())[0]._doc.price;
+        const maxPrice = (await Painting.find().sort({price : -1}).limit(1).exec())[0]._doc.price;
+        const minWidth = (await Painting.find().sort({width : 1}).limit(1).exec())[0]._doc.width;
+        const maxWidth = (await Painting.find().sort({width : -1}).limit(1).exec())[0]._doc.width;
+        const minHeight = (await Painting.find().sort({height : 1}).limit(1).exec())[0]._doc.height;
+        const maxHeight = (await Painting.find().sort({height : -1}).limit(1).exec())[0]._doc.height;
+        res.json(new PaintingsParametersResponse(minPrice, maxPrice, minWidth, maxWidth, minHeight, maxHeight, true, null));
     } catch (err) {
         next(err);
     }

@@ -13,6 +13,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), upload.single('
 
 router.get('/', paintingController.getAllPaintings);
 
+router.get('/parameters', paintingController.getParameters);
+
 router.route('/:paintingId').get(paintingController.getPaintingById);
 
 router.route('/:paintingId').delete(passport.authenticate('jwt', {session: false}), paintingController.deletePainting);
