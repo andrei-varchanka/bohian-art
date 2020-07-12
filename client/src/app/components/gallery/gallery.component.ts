@@ -24,7 +24,7 @@ export class GalleryComponent implements OnInit {
   ngOnInit() {
     this.user = this.contextService.getCurrentUser();
     this.array = Array.from(Array(20), (x, i) => i);
-    this.paintingService.getAllPaintings().subscribe(response => {
+    this.paintingService.getAllPaintings({}).subscribe(response => {
       this.paintings = response.paintings;
     });
   }

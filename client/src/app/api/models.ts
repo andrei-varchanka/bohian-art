@@ -7,3 +7,4 @@ export { UsersResponse } from './models/users-response';
 export { Painting } from './models/painting';
 export { PaintingResponse } from './models/painting-response';
 export { PaintingsResponse } from './models/paintings-response';
+export { PaintingsParametersResponse } from './models/paintings-parameters-response';

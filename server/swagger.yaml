@@ -163,13 +163,52 @@ paths:
       operationId: "getAllPaintings"
       tags:
         - "Paintings"
+      parameters:
+        - in: "query"
+          name: "page"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "limit"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "userId"
+          schema:
+            type: "string"
+        - in: "query"
+          name: "price_from"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "price_to"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "width_from"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "width_to"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "height_from"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "height_to"
+          schema:
+            type: "integer"
+        - in: "query"
+          name: "genres"
+          schema:
+            type: "string"
       responses:
         200:
           description: "OK"
           schema:
             $ref: "#/definitions/PaintingsResponse"
-        401:
-          description: "Unauthorized"
     post:
       summary: "Upload a new painting"
       operationId: "uploadPainting"
@@ -190,6 +229,10 @@ paths:
           required: true
         - in: "formData"
           name: "author"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "userId"
           type: "string"
           required: true
         - in: "formData"
@@ -220,6 +263,17 @@ paths:
             $ref: "#/definitions/PaintingResponse"
         401:
           description: "Unauthorized"
+  /paintings/parameters:
+    get:
+      summary: "Get paintings parameters"
+      operationId: "getParameters"
+      tags:
+        - "Paintings"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaintingsParametersResponse"
   /paintings/{paintingId}:
     get:
       summary: "Get the painting by id"
@@ -236,8 +290,6 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/PaintingResponse"
-        401:
-          description: "Unauthorized"
     delete:
       summary: "Delete the painting"
       operationId: "deletePainting"
@@ -413,6 +465,10 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Painting"
+      totalPages:
+        type: "integer"
+      currentPage:
+        type: "integer"
       success:
         type: "boolean"
       errorMessage:
@@ -421,3 +477,25 @@ definitions:
       - "users"
       - "success"
       - "errorMessage"
+  PaintingsParametersResponse:
+    type: "object"
+    properties:
+      minPrice:
+        type: "number"
+      maxPrice:
+        type: "number"
+      minWidth:
+        type: "integer"
+      maxWidth:
+        type: "integer"
+      minHeight:
+        type: "integer"
+      maxHeight:
+        type: "integer"
+    required:
+      - "minPrice"
+      - "maxPrice"
+      - "minWidth"
+      - "maxWidth"
+      - "minHeight"
+      - "maxHeight"

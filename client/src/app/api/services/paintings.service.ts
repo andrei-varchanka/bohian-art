@@ -9,6 +9,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { PaintingsResponse } from '../models/paintings-response';
 import { PaintingResponse } from '../models/painting-response';
+import { PaintingsParametersResponse } from '../models/paintings-parameters-response';
 import { BaseResponse } from '../models/base-response';
 
 /**
@@ -20,6 +21,7 @@ import { BaseResponse } from '../models/base-response';
 class PaintingsService extends __BaseService {
   static readonly getAllPaintingsPath = '/paintings';
   static readonly uploadPaintingPath = '/paintings';
+  static readonly getParametersPath = '/paintings/parameters';
   static readonly getPaintingPath = '/paintings/{paintingId}';
   static readonly deletePaintingPath = '/paintings/{paintingId}';
 
@@ -32,12 +34,44 @@ class PaintingsService extends __BaseService {
 
   /**
    * Get all paintings
+   * @param params The `PaintingsService.GetAllPaintingsParams` containing the following parameters:
+   *
+   * - `width_to`:
+   *
+   * - `width_from`:
+   *
+   * - `userId`:
+   *
+   * - `price_to`:
+   *
+   * - `price_from`:
+   *
+   * - `page`:
+   *
+   * - `limit`:
+   *
+   * - `height_to`:
+   *
+   * - `height_from`:
+   *
+   * - `genres`:
+   *
    * @return OK
    */
-  getAllPaintingsResponse(): __Observable<__StrictHttpResponse<PaintingsResponse>> {
+  getAllPaintingsResponse(params: PaintingsService.GetAllPaintingsParams): __Observable<__StrictHttpResponse<PaintingsResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    if (params.widthTo != null) __params = __params.set('width_to', params.widthTo.toString());
+    if (params.widthFrom != null) __params = __params.set('width_from', params.widthFrom.toString());
+    if (params.userId != null) __params = __params.set('userId', params.userId.toString());
+    if (params.priceTo != null) __params = __params.set('price_to', params.priceTo.toString());
+    if (params.priceFrom != null) __params = __params.set('price_from', params.priceFrom.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    if (params.limit != null) __params = __params.set('limit', params.limit.toString());
+    if (params.heightTo != null) __params = __params.set('height_to', params.heightTo.toString());
+    if (params.heightFrom != null) __params = __params.set('height_from', params.heightFrom.toString());
+    if (params.genres != null) __params = __params.set('genres', params.genres.toString());
     let req = new HttpRequest<any>(
       'GET',
       this.rootUrl + `/paintings`,
@@ -57,10 +91,32 @@ class PaintingsService extends __BaseService {
   }
   /**
    * Get all paintings
+   * @param params The `PaintingsService.GetAllPaintingsParams` containing the following parameters:
+   *
+   * - `width_to`:
+   *
+   * - `width_from`:
+   *
+   * - `userId`:
+   *
+   * - `price_to`:
+   *
+   * - `price_from`:
+   *
+   * - `page`:
+   *
+   * - `limit`:
+   *
+   * - `height_to`:
+   *
+   * - `height_from`:
+   *
+   * - `genres`:
+   *
    * @return OK
    */
-  getAllPaintings(): __Observable<PaintingsResponse> {
-    return this.getAllPaintingsResponse().pipe(
+  getAllPaintings(params: PaintingsService.GetAllPaintingsParams): __Observable<PaintingsResponse> {
+    return this.getAllPaintingsResponse(params).pipe(
       __map(_r => _r.body as PaintingsResponse)
     );
   }
@@ -70,6 +126,8 @@ class PaintingsService extends __BaseService {
    * @param params The `PaintingsService.UploadPaintingParams` containing the following parameters:
    *
    * - `width`:
+   *
+   * - `userId`:
    *
    * - `price`:
    *
@@ -94,6 +152,7 @@ class PaintingsService extends __BaseService {
     let __formData = new FormData();
     __body = __formData;
     if (params.width != null) { __formData.append('width', JSON.stringify(params.width));}
+    if (params.userId != null) { __formData.append('userId', params.userId as string | Blob);}
     if (params.price != null) { __formData.append('price', JSON.stringify(params.price));}
     if (params.name != null) { __formData.append('name', params.name as string | Blob);}
     if (params.image != null) { __formData.append('image', params.image as string | Blob);}
@@ -124,6 +183,8 @@ class PaintingsService extends __BaseService {
    *
    * - `width`:
    *
+   * - `userId`:
+   *
    * - `price`:
    *
    * - `name`:
@@ -143,6 +204,41 @@ class PaintingsService extends __BaseService {
   uploadPainting(params: PaintingsService.UploadPaintingParams): __Observable<PaintingResponse> {
     return this.uploadPaintingResponse(params).pipe(
       __map(_r => _r.body as PaintingResponse)
+    );
+  }
+
+  /**
+   * Get paintings parameters
+   * @return OK
+   */
+  getParametersResponse(): __Observable<__StrictHttpResponse<PaintingsParametersResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/paintings/parameters`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PaintingsParametersResponse>;
+      })
+    );
+  }
+  /**
+   * Get paintings parameters
+   * @return OK
+   */
+  getParameters(): __Observable<PaintingsParametersResponse> {
+    return this.getParametersResponse().pipe(
+      __map(_r => _r.body as PaintingsParametersResponse)
     );
   }
 
@@ -226,10 +322,27 @@ class PaintingsService extends __BaseService {
 module PaintingsService {
 
   /**
+   * Parameters for getAllPaintings
+   */
+  export interface GetAllPaintingsParams {
+    widthTo?: number;
+    widthFrom?: number;
+    userId?: string;
+    priceTo?: number;
+    priceFrom?: number;
+    page?: number;
+    limit?: number;
+    heightTo?: number;
+    heightFrom?: number;
+    genres?: string;
+  }
+
+  /**
    * Parameters for uploadPainting
    */
   export interface UploadPaintingParams {
     width: number;
+    userId: string;
     price: number;
     name: string;
     image: Blob;

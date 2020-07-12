@@ -82,7 +82,7 @@ export const getAllPaintings = async (req, res, next) => {
     }
     
     try {
-        const paintings = await Painting.find(filterObj).limit(limit).skip((page - 1) * limit).exec();
+        const paintings = await Painting.find(filterObj).limit(limit).skip((page - 1) * limit).sort({price : 1}).exec();
         const count = await Painting.countDocuments(filterObj);
         const totalPages = limit ? Math.ceil(count / limit) : null;
         res.json(new PaintingsResponse(paintings, totalPages, page, true, null));

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Router} from "@angular/router";
+import {ContextService} from "../../services/context-service";
 
 @Component({
   selector: 'app-painting-adding',
@@ -16,7 +17,8 @@ export class PaintingAddingComponent implements OnInit {
 
   images: File[] = [];
 
-  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router,
+              private context: ContextService) {
   }
 
   ngOnInit() {
@@ -90,6 +92,7 @@ export class PaintingAddingComponent implements OnInit {
       image: this.images[0],
       name: this.form.controls.name.value,
       author: this.form.controls.author.value,
+      userId: this.context.getCurrentUser().id,
       genres: this.form.controls.genres.value,
       width: +this.form.controls.width.value,
       height: +this.form.controls.height.value,
