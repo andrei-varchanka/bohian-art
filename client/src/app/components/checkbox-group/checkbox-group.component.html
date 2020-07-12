@@ -1,3 +1,3 @@
-<div class="checkbox-group">
+<div class="checkbox-group" [class.vertical]="vertical">
   <mat-checkbox *ngFor="let item of items" (change)="updateSelectedItems(item)">{{item}}</mat-checkbox>
 </div>

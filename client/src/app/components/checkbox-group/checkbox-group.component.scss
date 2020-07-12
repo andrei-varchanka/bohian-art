@@ -1,5 +1,11 @@
 
 .checkbox-group {
+  display: flex;
+
+  &.vertical {
+    flex-direction: column;
+  }
+
   .mat-checkbox {
     margin-right: 16px;
   }

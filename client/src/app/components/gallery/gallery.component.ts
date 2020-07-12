@@ -12,9 +12,11 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class GalleryComponent implements OnInit {
 
-  array: any[];
-
   paintings: Painting[];
+
+  genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
+
+  selectedGenres: string[] = [];
 
   user: User;
 
@@ -23,10 +25,22 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.contextService.getCurrentUser();
-    this.array = Array.from(Array(20), (x, i) => i);
-    this.paintingService.getAllPaintings({}).subscribe(response => {
+    this.getPaintings();
+  }
+
+  getPaintings() {
+    this.paintingService.getAllPaintings({genres: this.selectedGenres.join(',')}).subscribe(response => {
       this.paintings = response.paintings;
     });
+  }
+
+  selectGenres(genres: string[]) {
+    this.selectedGenres = genres;
+  }
+
+  refresh() {
+    this.getPaintings();
+
   }
 
 }

@@ -11,6 +11,9 @@ export class CheckboxGroupComponent implements OnInit {
   @Input()
   items: string[];
 
+  @Input()
+  vertical: boolean;
+
   selectedItems: string[] = [];
 
   @Output()
