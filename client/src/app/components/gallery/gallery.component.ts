@@ -3,7 +3,7 @@ import {User} from "../../api/models/user";
 import {ContextService} from "../../services/context-service";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
-import {DomSanitizer} from "@angular/platform-browser";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-gallery',
@@ -20,12 +20,20 @@ export class GalleryComponent implements OnInit {
 
   user: User;
 
-  constructor(private contextService: ContextService, private paintingService: PaintingsService, private sanitizer: DomSanitizer) {
+  constructor(private contextService: ContextService, private paintingService: PaintingsService, private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.user = this.contextService.getCurrentUser();
+    this.getFiltersFromUrl();
     this.getPaintings();
+  }
+
+  getFiltersFromUrl() {
+    if (this.route.snapshot.queryParams.genres) {
+      this.selectedGenres = (this.route.snapshot.queryParams.genres + '').split(',');
+    }
   }
 
   getPaintings() {
@@ -39,6 +47,17 @@ export class GalleryComponent implements OnInit {
   }
 
   refresh() {
+    const queryParams: Params = { };
+    if (this.genres) {
+      queryParams.genres = this.selectedGenres.join(',');
+    }
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: queryParams
+      });
     this.getPaintings();
 
   }

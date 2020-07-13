@@ -12,9 +12,10 @@ export class CheckboxGroupComponent implements OnInit {
   items: string[];
 
   @Input()
-  vertical: boolean;
-
   selectedItems: string[] = [];
+
+  @Input()
+  vertical: boolean;
 
   @Output()
   changeEvent = new EventEmitter<string[]>();

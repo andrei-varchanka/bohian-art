@@ -1,11 +1,16 @@
 <div class="gallery">
   <div class="filters">
-    <button mat-button [matMenuTriggerFor]="menu">
-      Genres
+    <button mat-raised-button [matMenuTriggerFor]="menu">
+      {{this.selectedGenres.length > 0 ? 'Genres (' + this.selectedGenres.length + ')' : 'Genres'}}
     </button>
-    <mat-menu  class="user-menu" #menu="matMenu">
-      <div class="" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-        <app-checkbox-group [vertical]="true" [items]="genres" (changeEvent)="selectGenres($event)"></app-checkbox-group>
+    <mat-menu #menu="matMenu">
+      <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <app-checkbox-group
+          [vertical]="true"
+          [selectedItems]="selectedGenres"
+          [items]="genres"
+          (changeEvent)="selectGenres($event)">
+        </app-checkbox-group>
       </div>
     </mat-menu>
     <button mat-menu-item (click)="refresh()">
