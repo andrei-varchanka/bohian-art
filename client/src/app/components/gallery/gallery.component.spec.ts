@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GalleryComponent } from './gallery.component';
+import {RangeComponent} from "../range/range.component";
+import {CheckboxGroupComponent} from "../checkbox-group/checkbox-group.component";
 
 describe('GalleryComponent', () => {
   let component: GalleryComponent;
@@ -8,7 +10,7 @@ describe('GalleryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GalleryComponent ]
+      declarations: [ GalleryComponent, RangeComponent, CheckboxGroupComponent ]
     })
     .compileComponents();
   }));

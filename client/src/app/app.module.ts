@@ -27,6 +27,7 @@ import {PaintingCardComponent} from './components/painting-card/painting-card.co
 import {RegistrationComponent} from './components/registration/registration.component';
 import {AuthGuard} from "./components/guards/auth-guard";
 import { UserComponent } from './components/user/user.component';
+import { RangeComponent } from './components/range/range.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { UserComponent } from './components/user/user.component';
     CheckboxGroupComponent,
     PaintingCardComponent,
     RegistrationComponent,
-    UserComponent
+    UserComponent,
+    RangeComponent
   ],
   imports: [
     AppRoutingModule,

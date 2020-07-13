@@ -4,6 +4,8 @@ import {ContextService} from "../../services/context-service";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {PaintingsParametersResponse} from "../../api/models";
+import {RangeModel} from "../range/range.component";
 
 @Component({
   selector: 'app-gallery',
@@ -14,9 +16,15 @@ export class GalleryComponent implements OnInit {
 
   paintings: Painting[];
 
+  parameters: PaintingsParametersResponse;
+
   genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
 
-  selectedGenres: string[] = [];
+  filteredGenres: string[] = [];
+
+  filteredWidth: RangeModel = {};
+
+  filteredHeight: RangeModel = {};
 
   user: User;
 
@@ -27,37 +35,81 @@ export class GalleryComponent implements OnInit {
   ngOnInit() {
     this.user = this.contextService.getCurrentUser();
     this.getFiltersFromUrl();
+    this.getParameters();
     this.getPaintings();
   }
 
   getFiltersFromUrl() {
     if (this.route.snapshot.queryParams.genres) {
-      this.selectedGenres = (this.route.snapshot.queryParams.genres + '').split(',');
+      this.filteredGenres = (this.route.snapshot.queryParams.genres + '').split(',');
+    }
+    if (this.route.snapshot.queryParams.width_from) {
+      this.filteredWidth.value1 = +this.route.snapshot.queryParams.width_from;
+    }
+    if (this.route.snapshot.queryParams.width_to) {
+      this.filteredWidth.value2 = +this.route.snapshot.queryParams.width_to;
+    }
+    if (this.route.snapshot.queryParams.height_from) {
+      this.filteredHeight.value1 = +this.route.snapshot.queryParams.height_from;
+    }
+    if (this.route.snapshot.queryParams.height_to) {
+      this.filteredHeight.value2 = +this.route.snapshot.queryParams.height_to;
     }
   }
 
+  getParameters() {
+    this.paintingService.getParameters().subscribe(response => {
+      this.parameters = response;
+    });
+  }
+
   getPaintings() {
-    this.paintingService.getAllPaintings({genres: this.selectedGenres.join(',')}).subscribe(response => {
+    this.paintingService.getAllPaintings(this.getQueryParams(true)).subscribe(response => {
       this.paintings = response.paintings;
     });
   }
 
-  selectGenres(genres: string[]) {
-    this.selectedGenres = genres;
+  setFilteredGenres(genres: string[]) {
+    this.filteredGenres = genres;
+  }
+
+  setFilteredWidth(range: RangeModel) {
+    this.filteredWidth = range;
+  }
+
+  setFilteredHeight(range: RangeModel) {
+    this.filteredHeight = range;
+  }
+
+  getQueryParams(camelCase?: boolean) {
+    const queryParams: Params = { };
+    if (this.filteredGenres && this.filteredGenres.length > 0) {
+      queryParams.genres = this.filteredGenres.join(',');
+    }
+    if (this.filteredWidth && this.filteredWidth.value1) {
+      camelCase ? queryParams.widthFrom = this.filteredWidth.value1 : queryParams.width_from = this.filteredWidth.value1;
+    }
+    if (this.filteredWidth && this.filteredWidth.value2) {
+      camelCase ? queryParams.widthTo = this.filteredWidth.value2 : queryParams.width_to = this.filteredWidth.value2;
+    }
+    if (this.filteredHeight && this.filteredHeight.value1) {
+      camelCase ? queryParams.heightFrom = this.filteredHeight.value1 : queryParams.height_from = this.filteredHeight.value1;
+    }
+    if (this.filteredHeight && this.filteredHeight.value2) {
+      camelCase ? queryParams.heightTo = this.filteredHeight.value2 : queryParams.height_to = this.filteredHeight.value2;
+    }
+    return queryParams;
   }
 
   refresh() {
-    const queryParams: Params = { };
-    if (this.genres) {
-      queryParams.genres = this.selectedGenres.join(',');
-    }
-
+    // to add query params to url
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
-        queryParams: queryParams
+        queryParams: this.getQueryParams()
       });
+    // update
     this.getPaintings();
 
   }

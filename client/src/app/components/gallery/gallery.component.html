@@ -1,21 +1,46 @@
 <div class="gallery">
-  <div class="filters">
-    <button mat-raised-button [matMenuTriggerFor]="menu">
-      {{this.selectedGenres.length > 0 ? 'Genres (' + this.selectedGenres.length + ')' : 'Genres'}}
+  <div class="filters" *ngIf="parameters">
+    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="genresPopup"
+            [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0">
+      Genres
     </button>
-    <mat-menu #menu="matMenu">
+    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="sizesPopup" [matBadge]="'!'"
+            [matBadgeHidden]="!(this.filteredWidth.value1 || this.filteredWidth.value2 || this.filteredHeight.value1 || this.filteredHeight.value2)">
+      Sizes
+    </button>
+    <button class="filter-button" mat-button (click)="refresh()">
+      <span>Apply</span>
+    </button>
+    <mat-menu #genresPopup>
       <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <app-checkbox-group
           [vertical]="true"
-          [selectedItems]="selectedGenres"
+          [selectedItems]="filteredGenres"
           [items]="genres"
-          (changeEvent)="selectGenres($event)">
+          (changeEvent)="setFilteredGenres($event)">
         </app-checkbox-group>
       </div>
     </mat-menu>
-    <button mat-menu-item (click)="refresh()">
-      <span>Apply</span>
-    </button>
+    <mat-menu #sizesPopup>
+      <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <div class="filter-item">
+          <app-range
+            [name]="'Width'"
+            [placeholder1]="'from ' + parameters.minWidth + 'cm'"
+            [placeholder2]="'to ' + parameters.maxWidth + 'cm'"
+            [value]="filteredWidth"
+          (changeEvent)="setFilteredWidth($event)">
+          </app-range>
+          <app-range
+            [name]="'Height'"
+            [placeholder1]="'from ' + parameters.minHeight + 'cm'"
+            [placeholder2]="'to ' + parameters.maxHeight + 'cm'"
+            [value]="filteredHeight"
+            (changeEvent)="setFilteredHeight($event)">
+          </app-range>
+        </div>
+      </div>
+    </mat-menu>
   </div>
   <div class="items">
     <div class="item" *ngFor="let item of paintings">
