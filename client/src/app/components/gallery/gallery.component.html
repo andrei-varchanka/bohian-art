@@ -1,15 +1,22 @@
 <div class="gallery">
   <div class="filters" *ngIf="parameters">
     <button class="filter-button" mat-raised-button [matMenuTriggerFor]="genresPopup"
-            [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0">
+            [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0" [matBadgeColor]="'accent'">
       Genres
     </button>
-    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="sizesPopup" [matBadge]="'!'"
+    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="sizesPopup" [matBadge]="'!'" [matBadgeColor]="'accent'"
             [matBadgeHidden]="!(this.filteredWidth.value1 || this.filteredWidth.value2 || this.filteredHeight.value1 || this.filteredHeight.value2)">
       Sizes
     </button>
+    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="pricePopup" [matBadge]="'!'"
+            [matBadgeHidden]="!(this.filteredPrice.value1 || this.filteredPrice.value2)" [matBadgeColor]="'accent'">
+      Price
+    </button>
     <button class="filter-button" mat-button (click)="refresh()">
       <span>Apply</span>
+    </button>
+    <button class="filter-button" mat-button (click)="clearFilters()">
+      <span>Clear</span>
     </button>
     <mat-menu #genresPopup>
       <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
@@ -23,22 +30,31 @@
     </mat-menu>
     <mat-menu #sizesPopup>
       <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-        <div class="filter-item">
-          <app-range
-            [name]="'Width'"
-            [placeholder1]="'from ' + parameters.minWidth + 'cm'"
-            [placeholder2]="'to ' + parameters.maxWidth + 'cm'"
-            [value]="filteredWidth"
+        <app-range
+          [name]="'Width'"
+          [placeholder1]="'from ' + parameters.minWidth + 'cm'"
+          [placeholder2]="'to ' + parameters.maxWidth + 'cm'"
+          [value]="filteredWidth"
           (changeEvent)="setFilteredWidth($event)">
-          </app-range>
-          <app-range
-            [name]="'Height'"
-            [placeholder1]="'from ' + parameters.minHeight + 'cm'"
-            [placeholder2]="'to ' + parameters.maxHeight + 'cm'"
-            [value]="filteredHeight"
-            (changeEvent)="setFilteredHeight($event)">
-          </app-range>
-        </div>
+        </app-range>
+        <app-range
+          [name]="'Height'"
+          [placeholder1]="'from ' + parameters.minHeight + 'cm'"
+          [placeholder2]="'to ' + parameters.maxHeight + 'cm'"
+          [value]="filteredHeight"
+          (changeEvent)="setFilteredHeight($event)">
+        </app-range>
+      </div>
+    </mat-menu>
+    <mat-menu #pricePopup>
+      <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <app-range
+          [name]="'Price'"
+          [placeholder1]="'from ' + parameters.minPrice + ' BYN'"
+          [placeholder2]="'to ' + parameters.maxPrice + ' BYN'"
+          [value]="filteredPrice"
+          (changeEvent)="setFilteredPrice($event)">
+        </app-range>
       </div>
     </mat-menu>
   </div>

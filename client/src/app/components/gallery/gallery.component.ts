@@ -26,6 +26,8 @@ export class GalleryComponent implements OnInit {
 
   filteredHeight: RangeModel = {};
 
+  filteredPrice: RangeModel = {};
+
   user: User;
 
   constructor(private contextService: ContextService, private paintingService: PaintingsService, private router: Router,
@@ -55,6 +57,12 @@ export class GalleryComponent implements OnInit {
     if (this.route.snapshot.queryParams.height_to) {
       this.filteredHeight.value2 = +this.route.snapshot.queryParams.height_to;
     }
+    if (this.route.snapshot.queryParams.price_from) {
+      this.filteredPrice.value1 = +this.route.snapshot.queryParams.price_from;
+    }
+    if (this.route.snapshot.queryParams.price_to) {
+      this.filteredPrice.value2 = +this.route.snapshot.queryParams.price_to;
+    }
   }
 
   getParameters() {
@@ -81,6 +89,10 @@ export class GalleryComponent implements OnInit {
     this.filteredHeight = range;
   }
 
+  setFilteredPrice(range: RangeModel) {
+    this.filteredPrice = range;
+  }
+
   getQueryParams(camelCase?: boolean) {
     const queryParams: Params = { };
     if (this.filteredGenres && this.filteredGenres.length > 0) {
@@ -98,6 +110,12 @@ export class GalleryComponent implements OnInit {
     if (this.filteredHeight && this.filteredHeight.value2) {
       camelCase ? queryParams.heightTo = this.filteredHeight.value2 : queryParams.height_to = this.filteredHeight.value2;
     }
+    if (this.filteredPrice && this.filteredPrice.value1) {
+      camelCase ? queryParams.priceFrom = this.filteredPrice.value1 : queryParams.price_from = this.filteredPrice.value1;
+    }
+    if (this.filteredPrice && this.filteredPrice.value2) {
+      camelCase ? queryParams.priceTo = this.filteredPrice.value2 : queryParams.price_to = this.filteredPrice.value2;
+    }
     return queryParams;
   }
 
@@ -112,6 +130,10 @@ export class GalleryComponent implements OnInit {
     // update
     this.getPaintings();
 
+  }
+
+  clearFilters() {
+    window.location.search = '';
   }
 
 }
