@@ -465,6 +465,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Painting"
+      count:
+        type: "integer"
       totalPages:
         type: "integer"
       currentPage:
@@ -474,7 +476,7 @@ definitions:
       errorMessage:
         type: "string"
     required:
-      - "users"
+      - "paintings"
       - "success"
       - "errorMessage"
   PaintingsParametersResponse:

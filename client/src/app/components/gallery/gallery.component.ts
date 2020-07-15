@@ -30,6 +30,12 @@ export class GalleryComponent implements OnInit {
 
   user: User;
 
+  page = 1;
+
+  limit = 12;
+
+  count: number;
+
   constructor(private contextService: ContextService, private paintingService: PaintingsService, private router: Router,
               private route: ActivatedRoute) {
   }
@@ -74,6 +80,7 @@ export class GalleryComponent implements OnInit {
   getPaintings() {
     this.paintingService.getAllPaintings(this.getQueryParams(true)).subscribe(response => {
       this.paintings = response.paintings;
+      this.count = response.count;
     });
   }
 
@@ -95,6 +102,8 @@ export class GalleryComponent implements OnInit {
 
   getQueryParams(camelCase?: boolean) {
     const queryParams: Params = { };
+    queryParams.page = this.page;
+    queryParams.limit = this.limit;
     if (this.filteredGenres && this.filteredGenres.length > 0) {
       queryParams.genres = this.filteredGenres.join(',');
     }
@@ -130,6 +139,13 @@ export class GalleryComponent implements OnInit {
     // update
     this.getPaintings();
 
+  }
+
+  changePageOrLimit(event) {
+    console.log(event);
+    this.limit = event.pageSize;
+    this.page = event.pageIndex + 1;
+    this.refresh();
   }
 
   clearFilters() {

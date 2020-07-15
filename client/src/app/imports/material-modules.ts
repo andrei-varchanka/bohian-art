@@ -20,7 +20,7 @@ import {
   MatStepperModule,
   MatToolbarModule,
   MatSliderModule,
-  MatDialogModule, MatSnackBarModule, MatRadioModule
+  MatDialogModule, MatSnackBarModule, MatRadioModule, MatPaginatorModule
 } from '@angular/material';
 
 @NgModule({
@@ -38,6 +38,7 @@ import {
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSelectModule,
@@ -62,6 +63,7 @@ import {
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSelectModule,

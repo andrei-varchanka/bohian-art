@@ -1,10 +1,12 @@
 <div class="gallery">
   <div class="filters" *ngIf="parameters">
     <button class="filter-button" mat-raised-button [matMenuTriggerFor]="genresPopup"
-            [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0" [matBadgeColor]="'accent'">
+            [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0"
+            [matBadgeColor]="'accent'">
       Genres
     </button>
-    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="sizesPopup" [matBadge]="'!'" [matBadgeColor]="'accent'"
+    <button class="filter-button" mat-raised-button [matMenuTriggerFor]="sizesPopup" [matBadge]="'!'"
+            [matBadgeColor]="'accent'"
             [matBadgeHidden]="!(this.filteredWidth.value1 || this.filteredWidth.value2 || this.filteredHeight.value1 || this.filteredHeight.value2)">
       Sizes
     </button>
@@ -62,5 +64,13 @@
     <div class="item" *ngFor="let item of paintings">
       <app-painting-card [painting]="item"></app-painting-card>
     </div>
+  </div>
+  <div class="paginator">
+    <mat-paginator
+      [length]="count"
+      [pageSize]="limit"
+      [pageSizeOptions]="[6, 12, 18]"
+      (page)="changePageOrLimit($event)">
+    </mat-paginator>
   </div>
 </div>
