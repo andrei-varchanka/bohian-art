@@ -7,6 +7,7 @@ import {FormsValidators} from "../../utils/forms-validators";
 import {MatSnackBar} from "@angular/material";
 import {mergeMap} from "rxjs/operators";
 import {ContextService} from "../../services/context-service";
+import {query} from "@angular/animations";
 
 @Component({
   selector: 'app-user',
@@ -141,6 +142,10 @@ export class UserComponent implements OnInit {
       this.context.setCurrentUser(response.user);
       this.snackBar.open('Saved!', null, {duration: 2000});
     });
+  }
+
+  redirectToUserGallery() {
+    this.router.navigate(['/gallery'], {queryParams: {userId: this.userId}});
   }
 
 }

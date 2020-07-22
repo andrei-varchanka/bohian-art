@@ -4,7 +4,7 @@ export interface PaintingsResponse {
   count?: number;
   currentPage?: number;
   errorMessage: string;
-  paintings?: Array<Painting>;
+  paintings: Array<Painting>;
   success: boolean;
   totalPages?: number;
 }

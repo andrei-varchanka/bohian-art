@@ -23,6 +23,7 @@ class PaintingsService extends __BaseService {
   static readonly uploadPaintingPath = '/paintings';
   static readonly getParametersPath = '/paintings/parameters';
   static readonly getPaintingPath = '/paintings/{paintingId}';
+  static readonly updatePaintingPath = '/paintings/{paintingId}';
   static readonly deletePaintingPath = '/paintings/{paintingId}';
 
   constructor(
@@ -281,6 +282,97 @@ class PaintingsService extends __BaseService {
   }
 
   /**
+   * Update a new painting
+   * @param params The `PaintingsService.UpdatePaintingParams` containing the following parameters:
+   *
+   * - `width`:
+   *
+   * - `userId`:
+   *
+   * - `price`:
+   *
+   * - `paintingId`:
+   *
+   * - `name`:
+   *
+   * - `height`:
+   *
+   * - `genres`:
+   *
+   * - `author`:
+   *
+   * - `image`:
+   *
+   * - `description`:
+   *
+   * @return OK
+   */
+  updatePaintingResponse(params: PaintingsService.UpdatePaintingParams): __Observable<__StrictHttpResponse<PaintingResponse>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let __formData = new FormData();
+    __body = __formData;
+    if (params.width != null) { __formData.append('width', JSON.stringify(params.width));}
+    if (params.userId != null) { __formData.append('userId', params.userId as string | Blob);}
+    if (params.price != null) { __formData.append('price', JSON.stringify(params.price));}
+
+    if (params.name != null) { __formData.append('name', params.name as string | Blob);}
+    if (params.height != null) { __formData.append('height', JSON.stringify(params.height));}
+    (params.genres || []).forEach(val => {if (val != null) __formData.append('genres', val as string | Blob)});
+    if (params.author != null) { __formData.append('author', params.author as string | Blob);}
+    if (params.image != null) { __formData.append('image', params.image as string | Blob);}
+    if (params.description != null) { __formData.append('description', params.description as string | Blob);}
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/paintings/${encodeURIComponent(params.paintingId)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PaintingResponse>;
+      })
+    );
+  }
+  /**
+   * Update a new painting
+   * @param params The `PaintingsService.UpdatePaintingParams` containing the following parameters:
+   *
+   * - `width`:
+   *
+   * - `userId`:
+   *
+   * - `price`:
+   *
+   * - `paintingId`:
+   *
+   * - `name`:
+   *
+   * - `height`:
+   *
+   * - `genres`:
+   *
+   * - `author`:
+   *
+   * - `image`:
+   *
+   * - `description`:
+   *
+   * @return OK
+   */
+  updatePainting(params: PaintingsService.UpdatePaintingParams): __Observable<PaintingResponse> {
+    return this.updatePaintingResponse(params).pipe(
+      __map(_r => _r.body as PaintingResponse)
+    );
+  }
+
+  /**
    * Delete the painting
    * @param paintingId undefined
    * @return OK
@@ -349,6 +441,22 @@ module PaintingsService {
     height: number;
     genres: Array<string>;
     author: string;
+    description?: string;
+  }
+
+  /**
+   * Parameters for updatePainting
+   */
+  export interface UpdatePaintingParams {
+    width: number;
+    userId: string;
+    price: number;
+    paintingId: string;
+    name: string;
+    height: number;
+    genres: Array<string>;
+    author: string;
+    image?: Blob;
     description?: string;
   }
 }

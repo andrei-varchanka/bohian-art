@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "5eca8036908fc421c8bf66e2"
+  },
+  "email": "test_user@gmail.com",
+  "password": "$2b$10$DsWaH5zgKpOF4IvBnIrH2OJG6IUrTTrsvZMyHfr2QNJGc1ZfHU7fe",
+  "firstName": "Andrei",
+  "lastName": "Varchanka",
+  "phone": "+375298731893",
+  "__v": 0,
+  "role": "Admin"
+},{
+  "_id": {
+    "$oid": "5efb9e802d9a2f3144c0bc9e"
+  },
+  "email": "varch55@gmail.com",
+  "password": "$2b$10$SoSlVQRBDS/kP80rhB8ZlucBn7vuGnWujh4c5hT00Ji7pifHr2piS",
+  "firstName": "andrew",
+  "lastName": "varch2",
+  "role": "Admin",
+  "phone": "123",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5efbb163d46bb14bd8783504"
+  },
+  "email": "varch11@gmail.com",
+  "password": "$2b$10$DsWaH5zgKpOF4IvBnIrH2OJG6IUrTTrsvZMyHfr2QNJGc1ZfHU7fe",
+  "firstName": "test",
+  "lastName": "works!",
+  "role": "Artist",
+  "__v": 0,
+  "phone": "12345"
+}]

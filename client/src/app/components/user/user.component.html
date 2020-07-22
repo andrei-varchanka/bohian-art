@@ -57,7 +57,7 @@
   <mat-card class="actions">
     <button mat-button [class.selected]="!passwordChanging" (click)="passwordChanging = false">General information</button>
     <button mat-button [class.selected]="passwordChanging" (click)="passwordChanging = true">Change password</button>
-    <button mat-button>View uploaded artworks</button>
+    <button mat-button (click)="redirectToUserGallery()">View uploaded artworks</button>
   </mat-card>
 
 </div>

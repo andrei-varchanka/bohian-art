@@ -11,7 +11,7 @@ import {HomeComponent} from './components/home/home.component';
 import {GalleryComponent} from './components/gallery/gallery.component';
 import {PaintingComponent} from './components/painting/painting.component';
 import {LoginComponent} from './components/login/login.component';
-import {PaintingAddingComponent} from './components/painting-adding/painting-adding.component';
+import {PaintingEditorComponent} from './components/painting-editor/painting-editor.component';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {DragDropDirective} from "./directives/drag-drop.directive";
@@ -36,7 +36,7 @@ import { RangeComponent } from './components/range/range.component';
     GalleryComponent,
     PaintingComponent,
     LoginComponent,
-    PaintingAddingComponent,
+    PaintingEditorComponent,
     HeaderComponent,
     FooterComponent,
     ImageUploaderComponent,

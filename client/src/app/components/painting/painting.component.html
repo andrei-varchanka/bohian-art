@@ -5,6 +5,10 @@
     </mat-card>
     <div class="details-wrapper">
       <mat-card class="details">
+        <div class="actions" *ngIf="painting.userId === user.id || user.role === 'Admin'">
+          <mat-icon [routerLink]="'/painting-editor/' + painting.id">edit</mat-icon>
+          <mat-icon>delete</mat-icon>
+        </div>
         <div class="field title">{{painting.name}}</div>
         <div class="field">
           <div class="label">Author:</div>

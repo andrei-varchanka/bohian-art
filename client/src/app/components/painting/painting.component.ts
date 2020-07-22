@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
-import {getImageSrc} from "../../utils/image";
 import {User} from "../../api/models/user";
 import {mergeMap} from "rxjs/operators";
 import {UsersService} from "../../api/services/users.service";
@@ -33,7 +32,7 @@ export class PaintingComponent implements OnInit {
 
   getImageSrc() {
     if (this.painting) {
-      return getImageSrc(this.painting);
+      return this.painting.image.data;
     }
   }
 

@@ -290,6 +290,64 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/PaintingResponse"
+    put:
+      summary: "Update a new painting"
+      operationId: "updatePainting"
+      tags:
+        - "Paintings"
+      security:
+        - bearer_auth: []
+      consumes:
+        - "multipart/form-data"
+      parameters:
+        - name: "paintingId"
+          in: "path"
+          required: true
+          type: "string"
+        - in: "formData"
+          name: "image"
+          type: "file"
+          required: false
+        - in: "formData"
+          name: "name"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "author"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "userId"
+          type: "string"
+          required: true
+        - in: "formData"
+          name: "genres"
+          type: "array"
+          items:
+            type: "string"
+          required: true
+        - in: "formData"
+          name: "height"
+          type: "integer"
+          required: true
+        - in: "formData"
+          name: "width"
+          type: "integer"
+          required: true
+        - in: "formData"
+          name: "price"
+          type: "number"
+          required: true
+        - in: "formData"
+          name: "description"
+          type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PaintingResponse"
+        401:
+          description: "Unauthorized"
     delete:
       summary: "Delete the painting"
       operationId: "deletePainting"

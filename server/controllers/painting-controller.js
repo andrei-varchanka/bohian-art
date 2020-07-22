@@ -8,7 +8,7 @@ import {PaintingsParametersResponse} from "../models/painting/paintings-paramete
 export const uploadPainting = async (request, response, next) => {
     const base64String = Buffer.from(request.file.buffer).toString('base64');
     const image = {
-        data: base64String,
+        data: 'data:image/jpeg;base64, ' + base64String,
         name: request.file.originalname,
         contentType: request.file.mimetype
     };
@@ -30,6 +30,35 @@ export const uploadPainting = async (request, response, next) => {
 
 export const getPaintingById = (req, res, next) => {
     Painting.findOne({_id: req.params['paintingId']}, (err, painting) => {
+        if (err) {
+            next(err);
+        } else {
+            res.json(new PaintingResponse(painting, true, null));
+        }
+    });
+};
+
+export const updatePainting = async (request, res, next) => {
+    const paintingId = request.params["paintingId"];
+    const painting = {
+        name: request.body.name,
+        author: request.body.author,
+        userId: request.body.userId,
+        genres: request.body.genres,
+        height: request.body.height,
+        width: request.body.width,
+        price: request.body.price,
+        description: request.body.description
+    };
+    if (request.file && request.file.buffer) {
+        const base64String = Buffer.from(request.file.buffer).toString('base64');
+        painting.image = {
+            data: 'data:image/jpeg;base64, ' + base64String,
+            name: request.file.originalname,
+            contentType: request.file.mimetype
+        };
+    }
+    Painting.findByIdAndUpdate(paintingId, painting, {new: true}, function (err, painting) {
         if (err) {
             next(err);
         } else {

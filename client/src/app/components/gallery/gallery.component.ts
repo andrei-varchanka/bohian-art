@@ -28,6 +28,8 @@ export class GalleryComponent implements OnInit {
 
   filteredPrice: RangeModel = {};
 
+  filteredUserId: string;
+
   user: User;
 
   page = 1;
@@ -69,6 +71,9 @@ export class GalleryComponent implements OnInit {
     if (this.route.snapshot.queryParams.price_to) {
       this.filteredPrice.value2 = +this.route.snapshot.queryParams.price_to;
     }
+    if (this.route.snapshot.queryParams.userId) {
+      this.filteredUserId = this.route.snapshot.queryParams.userId;
+    }
   }
 
   getParameters() {
@@ -78,7 +83,7 @@ export class GalleryComponent implements OnInit {
   }
 
   getPaintings() {
-    this.paintingService.getAllPaintings(this.getQueryParams(true)).subscribe(response => {
+    this.paintingService.getAllPaintings(this.getQueryParams()).subscribe(response => {
       this.paintings = response.paintings;
       this.count = response.count;
     });
@@ -100,7 +105,7 @@ export class GalleryComponent implements OnInit {
     this.filteredPrice = range;
   }
 
-  getQueryParams(camelCase?: boolean) {
+  getQueryParams() {
     const queryParams: Params = { };
     queryParams.page = this.page;
     queryParams.limit = this.limit;
@@ -108,22 +113,25 @@ export class GalleryComponent implements OnInit {
       queryParams.genres = this.filteredGenres.join(',');
     }
     if (this.filteredWidth && this.filteredWidth.value1) {
-      camelCase ? queryParams.widthFrom = this.filteredWidth.value1 : queryParams.width_from = this.filteredWidth.value1;
+      queryParams.widthFrom = this.filteredWidth.value1;
     }
     if (this.filteredWidth && this.filteredWidth.value2) {
-      camelCase ? queryParams.widthTo = this.filteredWidth.value2 : queryParams.width_to = this.filteredWidth.value2;
+      queryParams.widthTo = this.filteredWidth.value2;
     }
     if (this.filteredHeight && this.filteredHeight.value1) {
-      camelCase ? queryParams.heightFrom = this.filteredHeight.value1 : queryParams.height_from = this.filteredHeight.value1;
+      queryParams.heightFrom = this.filteredHeight.value1;
     }
     if (this.filteredHeight && this.filteredHeight.value2) {
-      camelCase ? queryParams.heightTo = this.filteredHeight.value2 : queryParams.height_to = this.filteredHeight.value2;
+      queryParams.heightTo = this.filteredHeight.value2;
     }
     if (this.filteredPrice && this.filteredPrice.value1) {
-      camelCase ? queryParams.priceFrom = this.filteredPrice.value1 : queryParams.price_from = this.filteredPrice.value1;
+      queryParams.priceFrom = this.filteredPrice.value1;
     }
     if (this.filteredPrice && this.filteredPrice.value2) {
-      camelCase ? queryParams.priceTo = this.filteredPrice.value2 : queryParams.price_to = this.filteredPrice.value2;
+      queryParams.priceTo = this.filteredPrice.value2;
+    }
+    if (this.filteredUserId) {
+      queryParams.userId = this.filteredUserId;
     }
     return queryParams;
   }

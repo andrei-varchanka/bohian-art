@@ -30,6 +30,16 @@
 
   .details {
     margin-bottom: 8px;
+    position: relative;
+
+    .actions {
+      position: absolute;
+      right: 16px;
+
+      mat-icon {
+        cursor: pointer;
+      }
+    }
 
     .title {
       font-size: 22px;

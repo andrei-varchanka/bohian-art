@@ -1,16 +1,14 @@
-<div class="image-uploader__drop-area" (click)="fileInput.click()" appDragDrop (onFileDropped)="onFileSelected($event)">
-  <span class="image-uploader__drop-area_hint">Click to select image or drop it here!</span>
-  <input hidden type="file" #fileInput (change)="onFileSelected($event.target.files)">
-</div>
+<div class="image-uploader">
+  <div class="image-uploader__drop-area" (click)="fileInput.click()" appDragDrop (onFileDropped)="onFileSelected($event)">
+    <span class="image-uploader__drop-area_hint">Click to select image or drop it here!</span>
+    <input hidden type="file" #fileInput (change)="onFileSelected($event.target.files)">
+  </div>
   <div class="image-uploader__file" *ngFor="let fileSrc of fileSrcs;let i= index">
-    <ng-container *ngIf="fileSrc">
-      <img [src]="fileSrc | safeHtml" height="60px">
-      <div> {{ files[i]?.name }} </div>
-      <button class="image-uploader__file_delete" (click)="deleteAttachment(i)">
-        <mat-icon class="mat-18">delete</mat-icon>
-      </button>
-    </ng-container>
+    <img [src]="fileSrc | safeHtml" height="150px">
+    <mat-icon class="delete" (click)="deleteAttachment(i)">delete</mat-icon>
   </div>
   <div class="image-uploader__hint" *ngIf="errors">
     {{errors}}
   </div>
+</div>
+
