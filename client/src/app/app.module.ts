@@ -9,7 +9,10 @@ import {RouterModule} from "@angular/router";
 import {MaterialModules} from "./imports/material-modules";
 import {HomeComponent} from './components/home/home.component';
 import {GalleryComponent} from './components/gallery/gallery.component';
-import {PaintingComponent} from './components/painting/painting.component';
+import {
+  PaintingComponent,
+  PaintingDeletionConfirmationComponent
+} from './components/painting/painting.component';
 import {LoginComponent} from './components/login/login.component';
 import {PaintingEditorComponent} from './components/painting-editor/painting-editor.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -35,6 +38,7 @@ import { RangeComponent } from './components/range/range.component';
     HomeComponent,
     GalleryComponent,
     PaintingComponent,
+    PaintingDeletionConfirmationComponent,
     LoginComponent,
     PaintingEditorComponent,
     HeaderComponent,
@@ -66,7 +70,7 @@ import { RangeComponent } from './components/range/range.component';
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     AuthGuard
   ],
-  entryComponents: [LoginComponent],
+  entryComponents: [LoginComponent, PaintingDeletionConfirmationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

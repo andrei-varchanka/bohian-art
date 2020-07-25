@@ -122,12 +122,12 @@ export const getAllPaintings = async (req, res, next) => {
 
 export const getParameters = async (req, res, next) => {
     try {
-        const minPrice = (await Painting.find().sort({price : 1}).limit(1).exec())[0]._doc.price;
-        const maxPrice = (await Painting.find().sort({price : -1}).limit(1).exec())[0]._doc.price;
-        const minWidth = (await Painting.find().sort({width : 1}).limit(1).exec())[0]._doc.width;
-        const maxWidth = (await Painting.find().sort({width : -1}).limit(1).exec())[0]._doc.width;
-        const minHeight = (await Painting.find().sort({height : 1}).limit(1).exec())[0]._doc.height;
-        const maxHeight = (await Painting.find().sort({height : -1}).limit(1).exec())[0]._doc.height;
+        const minPrice = (await Painting.find().sort({price : 1}).limit(1).exec())[0].toJSON().price;
+        const maxPrice = (await Painting.find().sort({price : -1}).limit(1).exec())[0].toJSON().price;
+        const minWidth = (await Painting.find().sort({width : 1}).limit(1).exec())[0].toJSON().width;
+        const maxWidth = (await Painting.find().sort({width : -1}).limit(1).exec())[0].toJSON().width;
+        const minHeight = (await Painting.find().sort({height : 1}).limit(1).exec())[0].toJSON().height;
+        const maxHeight = (await Painting.find().sort({height : -1}).limit(1).exec())[0].toJSON().height;
         res.json(new PaintingsParametersResponse(minPrice, maxPrice, minWidth, maxWidth, minHeight, maxHeight, true, null));
     } catch (err) {
         next(err);

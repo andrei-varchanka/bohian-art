@@ -133,7 +133,7 @@ export class PaintingEditorComponent implements OnInit {
       });
     } else {
       this.paintingService.uploadPainting(paintingDto).subscribe(response => {
-        this.router.navigate(['/' + response.painting.id]);
+        this.router.navigate(['/gallery/' + response.painting.id]);
       });
     }
 

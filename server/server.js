@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import User from './models/user/user.js';
-import passport from './config/passport.js';
+import passport from './middleware/passport.js';
 import {url} from './config/config.js';
 import mainRouter from './routes/index.js';
 // import YAML from 'yamljs';
