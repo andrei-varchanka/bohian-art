@@ -1,6 +1,12 @@
 <div class="header">
   <div class="header__content">
-    <div class="logo" [routerLink]="'/'">BOHIAN ART</div>
+    <div class="left">
+      <div class="logo" [routerLink]="'/'">BOHIAN ART</div>
+      <div class="navigation-item" *ngFor="let navigationItem of navigationItems" [routerLink]="navigationItem.route"
+           [class.selected]="selectedRoute.indexOf(navigationItem.route) !== -1">
+        {{navigationItem.label}}
+      </div>
+    </div>
     <div class="actions">
       <ng-container *ngIf="!contextService.getCurrentUser()">
         <button class="login-button" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>

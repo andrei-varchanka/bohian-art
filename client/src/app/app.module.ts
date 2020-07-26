@@ -32,6 +32,13 @@ import {AuthGuard} from "./components/guards/auth-guard";
 import { UserComponent } from './components/user/user.component';
 import { RangeComponent } from './components/range/range.component';
 import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
+import {AngularYandexMapsModule, IConfig, YA_MAP_CONFIG} from "angular8-yandex-maps";
+
+const mapConfig: IConfig = {
+  apikey: 'API_KEY',
+  lang: 'en_US',
+};
 
 @NgModule({
   declarations: [
@@ -54,7 +61,8 @@ import {UserDeletionConfirmationComponent, UsersComponent} from './components/us
     UserComponent,
     RangeComponent,
     UsersComponent,
-    UserDeletionConfirmationComponent
+    UserDeletionConfirmationComponent,
+    ContactsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -64,6 +72,7 @@ import {UserDeletionConfirmationComponent, UsersComponent} from './components/us
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModules,
+    AngularYandexMapsModule.forRoot(mapConfig),
     ApiModule.forRoot({rootUrl: 'http://localhost:3000'})
   ],
   providers: [
@@ -71,6 +80,7 @@ import {UserDeletionConfirmationComponent, UsersComponent} from './components/us
     CookieService,
     ContextService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: YA_MAP_CONFIG, useValue: {apikey: 'API_KEY', lang: 'en_US'}},
     AuthGuard
   ],
   entryComponents: [LoginComponent, PaintingDeletionConfirmationComponent, UserDeletionConfirmationComponent],

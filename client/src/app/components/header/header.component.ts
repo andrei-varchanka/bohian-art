@@ -3,6 +3,7 @@ import {LoginComponent} from "../login/login.component";
 import {MatDialog} from "@angular/material";
 import {ContextService} from "../../services/context-service";
 import {User} from "../../api/models/user";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,30 @@ import {User} from "../../api/models/user";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private contextService: ContextService) {
+  selectedRoute: string;
+
+  navigationItems: any[];
+
+  constructor(public dialog: MatDialog, private contextService: ContextService, private router: Router) {
   }
 
   ngOnInit() {
+    this.navigationItems = [
+      {
+        route: 'gallery',
+        label: 'Gallery'
+      },
+      {
+        route: 'contacts',
+        label: 'Contacts'
+      }
+    ];
+    this.getSelectedRoute();
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.getSelectedRoute();
+      }
+    });
   }
 
   openDialog(): void {
@@ -32,6 +53,10 @@ export class HeaderComponent implements OnInit {
 
   getRole() {
     return this.contextService.getCurrentUser().role;
+  }
+
+  getSelectedRoute() {
+    this.selectedRoute = this.router.url;
   }
 
 }

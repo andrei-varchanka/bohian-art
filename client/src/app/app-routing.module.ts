@@ -9,12 +9,14 @@ import {AuthGuard} from "./components/guards/auth-guard";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserComponent} from "./components/user/user.component";
 import {UsersComponent} from "./components/users/users.component";
+import {ContactsComponent} from "./components/contacts/contacts.component";
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
   {path: 'home', component: HomeComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'gallery', component: GalleryComponent},
+  {path: 'contacts', component: ContactsComponent},
   {path: 'gallery/:id', component: PaintingComponent},
   {path: 'user/:id', component: UserComponent, canActivate: [AuthGuard]},
   {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},

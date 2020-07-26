@@ -1,7 +1,10 @@
 @import "~src/shared/styles/colors";
 
 .footer {
-  background-color: $mat-primary;
+  background-color: #4a4a4a;
   color: $white;
-  padding: 20px;
+  padding: 40px 20px 40px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
 }
