@@ -8,6 +8,7 @@ import {PlaygroundComponent} from "./components/playground/playground.component"
 import {AuthGuard} from "./components/guards/auth-guard";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserComponent} from "./components/user/user.component";
+import {UsersComponent} from "./components/users/users.component";
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'gallery', component: GalleryComponent},
   {path: 'gallery/:id', component: PaintingComponent},
   {path: 'user/:id', component: UserComponent, canActivate: [AuthGuard]},
+  {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
   {path: 'painting-editor', component: PaintingEditorComponent, canActivate: [AuthGuard]},
   {path: 'painting-editor/:id', component: PaintingEditorComponent, canActivate: [AuthGuard]},
   {path: 'playground', component: PlaygroundComponent}

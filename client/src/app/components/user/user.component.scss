@@ -25,4 +25,14 @@
     width: 100%;
     max-width: 200px;
   }
+
+  &__delete {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+
+    .button {
+      cursor: pointer;
+    }
+  }
 }

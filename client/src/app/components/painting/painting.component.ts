@@ -53,6 +53,6 @@ export class PaintingComponent implements OnInit {
 
 @Component({
   selector: 'app-painting-deletion-confirmation',
-  templateUrl: './painting-deletion-corfirmation.html',
+  templateUrl: './painting-deletion-confirmation.html',
 })
 export class PaintingDeletionConfirmationComponent {}

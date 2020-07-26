@@ -4,10 +4,11 @@ import {UsersService} from "../../api/services/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../api/models/user";
 import {FormsValidators} from "../../utils/forms-validators";
-import {MatSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
 import {mergeMap} from "rxjs/operators";
 import {ContextService} from "../../services/context-service";
 import {query} from "@angular/animations";
+import {UserDeletionConfirmationComponent} from "../users/users.component";
 
 @Component({
   selector: 'app-user',
@@ -33,7 +34,7 @@ export class UserComponent implements OnInit {
   hidePassword2 = true;
 
   constructor(private formBuilder: FormBuilder, private userService: UsersService, private route: ActivatedRoute,
-              private router: Router, private snackBar: MatSnackBar, private context: ContextService) {
+              private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -146,6 +147,21 @@ export class UserComponent implements OnInit {
 
   redirectToUserGallery() {
     this.router.navigate(['/gallery'], {queryParams: {userId: this.userId}});
+  }
+
+  delete() {
+    const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(this.userId).subscribe(response => {
+          if (this.context.getCurrentUser().id === this.user.id) {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/users']);
+          }
+        });
+      }
+    });
   }
 
 }

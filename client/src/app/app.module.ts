@@ -31,6 +31,7 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {AuthGuard} from "./components/guards/auth-guard";
 import { UserComponent } from './components/user/user.component';
 import { RangeComponent } from './components/range/range.component';
+import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { RangeComponent } from './components/range/range.component';
     PaintingCardComponent,
     RegistrationComponent,
     UserComponent,
-    RangeComponent
+    RangeComponent,
+    UsersComponent,
+    UserDeletionConfirmationComponent
   ],
   imports: [
     AppRoutingModule,
@@ -70,7 +73,7 @@ import { RangeComponent } from './components/range/range.component';
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     AuthGuard
   ],
-  entryComponents: [LoginComponent, PaintingDeletionConfirmationComponent],
+  entryComponents: [LoginComponent, PaintingDeletionConfirmationComponent, UserDeletionConfirmationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {
