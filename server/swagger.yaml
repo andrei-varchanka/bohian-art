@@ -166,44 +166,34 @@ paths:
       parameters:
         - in: "query"
           name: "page"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "limit"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "userId"
-          schema:
-            type: "string"
+          type: "string"
         - in: "query"
           name: "price_from"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "price_to"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "width_from"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "width_to"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "height_from"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "height_to"
-          schema:
-            type: "integer"
+          type: "integer"
         - in: "query"
           name: "genres"
-          schema:
-            type: "string"
+          type: "string"
       responses:
         200:
           description: "OK"
