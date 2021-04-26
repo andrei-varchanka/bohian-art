@@ -6,20 +6,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Header from "./components/header/Header";
-import Content from "./components/content/Content";
-import {apiService} from "./api";
+import Header from "./components/Header";
+import Gallery from "./components/Gallery";
 
 function App() {
-
-  useEffect(() => {
-    getPaintings();
-  }, []);
-
-  const getPaintings = async () => {
-    const response = (await apiService.getAllPaintings()).data;
-    console.log(response);
-  };
 
   return (
       <Router>
@@ -36,7 +26,7 @@ function App() {
                 <Users/>
               </Route>
               <Route path="/">
-                <Content/>
+                <Gallery/>
               </Route>
             </Switch>
           </div>
