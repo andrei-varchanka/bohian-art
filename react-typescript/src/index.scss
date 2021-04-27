@@ -10,3 +10,16 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: $white;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:visited, &:active {
+    color: inherit;
+  }
+}

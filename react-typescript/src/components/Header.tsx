@@ -1,23 +1,36 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import '../styles/header.scss';
 
-function Header() {
+class Header extends React.Component {
 
-    return (
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/about">About</Link>
-                </li>
-                <li>
-                    <Link to="/users">Users</Link>
-                </li>
-            </ul>
-        </nav>
-    );
+    navigationItems = [
+        {
+            route: 'gallery',
+            label: 'Gallery'
+        },
+        {
+            route: 'contacts',
+            label: 'Contacts'
+        }
+    ];
+
+    render() {
+        return (
+            <nav className="header">
+                <div className="header__content">
+                    <div className="left">
+                        <Link className="logo" to="/">BOHIAN ART</Link>
+                        <div className="navigation-items">
+                            {this.navigationItems.map(item => {
+                                return <Link key={item.label} className="navigation-item" to={item.route}>{item.label}</Link>
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        );
+    }
 }
 
 export default Header;

@@ -33,7 +33,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
                 <div className="items">
                     {
                         this.state.paintings?.map(painting => {
-                            return <div className="item"><PaintingCard key={painting?.name} painting={painting}/></div>;
+                            return <div className="item" key={painting?.name}><PaintingCard painting={painting}/></div>;
                         })
                     }
                 </div>

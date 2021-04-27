@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import Gallery from "./components/Gallery";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -19,11 +20,11 @@ function App() {
           </div>
           <div className="app__content">
             <Switch>
-              <Route path="/about">
-                <About/>
+              <Route path="/gallery">
+                <Gallery/>
               </Route>
-              <Route path="/users">
-                <Users/>
+              <Route path="/contacts">
+                <Contacts/>
               </Route>
               <Route path="/">
                 <Gallery/>
@@ -31,19 +32,15 @@ function App() {
             </Switch>
           </div>
           <div className="app__footer">
-            {/*<app-footer></app-footer>*/}
+            <Footer></Footer>
           </div>
         </div>
       </Router>
   );
 }
 
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
+function Contacts() {
+  return <h2>Contacts</h2>;
 }
 
 export default App;
