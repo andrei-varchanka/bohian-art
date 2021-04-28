@@ -1,6 +1,6 @@
 import React from "react";
-import {Painting} from "../api/";
-import '../styles/painting-card.scss';
+import {Painting} from "../../api/api";
+import '../../styles/painting-card.scss';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';

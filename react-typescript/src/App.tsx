@@ -6,9 +6,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Header from "./components/Header";
-import Gallery from "./components/Gallery";
-import Footer from "./components/Footer";
+import Header from "./components/shared/Header";
+import Gallery from "./components/gallery/Gallery";
+import Footer from "./components/shared/Footer";
 
 class App extends React.Component {
 
