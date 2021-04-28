@@ -4,24 +4,11 @@ import {Painting} from "../../api/api";
 import '../../styles/gallery.scss';
 import PaintingCard from "./PaintingCard";
 import Pagination from '@material-ui/lab/Pagination';
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    TextField,
-    Popper, Paper, ClickAwayListener
-} from "@material-ui/core";
-import Card from "@material-ui/core/Card/Card";
-import CardContent from "@material-ui/core/CardContent";
-
+import Filters from "./Filters";
 
 type GalleryProps = {};
 type GalleryState = {
-    paintings?: Array<Painting>, count?: number, totalPages?: number, genresPopupAnchor?: any, sizesPopupAnchor?: any,
-    pricePopupAnchor?: any
+    paintings?: Array<Painting>, count?: number, totalPages?: number
 };
 
 class Gallery extends React.Component<GalleryProps, GalleryState> {
@@ -94,61 +81,10 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         this.getPaintings();
     }
 
-    openGenresPopup(event: React.MouseEvent<HTMLElement>) {
-        this.setState({genresPopupAnchor: event.currentTarget});
-    }
-
-    closeGenresPopup() {
-        this.setState({genresPopupAnchor: null});
-    }
-
-    openSizesPopup(event: React.MouseEvent<HTMLElement>) {
-        this.setState({sizesPopupAnchor: event.currentTarget});
-    }
-
-    closeSizesPopup() {
-        this.setState({sizesPopupAnchor: null});
-    }
-
-    openPricePopup(event: React.MouseEvent<HTMLElement>) {
-        this.setState({pricePopupAnchor: event.currentTarget});
-    }
-
-    closePricePopup() {
-        this.setState({pricePopupAnchor: null});
-    }
-
     render() {
         return (
             <div className="gallery">
-                <div className="filters">
-                    <ClickAwayListener onClickAway={() => this.closeGenresPopup()}>
-                        <div className="filter-button">
-                            <Button variant="contained" onClick={(event) => this.openGenresPopup(event)}>Genres</Button>
-                            <Popper open={!!this.state.genresPopupAnchor} anchorEl={this.state.genresPopupAnchor} placement="bottom-start">
-                                <Paper elevation={3}><div>The content of the Popper.</div></Paper>
-                            </Popper>
-                        </div>
-                    </ClickAwayListener>
-                    <ClickAwayListener onClickAway={() => this.closeSizesPopup()}>
-                        <div className="filter-button">
-                            <Button variant="contained" onClick={(event) => this.openSizesPopup(event)}>Sizes</Button>
-                            <Popper open={!!this.state.sizesPopupAnchor} anchorEl={this.state.sizesPopupAnchor} placement="bottom-start">
-                                <Paper elevation={3}><div>The content of the Popper.</div></Paper>
-                            </Popper>
-                        </div>
-                    </ClickAwayListener>
-                    <ClickAwayListener onClickAway={() => this.closePricePopup()}>
-                        <div className="filter-button">
-                            <Button variant="contained" onClick={(event) => this.openPricePopup(event)}>Price</Button>
-                            <Popper open={!!this.state.pricePopupAnchor} anchorEl={this.state.pricePopupAnchor} placement="bottom-start">
-                                <Paper elevation={3}><div>The content of the Popper.</div></Paper>
-                            </Popper>
-                        </div>
-                    </ClickAwayListener>
-                    <Button className="filter-button">Apply</Button>
-                    <Button className="filter-button">Clear</Button>
-                </div>
+                <div className="filters"><Filters/></div>
                 <div className="items">
                     {this.state.paintings?.map(painting => {
                         return <div className="item" key={painting?.name}><PaintingCard painting={painting}/></div>;

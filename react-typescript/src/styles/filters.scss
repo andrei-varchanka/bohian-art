@@ -1,0 +1,8 @@
+
+.filters {
+  display: flex;
+
+  .filter-button + .filter-button {
+    margin-left: 32px;
+  }
+}
