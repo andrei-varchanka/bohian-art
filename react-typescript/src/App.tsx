@@ -10,33 +10,35 @@ import Header from "./components/Header";
 import Gallery from "./components/Gallery";
 import Footer from "./components/Footer";
 
-function App() {
+class App extends React.Component {
 
-  return (
-      <Router>
-        <div className="app">
-          <div className="app__header">
-            <Header/>
+  render() {
+    return (
+        <Router>
+          <div className="app">
+            <div className="app__header">
+              <Header/>
+            </div>
+            <div className="app__content">
+              <Switch>
+                <Route path="/gallery">
+                  <Gallery/>
+                </Route>
+                <Route path="/contacts">
+                  <Contacts/>
+                </Route>
+                <Route path="/">
+                  <Gallery/>
+                </Route>
+              </Switch>
+            </div>
+            <div className="app__footer">
+              <Footer/>
+            </div>
           </div>
-          <div className="app__content">
-            <Switch>
-              <Route path="/gallery">
-                <Gallery/>
-              </Route>
-              <Route path="/contacts">
-                <Contacts/>
-              </Route>
-              <Route path="/">
-                <Gallery/>
-              </Route>
-            </Switch>
-          </div>
-          <div className="app__footer">
-            <Footer></Footer>
-          </div>
-        </div>
-      </Router>
-  );
+        </Router>
+    );
+  }
 }
 
 function Contacts() {
