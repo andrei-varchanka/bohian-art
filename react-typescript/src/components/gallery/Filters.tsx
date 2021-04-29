@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, ClickAwayListener, Paper, Popper} from "@material-ui/core";
+import {Badge, Button, ClickAwayListener, Paper, Popper} from "@material-ui/core";
 import '../../styles/gallery/filters.scss';
 import CheckboxGroup from "../shared/CheckboxGroup";
 import Range, {RangeModel} from "../shared/Range";
@@ -28,8 +28,8 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
     }
 
     async componentDidMount() {
-       this.parameters = (await apiService.getParameters()).data;
-       console.log(this.parameters);
+        this.parameters = (await apiService.getParameters()).data;
+        console.log(this.parameters);
     }
 
     openGenresPopup(event: React.MouseEvent<HTMLElement>) {
@@ -61,15 +61,15 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
     }
 
     setFilteredWidth(value: RangeModel) {
-        this.setState({filteredWidth: value});
+        this.setState({filteredWidth: !value.value1 && !value.value2 ? undefined : value})
     }
 
     setFilteredHeight(value: RangeModel) {
-        this.setState({filteredHeight: value});
+        this.setState( {filteredHeight: !value.value1 && !value.value2 ? undefined :value});
     }
 
     setFilteredPrice(value: RangeModel) {
-        this.setState({filteredPrice: value});
+        this.setState( {filteredPrice: !value.value1 && !value.value2 ? undefined : value});
     }
 
     render() {
@@ -77,50 +77,73 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
             <div className="filters">
                 <ClickAwayListener onClickAway={() => this.closeGenresPopup()}>
                     <div className="filter-button">
-                        <Button variant="contained" onClick={(event) => this.openGenresPopup(event)}>Genres</Button>
-                        <Popper open={!!this.state.genresPopupAnchor} anchorEl={this.state.genresPopupAnchor} placement="bottom-start">
-                            <Paper elevation={3}><div className="side-padding-16">
-                                <CheckboxGroup items={this.genres} vertical={true} onSelectedItemsChange={this.setSelectedGenres}/>
-                            </div></Paper>
+                        <Badge color="secondary" badgeContent={this.state.selectedGenres?.length}>
+                            <Button variant="contained" onClick={(event) => this.openGenresPopup(event)}>Genres</Button>
+                        </Badge>
+                        <Popper open={!!this.state.genresPopupAnchor} anchorEl={this.state.genresPopupAnchor}
+                                placement="bottom-start">
+                            <Paper elevation={3}>
+                                <div className="side-padding-16">
+                                    <CheckboxGroup
+                                        items={this.genres}
+                                        vertical={true}
+                                        onSelectedItemsChange={this.setSelectedGenres}
+                                    />
+                                </div>
+                            </Paper>
                         </Popper>
                     </div>
                 </ClickAwayListener>
                 <ClickAwayListener onClickAway={() => this.closeSizesPopup()}>
                     <div className="filter-button">
-                        <Button variant="contained" onClick={(event) => this.openSizesPopup(event)}>Sizes</Button>
-                        <Popper open={!!this.state.sizesPopupAnchor} anchorEl={this.state.sizesPopupAnchor} placement="bottom-start">
-                            <Paper elevation={3}><div className="side-padding-16 vertical-padding-16">
-                                <Range
-                                    name="Width"
-                                    placeholder1={'from ' + this.parameters?.minWidth + 'cm'}
-                                    placeholder2={'to ' + this.parameters?.maxWidth + 'cm'}
-                                    value={this.state.filteredWidth}
-                                    onValueChange={this.setFilteredWidth}
-                                />
-                                <Range
-                                    name="Height"
-                                    placeholder1={'from ' + this.parameters?.minHeight + 'cm'}
-                                    placeholder2={'to ' + this.parameters?.maxHeight + 'cm'}
-                                    value={this.state.filteredHeight}
-                                    onValueChange={this.setFilteredHeight}
-                                />
-                            </div></Paper>
+                        <Badge
+                            color="secondary"
+                            badgeContent={this.state.filteredWidth || this.state.filteredHeight ? '!' : null}>
+                            <Button variant="contained" onClick={(event) => this.openSizesPopup(event)}>Sizes</Button>
+                        </Badge>
+                        <Popper open={!!this.state.sizesPopupAnchor} anchorEl={this.state.sizesPopupAnchor}
+                                placement="bottom-start">
+                            <Paper elevation={3}>
+                                <div className="side-padding-16 vertical-padding-16">
+                                    <Range
+                                        name="Width"
+                                        placeholder1={'from ' + this.parameters?.minWidth + 'cm'}
+                                        placeholder2={'to ' + this.parameters?.maxWidth + 'cm'}
+                                        value={this.state.filteredWidth}
+                                        onValueChange={this.setFilteredWidth}
+                                    />
+                                    <Range
+                                        name="Height"
+                                        placeholder1={'from ' + this.parameters?.minHeight + 'cm'}
+                                        placeholder2={'to ' + this.parameters?.maxHeight + 'cm'}
+                                        value={this.state.filteredHeight}
+                                        onValueChange={this.setFilteredHeight}
+                                    />
+                                </div>
+                            </Paper>
                         </Popper>
                     </div>
                 </ClickAwayListener>
                 <ClickAwayListener onClickAway={() => this.closePricePopup()}>
                     <div className="filter-button">
-                        <Button variant="contained" onClick={(event) => this.openPricePopup(event)}>Price</Button>
-                        <Popper open={!!this.state.pricePopupAnchor} anchorEl={this.state.pricePopupAnchor} placement="bottom-start">
-                            <Paper elevation={3}><div className="side-padding-16 vertical-padding-16">
-                                <Range
-                                    name="Price"
-                                    placeholder1={'from ' + this.parameters?.minPrice + ' BYN'}
-                                    placeholder2={'to ' + this.parameters?.maxPrice + ' BYN'}
-                                    value={this.state.filteredPrice}
-                                    onValueChange={this.setFilteredPrice}
-                                />
-                            </div></Paper>
+                        <Badge
+                            color="secondary"
+                            badgeContent={this.state.filteredPrice ? '!' : null}>
+                            <Button variant="contained" onClick={(event) => this.openPricePopup(event)}>Price</Button>
+                        </Badge>
+                        <Popper open={!!this.state.pricePopupAnchor} anchorEl={this.state.pricePopupAnchor}
+                                placement="bottom-start">
+                            <Paper elevation={3}>
+                                <div className="side-padding-16 vertical-padding-16">
+                                    <Range
+                                        name="Price"
+                                        placeholder1={'from ' + this.parameters?.minPrice + ' BYN'}
+                                        placeholder2={'to ' + this.parameters?.maxPrice + ' BYN'}
+                                        value={this.state.filteredPrice}
+                                        onValueChange={this.setFilteredPrice}
+                                    />
+                                </div>
+                            </Paper>
                         </Popper>
                     </div>
                 </ClickAwayListener>

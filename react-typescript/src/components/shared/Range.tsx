@@ -10,13 +10,19 @@ class Range extends React.Component<RangeProps, RangeState>{
         this.state = {};
     }
 
-    onValue1Change(value: number) {
+    onValue1Change(value: number | null) {
+        if (value === 0) {
+            value = null;
+        }
         if (this.props.onValueChange) {
             this.props.onValueChange({value1: value, value2: this.props.value?.value2});
         }
     }
 
-    onValue2Change(value: number) {
+    onValue2Change(value: number | null) {
+        if (value === 0) {
+            value = null;
+        }
         if (this.props.onValueChange) {
             this.props.onValueChange({value1: this.props.value?.value1, value2: value});
         }
