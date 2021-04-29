@@ -84,10 +84,18 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
         this.filteredPrice = value;
     }
 
-    onApply() {
+    apply() {
         if(this.props.onApply) {
             this.props.onApply(this.filteredGenres, this.filteredWidth, this.filteredHeight, this.filteredPrice);
         }
+    }
+
+    clear() {
+        this.filteredGenres = [];
+        this.filteredWidth = new RangeModel();
+        this.filteredHeight = new RangeModel();
+        this.filteredPrice = new RangeModel();
+        this.apply();
     }
 
     render() {
@@ -167,8 +175,8 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                         </Popper>
                     </div>
                 </ClickAwayListener>
-                <Button className="filter-button" onClick={() => this.onApply()}>Apply</Button>
-                <Button className="filter-button">Clear</Button>
+                <Button className="filter-button" onClick={() => this.apply()}>Apply</Button>
+                <Button className="filter-button" onClick={() => this.clear()}>Clear</Button>
             </div>
         );
     }
