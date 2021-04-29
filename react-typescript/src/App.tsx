@@ -1,10 +1,9 @@
 import './App.scss';
-import React, {useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Header from "./components/shared/Header";
 import Gallery from "./components/gallery/Gallery";
@@ -21,15 +20,9 @@ class App extends React.Component {
             </div>
             <div className="app__content">
               <Switch>
-                <Route path="/gallery">
-                  <Gallery/>
-                </Route>
-                <Route path="/contacts">
-                  <Contacts/>
-                </Route>
-                <Route path="/">
-                  <Gallery/>
-                </Route>
+                <Route path="/gallery" component={Gallery}/>
+                <Route path="/contacts" component={Contacts}/>
+                <Route path="/" component={Gallery}/>
               </Switch>
             </div>
             <div className="app__footer">

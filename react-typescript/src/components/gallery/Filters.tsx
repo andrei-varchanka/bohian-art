@@ -6,10 +6,12 @@ import Range, {RangeModel} from "../shared/Range";
 import {apiService} from "../../api";
 import {PaintingsParametersResponse} from "../../api/api";
 
-type FiltersProps = {};
+type FiltersProps = {
+    filteredGenres?: string[], filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel,
+    onGenresChange?: Function, onWidthChange?: Function, onHeightChange?: Function, onPriceChange?: Function
+};
 type FiltersState = {
-    genresPopupAnchor?: any, sizesPopupAnchor?: any, pricePopupAnchor?: any, selectedGenres?: string[],
-    filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel
+    genresPopupAnchor?: any, sizesPopupAnchor?: any, pricePopupAnchor?: any
 };
 
 class Filters extends React.Component<FiltersProps, FiltersState> {
@@ -57,19 +59,27 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
     }
 
     setSelectedGenres(genres: string[]) {
-        this.setState({selectedGenres: genres});
+        if (this.props.onGenresChange) {
+            this.props.onGenresChange(genres);
+        }
     }
 
     setFilteredWidth(value: RangeModel) {
-        this.setState({filteredWidth: !value.value1 && !value.value2 ? undefined : value})
+        if (this.props.onWidthChange) {
+            this.props.onWidthChange(!value.value1 && !value.value2 ? undefined : value)
+        }
     }
 
     setFilteredHeight(value: RangeModel) {
-        this.setState( {filteredHeight: !value.value1 && !value.value2 ? undefined :value});
+        if (this.props.onHeightChange) {
+            this.props.onHeightChange(!value.value1 && !value.value2 ? undefined : value)
+        }
     }
 
     setFilteredPrice(value: RangeModel) {
-        this.setState( {filteredPrice: !value.value1 && !value.value2 ? undefined : value});
+        if (this.props.onPriceChange) {
+            this.props.onPriceChange(!value.value1 && !value.value2 ? undefined : value)
+        }
     }
 
     render() {
@@ -77,7 +87,7 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
             <div className="filters">
                 <ClickAwayListener onClickAway={() => this.closeGenresPopup()}>
                     <div className="filter-button">
-                        <Badge color="secondary" badgeContent={this.state.selectedGenres?.length}>
+                        <Badge color="secondary" badgeContent={this.props.filteredGenres?.length}>
                             <Button variant="contained" onClick={(event) => this.openGenresPopup(event)}>Genres</Button>
                         </Badge>
                         <Popper open={!!this.state.genresPopupAnchor} anchorEl={this.state.genresPopupAnchor}
@@ -98,7 +108,8 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                     <div className="filter-button">
                         <Badge
                             color="secondary"
-                            badgeContent={this.state.filteredWidth || this.state.filteredHeight ? '!' : null}>
+                            badgeContent={this.props.filteredWidth?.value1 || this.props.filteredWidth?.value2 ||
+                            this.props.filteredHeight?.value1 || this.props.filteredHeight?.value2 ? '!' : null}>
                             <Button variant="contained" onClick={(event) => this.openSizesPopup(event)}>Sizes</Button>
                         </Badge>
                         <Popper open={!!this.state.sizesPopupAnchor} anchorEl={this.state.sizesPopupAnchor}
@@ -109,14 +120,14 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                                         name="Width"
                                         placeholder1={'from ' + this.parameters?.minWidth + 'cm'}
                                         placeholder2={'to ' + this.parameters?.maxWidth + 'cm'}
-                                        value={this.state.filteredWidth}
+                                        value={this.props.filteredWidth}
                                         onValueChange={this.setFilteredWidth}
                                     />
                                     <Range
                                         name="Height"
                                         placeholder1={'from ' + this.parameters?.minHeight + 'cm'}
                                         placeholder2={'to ' + this.parameters?.maxHeight + 'cm'}
-                                        value={this.state.filteredHeight}
+                                        value={this.props.filteredHeight}
                                         onValueChange={this.setFilteredHeight}
                                     />
                                 </div>
@@ -128,7 +139,7 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                     <div className="filter-button">
                         <Badge
                             color="secondary"
-                            badgeContent={this.state.filteredPrice ? '!' : null}>
+                            badgeContent={this.props.filteredPrice?.value1 || this.props.filteredPrice?.value2 ? '!' : null}>
                             <Button variant="contained" onClick={(event) => this.openPricePopup(event)}>Price</Button>
                         </Badge>
                         <Popper open={!!this.state.pricePopupAnchor} anchorEl={this.state.pricePopupAnchor}
@@ -139,7 +150,7 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                                         name="Price"
                                         placeholder1={'from ' + this.parameters?.minPrice + ' BYN'}
                                         placeholder2={'to ' + this.parameters?.maxPrice + ' BYN'}
-                                        value={this.state.filteredPrice}
+                                        value={this.props.filteredPrice}
                                         onValueChange={this.setFilteredPrice}
                                     />
                                 </div>

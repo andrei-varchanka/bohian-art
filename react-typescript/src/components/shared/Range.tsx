@@ -59,4 +59,8 @@ export default Range;
 export class RangeModel {
     value1?: number;
     value2?: number;
+
+    constructor() {
+
+    }
 }
