@@ -26,10 +26,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
             filteredHeight: {},
             filteredPrice: {}
         };
-        this.setGenres = this.setGenres.bind(this);
-        this.setWidth = this.setWidth.bind(this);
-        this.setHeight = this.setHeight.bind(this);
-        this.setPrice = this.setPrice.bind(this);
+        this.onFilterApply = this.onFilterApply.bind(this);
     }
 
     async componentDidMount() {
@@ -81,13 +78,13 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
             this.page,
             this.limit,
             undefined,
-            this.state.filteredPrice?.value1,
-            this.state.filteredPrice?.value2,
-            this.state.filteredWidth?.value1,
-            this.state.filteredWidth?.value2,
-            this.state.filteredHeight?.value1,
-            this.state.filteredHeight?.value2,
-            this.state.filteredGenres?.join(',')
+            this.state.filteredPrice?.value1 || undefined,
+            this.state.filteredPrice?.value2 || undefined,
+            this.state.filteredWidth?.value1 || undefined,
+            this.state.filteredWidth?.value2 || undefined,
+            this.state.filteredHeight?.value1 || undefined,
+            this.state.filteredHeight?.value2 || undefined,
+            this.state.filteredGenres?.join(',') || undefined
         ];
     }
 
@@ -108,30 +105,18 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         this.getPaintings();
     }
 
-    setGenres(value: string[]) {
-        this.setState({filteredGenres: value});
-    }
-
-    setWidth(value: RangeModel) {
-        this.setState({filteredWidth: value});
-    }
-
-    setHeight(value: RangeModel) {
-        this.setState({filteredHeight: value});
-    }
-
-    setPrice(value: RangeModel) {
-        this.setState({filteredPrice: value});
+    onFilterApply(filteredGenres: string[], filteredWidth: RangeModel, filteredHeight: RangeModel, filteredPrice: RangeModel) {
+        this.setState({filteredGenres, filteredWidth, filteredHeight, filteredPrice});
+        setTimeout(() => this.refresh(), 0);
     }
 
     render() {
         return (
             <div className="gallery">
                 <div className="filters">
-                    <Filters filteredGenres={this.state.filteredGenres} onGenresChange={this.setGenres}
-                             filteredWidth={this.state.filteredWidth} onWidthChange={this.setWidth}
-                             filteredHeight={this.state.filteredHeight} onHeightChange={this.setHeight}
-                             filteredPrice={this.state.filteredPrice} onPriceChange={this.setPrice}
+                    <Filters filteredGenres={this.state.filteredGenres} filteredWidth={this.state.filteredWidth}
+                             filteredHeight={this.state.filteredHeight} filteredPrice={this.state.filteredPrice}
+                             onApply={this.onFilterApply}
                     />
                 </div>
                 <div className="items">

@@ -2,7 +2,7 @@ import React from "react";
 import {Checkbox, FormControlLabel, FormGroup} from "@material-ui/core";
 import '../../styles/shared/checkbox-group.scss'
 
-type CheckboxGroupProps = {items: any[], vertical?: boolean, onSelectedItemsChange?: Function};
+type CheckboxGroupProps = {items: any[], value?: string[], vertical?: boolean, onSelectedItemsChange?: Function};
 type CheckboxGroupState = {};
 class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxGroupState> {
     items: any[];
@@ -13,7 +13,7 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxGroupSta
         super(props);
         this.state = {};
         this.items = props.items;
-        // this.selectedItems = props.se
+        this.selectedItems = props.value;
     }
 
     updateSelectedItems(item: string) {
