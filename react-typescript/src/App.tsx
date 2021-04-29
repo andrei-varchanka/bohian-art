@@ -3,7 +3,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route, withRouter
 } from "react-router-dom";
 import Header from "./components/shared/Header";
 import Gallery from "./components/gallery/Gallery";

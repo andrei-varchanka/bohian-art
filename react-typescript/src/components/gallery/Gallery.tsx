@@ -6,11 +6,13 @@ import PaintingCard from "./PaintingCard";
 import Pagination from '@material-ui/lab/Pagination';
 import Filters from "./Filters";
 import {RangeModel} from "../shared/Range";
+import qs from 'query-string';
+import {LinearProgress} from "@material-ui/core";
 
-type GalleryProps = { location: any };
+type GalleryProps = { location: any, history: any };
 type GalleryState = {
     paintings?: Array<Painting>, count?: number, totalPages?: number, filteredGenres?: string[],
-    filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel
+    filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel, loading: boolean
 };
 
 class Gallery extends React.Component<GalleryProps, GalleryState> {
@@ -24,23 +26,25 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
             filteredGenres: [],
             filteredWidth: {},
             filteredHeight: {},
-            filteredPrice: {}
+            filteredPrice: {},
+            loading: true
         };
         this.onFilterApply = this.onFilterApply.bind(this);
     }
 
     async componentDidMount() {
         this.getFiltersFromUrl();
-        await this.getPaintings();
+        setTimeout(async () => {await this.getPaintings()}, 0);
     }
 
     getFiltersFromUrl() {
         let query = new URLSearchParams(this.props.location.search);
+        let filteredGenres: string[] = [];
         let filteredWidth = new RangeModel();
         let filteredHeight = new RangeModel();
         let filteredPrice = new RangeModel();
         if (query.get('genres')) {
-            this.setState({filteredGenres: (query.get('genres') + '').split(',')});
+            filteredGenres = (query.get('genres') + '').split(',');
         }
         if (query.get('width_from')) {
             filteredWidth.value1 = +(query.get('width_from') || 0);
@@ -60,32 +64,36 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         if (query.get('price_to')) {
             filteredPrice.value2 = +(query.get('price_to') || 0);
         }
-        this.setState({filteredWidth, filteredHeight, filteredPrice});
+        this.setState({filteredGenres, filteredWidth, filteredHeight, filteredPrice});
     }
 
     async getPaintings() {
-        const response = (await apiService.getAllPaintings(...this.getQueryParams())).data;
+        const paramsObj = this.getQueryParams();
+        // @ts-ignore
+        const params = Object.keys(paramsObj).map(key => paramsObj[key]);
+        const response = (await apiService.getAllPaintings(...params)).data;
         console.log(response);
         this.setState({
             paintings: response.paintings,
             count: response.count,
-            totalPages: response.totalPages
-        })
+            totalPages: response.totalPages,
+            loading: false
+        });
     }
 
-    getQueryParams(): [number?, number?, string?, number?, number?, number?, number?, number?, number?, string?] {
-        return [
-            this.page,
-            this.limit,
-            undefined,
-            this.state.filteredPrice?.value1 || undefined,
-            this.state.filteredPrice?.value2 || undefined,
-            this.state.filteredWidth?.value1 || undefined,
-            this.state.filteredWidth?.value2 || undefined,
-            this.state.filteredHeight?.value1 || undefined,
-            this.state.filteredHeight?.value2 || undefined,
-            this.state.filteredGenres?.join(',') || undefined
-        ];
+    getQueryParams() {
+        return {
+            page: this.page,
+            limit: this.limit,
+            userId: undefined,
+            price_from: this.state.filteredPrice?.value1 || undefined,
+            price_to: this.state.filteredPrice?.value2 || undefined,
+            width_from: this.state.filteredWidth?.value1 || undefined,
+            width_to: this.state.filteredWidth?.value2 || undefined,
+            height_from: this.state.filteredHeight?.value1 || undefined,
+            height_to: this.state.filteredHeight?.value2 || undefined,
+            genres: this.state.filteredGenres?.join(',') || undefined
+        };
     }
 
     changePage(event: React.ChangeEvent<unknown>, value: number) {
@@ -94,13 +102,11 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
     }
 
     refresh() {
-        // to add query params to url
-        // this.router.navigate(
-        //     [],
-        //     {
-        //         relativeTo: this.route,
-        //         queryParams: this.getQueryParams()
-        //     });
+        const queryStr = qs.stringify(this.getQueryParams());
+        this.props.history.push({
+            pathname: this.props.location.pathname,
+            search: "?" + new URLSearchParams(queryStr).toString()
+        });
         // update
         this.getPaintings();
     }
@@ -111,6 +117,11 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
     }
 
     render() {
+        if (this.state.loading) {
+            return (
+                <LinearProgress />
+            )
+        }
         return (
             <div className="gallery">
                 <div className="filters">
