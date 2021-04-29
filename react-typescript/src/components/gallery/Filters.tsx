@@ -1,16 +1,21 @@
 import React from "react";
 import {Button, ClickAwayListener, Paper, Popper} from "@material-ui/core";
-import '../../styles/filters.scss';
+import '../../styles/gallery/filters.scss';
+import CheckboxGroup from "../shared/CheckboxGroup";
 
 type FiltersProps = {};
 type FiltersState = {
-    genresPopupAnchor?: any, sizesPopupAnchor?: any, pricePopupAnchor?: any
+    genresPopupAnchor?: any, sizesPopupAnchor?: any, pricePopupAnchor?: any, selectedGenres?: string[]
 };
 
 class Filters extends React.Component<FiltersProps, FiltersState> {
+
+    genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
+
     constructor(props: any) {
         super(props);
         this.state = {};
+        this.setSelectedGenres = this.setSelectedGenres.bind(this);
     }
 
     openGenresPopup(event: React.MouseEvent<HTMLElement>) {
@@ -37,6 +42,10 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
         this.setState({pricePopupAnchor: null});
     }
 
+    setSelectedGenres(genres: string[]) {
+        this.setState({selectedGenres: genres});
+    }
+
     render() {
         return (
             <div className="filters">
@@ -44,7 +53,9 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                     <div className="filter-button">
                         <Button variant="contained" onClick={(event) => this.openGenresPopup(event)}>Genres</Button>
                         <Popper open={!!this.state.genresPopupAnchor} anchorEl={this.state.genresPopupAnchor} placement="bottom-start">
-                            <Paper elevation={3}><div>The content of the Popper.</div></Paper>
+                            <Paper elevation={3}><div className="popper-content">
+                                <CheckboxGroup items={this.genres} vertical={true} onSelectedItemsChange={this.setSelectedGenres}/>
+                            </div></Paper>
                         </Popper>
                     </div>
                 </ClickAwayListener>

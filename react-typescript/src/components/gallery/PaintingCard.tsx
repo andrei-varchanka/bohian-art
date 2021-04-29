@@ -1,12 +1,12 @@
 import React from "react";
 import {Painting} from "../../api/api";
-import '../../styles/painting-card.scss';
+import '../../styles/gallery/painting-card.scss';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-type PaintingCardProps = {painting?: Painting};
+type PaintingCardProps = {painting: Painting};
 type PaintingCardState = {};
 class PaintingCard extends React.Component<PaintingCardProps, PaintingCardState> {
 

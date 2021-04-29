@@ -1,4 +1,4 @@
-@import 'styles/shared/colors.scss';
+@import 'styles/colors';
 
 html, body {
   height: 100%;
@@ -22,4 +22,8 @@ a {
   &:visited, &:active {
     color: inherit;
   }
+}
+
+.popper-content {
+  padding: 0 8px;
 }

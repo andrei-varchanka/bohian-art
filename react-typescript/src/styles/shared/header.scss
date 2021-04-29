@@ -1,5 +1,5 @@
-@import "shared/colors.scss";
-@import "shared/variables.scss";
+@import "../colors";
+@import "../variables";
 
 .header {
   background-color: $mat-primary;

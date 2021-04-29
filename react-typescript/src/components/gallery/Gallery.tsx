@@ -1,7 +1,7 @@
 import React from 'react';
 import {apiService} from "../../api";
 import {Painting} from "../../api/api";
-import '../../styles/gallery.scss';
+import '../../styles/gallery/gallery.scss';
 import PaintingCard from "./PaintingCard";
 import Pagination from '@material-ui/lab/Pagination';
 import Filters from "./Filters";
