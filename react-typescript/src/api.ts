@@ -1,13 +1,19 @@
 import axios from "axios";
 // @ts-ignore
-import { PaintingsApi } from './api/api';
+import {PaintingsApi, UsersApi} from './api/api';
 
-
-// Create axios instance
 const axiosInstance = axios.create();
-
 const baseUrl = 'http://localhost:3000';
-// Configuration and base path are not provided
-const apiService = new PaintingsApi(undefined, baseUrl, axiosInstance);
 
-export { apiService, axiosInstance };
+axiosInstance.interceptors.request.use(function (request) {
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RfdXNlckBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCREc1dhSDV6Z0twT0Y0SXZCbklySDJPSkc2SVVyVFRyc3ZaTXlIZnIyUU5KR2MxWmZIVTdmZSIsImlhdCI6MTYyMDA1MzgwOSwiZXhwIjoxNjIwMTQwMjA5fQ.WFQA_r00_fHAuiAaFeiq1dfMELet45gr_KNrJ-A1fUI';
+    request.headers['Authorization'] = token;
+    return request;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+const paintingService = new PaintingsApi(undefined, baseUrl, axiosInstance);
+const userService = new UsersApi(undefined, baseUrl, axiosInstance);
+
+export { paintingService, userService, axiosInstance };

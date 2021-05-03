@@ -1,5 +1,5 @@
 import React from 'react';
-import {apiService} from "../../api";
+import {paintingService, userService} from "../../api";
 import {Painting} from "../../api/api";
 import '../../styles/gallery/gallery.scss';
 import PaintingCard from "./PaintingCard";
@@ -34,6 +34,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
 
     async componentDidMount() {
         this.getFiltersFromUrl();
+        const response = await userService.getAllUsers();
         setTimeout(async () => {await this.getPaintings()}, 0);
     }
 
@@ -71,7 +72,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         const paramsObj = this.getQueryParams();
         // @ts-ignore
         const params = Object.keys(paramsObj).map(key => paramsObj[key]);
-        const response = (await apiService.getAllPaintings(...params)).data;
+        const response = (await paintingService.getAllPaintings(...params)).data;
         console.log(response);
         this.setState({
             paintings: response.paintings,

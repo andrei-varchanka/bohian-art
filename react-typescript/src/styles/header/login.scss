@@ -1,0 +1,15 @@
+
+
+.login {
+  .input {
+    margin-bottom: 16px;
+  }
+
+  .buttons {
+    margin: 16px 0;
+
+    .button + .button {
+      margin-left: 16px;
+    }
+  }
+}

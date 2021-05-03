@@ -3,11 +3,12 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route, withRouter
+  Route
 } from "react-router-dom";
-import Header from "./components/shared/Header";
+import Header from "./components/header/Header";
 import Gallery from "./components/gallery/Gallery";
 import Footer from "./components/shared/Footer";
+import Registration from "./components/registration/Registration";
 
 class App extends React.Component {
 
@@ -22,6 +23,7 @@ class App extends React.Component {
               <Switch>
                 <Route path="/gallery" component={Gallery}/>
                 <Route path="/contacts" component={Contacts}/>
+                <Route path="/registration" component={Registration}/>
                 <Route path="/" component={Gallery}/>
               </Switch>
             </div>
