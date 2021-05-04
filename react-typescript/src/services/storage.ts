@@ -1,29 +1,32 @@
-const storageService = (function(){
-    var _service;
-    function _getService() {
-        if(!_service) {
-            _service = this;
-            return _service
-        }
-        return _service
-    }
-    function _setToken(token: string) {
+import {User} from "../api/api";
+
+class StorageService {
+
+    setToken(token: string) {
         localStorage.setItem('access_token', token);
     }
-    function _getToken() {
+
+    getToken() {
         return localStorage.getItem('access_token');
     }
 
-    function _clearToken() {
-        localStorage.removeItem('access_token');
+    clearToken() {
+         localStorage.removeItem('access_token');
+    }
 
+    setUser(user: User) {
+        localStorage.setItem('user', JSON.stringify(user));
     }
-    return {
-        getService : _getService,
-        setToken : _setToken,
-        getToken : _getToken,
-        clearToken : _clearToken
+
+    getUser(): User {
+        return JSON.parse(localStorage.getItem('user'));
     }
-})();
+
+    clearUser() {
+        localStorage.removeItem('user');
+    }
+}
+
+const storageService = new StorageService();
 
 export default storageService;

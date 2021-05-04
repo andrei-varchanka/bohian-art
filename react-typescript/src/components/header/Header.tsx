@@ -60,7 +60,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         <Login
                             isOpened={this.state.isLoginDialogOpened}
                             onRegistration={this.redirectToRegistration}
-                            onClose={this.closeDialog}/>
+                            onClose={this.closeDialog}
+                        />
                     </div>
                 </div>
             </nav>

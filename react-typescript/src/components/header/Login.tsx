@@ -8,8 +8,8 @@ import storageService from "../../services/storage";
 import {from} from "rxjs";
 
 
-type LoginProps = { onLogin?: Function, onRegistration?: Function, onClose?: Function, isOpened: boolean };
-type LoginState = {};
+type LoginProps = {onRegistration?: Function, onClose?: Function, isOpened: boolean };
+type LoginState = {error: string};
 
 class Login extends React.Component<LoginProps, LoginState> {
 
@@ -31,16 +31,19 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     constructor(props: any) {
         super(props);
+        this.state = {error: ''};
     }
 
     login(values: any) {
+        this.setState({error: ''});
         from(userService.auth(values)).subscribe(response => {
             if (response.data.success) {
-                console.log(response.data);
                 storageService.setToken(response.data.token);
+                storageService.setUser(response.data.user);
+                window.location.reload();
             }
         }, error => {
-
+            this.setState({error: error.response.data.errorMessage});
         });
     }
 
@@ -89,6 +92,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                                         error={formik.touched.password && Boolean(formik.errors.password)}
                                         helperText={formik.touched.password && formik.errors.password}
                                     />
+                                    <div className="error">{this.state?.error}</div>
                                     <div className="buttons">
                                         <Button className={'button primary'} color="inherit" variant="contained" type="submit">
                                             Sign In
