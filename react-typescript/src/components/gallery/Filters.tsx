@@ -3,7 +3,7 @@ import {Badge, Button, ClickAwayListener, Paper, Popper} from "@material-ui/core
 import '../../styles/gallery/filters.scss';
 import CheckboxGroup from "../shared/CheckboxGroup";
 import Range, {RangeModel} from "../shared/Range";
-import {paintingService} from "../../api";
+import {paintingService} from "../../services/api";
 import {PaintingsParametersResponse} from "../../api/api";
 
 type FiltersProps = {

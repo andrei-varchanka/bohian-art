@@ -25,7 +25,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             isLoginDialogOpened: false
         };
         this.closeDialog = this.closeDialog.bind(this);
-        this.login = this.login.bind(this);
         this.redirectToRegistration = this.redirectToRegistration.bind(this);
     }
 
@@ -40,10 +39,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     redirectToRegistration() {
         this.closeDialog();
         this.props.history.push('/registration');
-    }
-
-    login(values) {
-        console.log(values);
     }
 
     render() {
@@ -64,7 +59,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         </Button>
                         <Login
                             isOpened={this.state.isLoginDialogOpened}
-                            onLogin={this.login}
                             onRegistration={this.redirectToRegistration}
                             onClose={this.closeDialog}/>
                     </div>

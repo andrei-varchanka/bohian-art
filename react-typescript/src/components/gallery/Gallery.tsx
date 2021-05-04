@@ -1,5 +1,5 @@
 import React from 'react';
-import {paintingService, userService} from "../../api";
+import {paintingService, userService} from "../../services/api";
 import {Painting} from "../../api/api";
 import '../../styles/gallery/gallery.scss';
 import PaintingCard from "./PaintingCard";

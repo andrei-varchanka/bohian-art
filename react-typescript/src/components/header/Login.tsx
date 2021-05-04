@@ -3,6 +3,9 @@ import '../../styles/header/login.scss'
 import {Button, Dialog, DialogContent, DialogTitle, TextField} from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from 'yup';
+import {userService} from "../../services/api";
+import storageService from "../../services/storage";
+import {from} from "rxjs";
 
 
 type LoginProps = { onLogin?: Function, onRegistration?: Function, onClose?: Function, isOpened: boolean };
@@ -31,9 +34,14 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     login(values: any) {
-        if (this.props.onLogin) {
-            this.props.onLogin(values);
-        }
+        from(userService.auth(values)).subscribe(response => {
+            if (response.data.success) {
+                console.log(response.data);
+                storageService.setToken(response.data.token);
+            }
+        }, error => {
+
+        });
     }
 
     registration() {
