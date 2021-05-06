@@ -5,6 +5,7 @@ import CheckboxGroup from "../shared/CheckboxGroup";
 import Range, {RangeModel} from "../shared/Range";
 import {paintingService} from "../../services/api";
 import {PaintingsParametersResponse} from "../../api/api";
+import {genres} from "../../constants";
 
 type FiltersProps = {
     filteredGenres?: string[], filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel,
@@ -16,14 +17,10 @@ type FiltersState = {
 
 class Filters extends React.Component<FiltersProps, FiltersState> {
 
-    genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
-
     filteredGenres: string[];
     filteredWidth: RangeModel;
     filteredHeight: RangeModel;
     filteredPrice: RangeModel;
-
-
     parameters: PaintingsParametersResponse | undefined;
 
     constructor(props: any) {
@@ -111,7 +108,7 @@ class Filters extends React.Component<FiltersProps, FiltersState> {
                             <Paper elevation={3}>
                                 <div className="side-padding-16">
                                     <CheckboxGroup
-                                        items={this.genres}
+                                        items={genres}
                                         value={this.filteredGenres}
                                         vertical={true}
                                         onSelectedItemsChange={this.setSelectedGenres}

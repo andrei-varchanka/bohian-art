@@ -1,44 +1,44 @@
-import React from 'react';
+import React, {RefObject} from 'react';
 import {Link, withRouter} from "react-router-dom";
 import '../../styles/header/header.scss';
-import {Button} from "@material-ui/core";
+import {Button, ClickAwayListener, Grow, Menu, MenuItem, MenuList, Paper, Popper} from "@material-ui/core";
 import Login from "./Login";
+import {navigationItems} from "../../constants";
+import storageService from "../../services/storage";
+import {User} from "../../api/api";
 
-type HeaderProps = {history: any};
-type HeaderState = {isLoginDialogOpened: boolean};
+type HeaderProps = { history: any };
+type HeaderState = { isLoginDialogOpened: boolean, isUserMenuOpened: boolean };
+
 class Header extends React.Component<HeaderProps, HeaderState> {
 
-    navigationItems = [
-        {
-            route: 'gallery',
-            label: 'Gallery'
-        },
-        {
-            route: 'contacts',
-            label: 'Contacts'
-        }
-    ];
+    user: User;
+
+    anchorRef: RefObject<HTMLButtonElement>;
 
     constructor(props: any) {
         super(props);
         this.state = {
-            isLoginDialogOpened: false
+            isLoginDialogOpened: false,
+            isUserMenuOpened: false
         };
-        this.closeDialog = this.closeDialog.bind(this);
+        this.anchorRef = React.createRef();
+        this.toggleLoginDialog = this.toggleLoginDialog.bind(this);
         this.redirectToRegistration = this.redirectToRegistration.bind(this);
+        this.user = storageService.getUser();
     }
 
-    openDialog() {
-        this.setState({isLoginDialogOpened: true});
-    }
-
-    closeDialog() {
-        this.setState({isLoginDialogOpened: false});
+    toggleLoginDialog() {
+        this.setState({isLoginDialogOpened: !this.state.isLoginDialogOpened});
     }
 
     redirectToRegistration() {
-        this.closeDialog();
+        this.toggleLoginDialog();
         this.props.history.push('/registration');
+    }
+
+    toggleUserMenu() {
+        this.setState({isUserMenuOpened: !this.state.isUserMenuOpened})
     }
 
     render() {
@@ -48,20 +48,51 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                     <div className="left">
                         <Link className="logo" to="/">BOHIAN ART</Link>
                         <div className="navigation-items">
-                            {this.navigationItems.map(item => {
-                                return <Link key={item.label} className="navigation-item" to={item.route}>{item.label}</Link>
+                            {navigationItems.map(item => {
+                                return <Link key={item.label} className="navigation-item"
+                                             to={item.route}>{item.label}</Link>
                             })}
                         </div>
                     </div>
                     <div className="actions">
-                        <Button className={'button primary'} variant="contained" color="inherit" onClick={() => this.openDialog()}>
-                            Sign In / Sign Up
-                        </Button>
-                        <Login
-                            isOpened={this.state.isLoginDialogOpened}
-                            onRegistration={this.redirectToRegistration}
-                            onClose={this.closeDialog}
-                        />
+                        {this.user
+                            ? (<>
+                                <Button className={'button primary'} color="inherit"
+                                        ref={this.anchorRef}
+                                        onClick={() => this.toggleUserMenu()}>
+                                    {this.user.firstName + ' ' + this.user.lastName}
+                                </Button>
+                                <Popper open={this.state.isUserMenuOpened} anchorEl={this.anchorRef.current} transition disablePortal>
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                        >
+                                            <Paper>
+                                                <ClickAwayListener onClickAway={() => this.toggleUserMenu()}>
+                                                    <MenuList>
+                                                        <MenuItem onClick={() => this.toggleUserMenu()}>Profile</MenuItem>
+                                                        <MenuItem onClick={() => this.toggleUserMenu()}>My account</MenuItem>
+                                                        <MenuItem onClick={() => this.toggleUserMenu()}>Logout</MenuItem>
+                                                    </MenuList>
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper>
+                            </>)
+                            : (<>
+                                <Button className={'button primary'} variant="contained" color="inherit"
+                                        onClick={() => this.toggleLoginDialog()}>
+                                    Sign In / Sign Up
+                                </Button>
+                                < Login
+                                    isOpened={this.state.isLoginDialogOpened}
+                                    onRegistration={this.redirectToRegistration}
+                                    onClose={this.toggleLoginDialog}
+                                />
+                            </>)
+                        }
                     </div>
                 </div>
             </nav>

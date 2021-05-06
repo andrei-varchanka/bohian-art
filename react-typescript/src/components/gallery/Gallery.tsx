@@ -34,7 +34,6 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
 
     async componentDidMount() {
         this.getFiltersFromUrl();
-        const response = await userService.getAllUsers();
         setTimeout(async () => {await this.getPaintings()}, 0);
     }
 
