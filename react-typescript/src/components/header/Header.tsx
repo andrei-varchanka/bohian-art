@@ -1,11 +1,12 @@
 import React, {RefObject} from 'react';
 import {Link, withRouter} from "react-router-dom";
 import '../../styles/header/header.scss';
-import {Button, ClickAwayListener, Grow, Menu, MenuItem, MenuList, Paper, Popper} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import Login from "./Login";
 import {navigationItems} from "../../constants";
 import storageService from "../../services/storage";
 import {User} from "../../api/api";
+import UserMenu from "./UserMenu";
 
 type HeaderProps = { history: any };
 type HeaderState = { isLoginDialogOpened: boolean, isUserMenuOpened: boolean };
@@ -23,6 +24,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             isUserMenuOpened: false
         };
         this.anchorRef = React.createRef();
+        this.toggleUserMenu = this.toggleUserMenu.bind(this);
         this.toggleLoginDialog = this.toggleLoginDialog.bind(this);
         this.redirectToRegistration = this.redirectToRegistration.bind(this);
         this.user = storageService.getUser();
@@ -62,24 +64,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                         onClick={() => this.toggleUserMenu()}>
                                     {this.user.firstName + ' ' + this.user.lastName}
                                 </Button>
-                                <Popper open={this.state.isUserMenuOpened} anchorEl={this.anchorRef.current} transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                        <Grow
-                                            {...TransitionProps}
-                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                        >
-                                            <Paper>
-                                                <ClickAwayListener onClickAway={() => this.toggleUserMenu()}>
-                                                    <MenuList>
-                                                        <MenuItem onClick={() => this.toggleUserMenu()}>Profile</MenuItem>
-                                                        <MenuItem onClick={() => this.toggleUserMenu()}>My account</MenuItem>
-                                                        <MenuItem onClick={() => this.toggleUserMenu()}>Logout</MenuItem>
-                                                    </MenuList>
-                                                </ClickAwayListener>
-                                            </Paper>
-                                        </Grow>
-                                    )}
-                                </Popper>
+                                <UserMenu
+                                    anchorRef={this.anchorRef}
+                                    isUserMenuOpened={this.state.isUserMenuOpened}
+                                    onClose={this.toggleUserMenu}/>
                             </>)
                             : (<>
                                 <Button className={'button primary'} variant="contained" color="inherit"
