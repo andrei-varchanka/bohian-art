@@ -9,6 +9,8 @@ import Header from "./components/header/Header";
 import Gallery from "./components/gallery/Gallery";
 import Footer from "./components/shared/Footer";
 import Registration from "./components/registration/Registration";
+import User from "./components/user/User";
+import Contacts from "./components/contacts/Contacts";
 
 class App extends React.Component {
 
@@ -23,6 +25,7 @@ class App extends React.Component {
               <Switch>
                 <Route path="/gallery" component={Gallery}/>
                 <Route path="/contacts" component={Contacts}/>
+                <Route path="/user/:id" component={User}/>
                 <Route path="/registration" component={Registration}/>
                 <Route path="/" component={Gallery}/>
               </Switch>
@@ -34,10 +37,6 @@ class App extends React.Component {
         </Router>
     );
   }
-}
-
-function Contacts() {
-  return <h2>Contacts</h2>;
 }
 
 export default App;

@@ -7,6 +7,7 @@ import {navigationItems} from "../../constants";
 import storageService from "../../services/storage";
 import {User} from "../../api/api";
 import UserMenu from "./UserMenu";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 type HeaderProps = { history: any };
 type HeaderState = { isLoginDialogOpened: boolean, isUserMenuOpened: boolean };
@@ -52,14 +53,15 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         <div className="navigation-items">
                             {navigationItems.map(item => {
                                 return <Link key={item.label} className="navigation-item"
-                                             to={item.route}>{item.label}</Link>
+                                             to={item.route}>{item.label}
+                                </Link>
                             })}
                         </div>
                     </div>
                     <div className="actions">
                         {this.user
                             ? (<>
-                                <Button className={'button primary'} color="inherit"
+                                <Button className={'button primary'} color="inherit" endIcon={<ExpandMoreIcon/>}
                                         ref={this.anchorRef}
                                         onClick={() => this.toggleUserMenu()}>
                                     {this.user.firstName + ' ' + this.user.lastName}
