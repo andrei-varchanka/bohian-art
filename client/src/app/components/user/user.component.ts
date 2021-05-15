@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UsersService} from "../../api/services/users.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {User} from "../../api/models/user";
 import {FormsValidators} from "../../utils/forms-validators";
 import {MatDialog, MatSnackBar} from "@angular/material";
@@ -27,6 +27,8 @@ export class UserComponent implements OnInit {
 
   user: User;
 
+  currentUser: User;
+
   roles = ['Admin', 'Artist'];
 
   hidePassword1 = true;
@@ -38,6 +40,17 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.init();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.init();
+      }
+    });
+
+  }
+
+  init() {
+    this.currentUser = this.context.getCurrentUser();
     this.userId = this.route.snapshot.params.id;
     if (this.userId) {
       this.userService.getUser(this.userId).subscribe(response => {
@@ -122,7 +135,10 @@ export class UserComponent implements OnInit {
     };
 
     this.userService.updateUser({userId: this.userId, body: user}).subscribe(response => {
-      this.context.setCurrentUser(response.user);
+      if (this.currentUser.id === this.user.id) {
+        this.currentUser = response.user;
+        this.context.setCurrentUser(response.user);
+      }
       this.snackBar.open('Saved!', null, {duration: 2000});
     });
   }

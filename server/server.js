@@ -8,7 +8,7 @@ import passport from './middleware/passport.js';
 import {url} from './config/config.js';
 import mainRouter from './routes/index.js';
 import YAML from 'yamljs';
-const swaggerDocument = YAML.load('./swagger.yaml');
+// const swaggerDocument = YAML.load('./swagger.yaml');
 
 mongoose.connect(url, {useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false});
 
@@ -16,7 +16,7 @@ const app = express();
 app.use(passport.initialize());
 app.use(cors());
 app.use(morgan('dev'));
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(mainRouter);
 
