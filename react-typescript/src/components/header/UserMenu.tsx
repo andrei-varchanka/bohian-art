@@ -24,6 +24,10 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
         this.props.onClose();
     }
 
+    logout() {
+        storageService.logout();
+    }
+
     render() {
         return (
             <Popper className="user-menu" open={this.props.isUserMenuOpened} anchorEl={this.props.anchorRef.current} transition disablePortal>
@@ -40,7 +44,7 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
                                     </MenuItem>
                                     {this.user.role === 'Artist' && <MenuItem><AddIcon/>Add new painting</MenuItem>}
                                     {this.user.role === 'Admin' && <MenuItem><WcIcon/>Users</MenuItem>}
-                                    <MenuItem><ExitToAppIcon/>Logout</MenuItem>
+                                    <MenuItem onClick={() => this.logout()}><ExitToAppIcon/>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>
@@ -51,21 +55,4 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
     }
 }
 
-/*
-* <button mat-menu-item [routerLink]="'/user/' + contextService.getCurrentUser().id">
-            <mat-icon>person</mat-icon>
-            <span>My profile</span>
-          </button>
-          <button  mat-menu-item *ngIf="getRole() === 'Artist'" [routerLink]="'/painting-editor'">
-            <mat-icon>add</mat-icon>
-            <span>Add new painting</span>
-          </button>
-          <button  mat-menu-item *ngIf="getRole() === 'Admin'" [routerLink]="'/users'">
-            <mat-icon>wc</mat-icon>
-            <span>Users</span>
-          </button>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            <span>Log out</span>
-          </button>*/
 export default UserMenu;

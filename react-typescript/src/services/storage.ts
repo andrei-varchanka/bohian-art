@@ -1,17 +1,20 @@
 import {User} from "../api/api";
+import Cookies from 'universal-cookie';
 
 class StorageService {
 
+    cookies = new Cookies();
+
     setToken(token: string) {
-        localStorage.setItem('access_token', token);
+        this.cookies.set('auth_token', token, {path: '/'});
     }
 
     getToken() {
-        return localStorage.getItem('access_token');
+        return this.cookies.get('auth_token');
     }
 
     clearToken() {
-         localStorage.removeItem('access_token');
+        this.cookies.set('auth_token', '', {path: '/'});
     }
 
     setUser(user: User) {
@@ -24,6 +27,12 @@ class StorageService {
 
     clearUser() {
         localStorage.removeItem('user');
+    }
+
+    logout() {
+        this.clearUser();
+        this.clearToken();
+        window.location.href = window.location.origin;
     }
 }
 

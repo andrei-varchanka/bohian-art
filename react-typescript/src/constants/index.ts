@@ -3,11 +3,11 @@ export const genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre
 
 export const navigationItems = [
     {
-        route: 'gallery',
+        route: '/gallery',
         label: 'Gallery'
     },
     {
-        route: 'contacts',
+        route: '/contacts',
         label: 'Contacts'
     }
 ];
