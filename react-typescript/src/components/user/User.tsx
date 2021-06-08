@@ -1,5 +1,15 @@
 import React from "react";
-import {Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, TextField} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    Snackbar,
+    TextField
+} from "@material-ui/core";
 import {Formik} from "formik";
 import * as yup from 'yup';
 import "yup-phone";
@@ -9,6 +19,7 @@ import {userService} from "../../services/api";
 import {from} from "rxjs";
 import '../../styles/user/user.scss';
 import {roles} from "../../constants";
+import {Alert} from "@material-ui/lab";
 
 type UserProps = { match: any, history: any };
 type UserState = { user: UserModel, message: string };
@@ -73,11 +84,17 @@ class User extends React.Component<UserProps, UserState> {
                     this.currentUser = response.data.user;
                     storageService.setUser(response.data.user);
                 }
-                //     this.snackBar.open('Saved!', null, {duration: 2000});
             }
         }, error => {
             this.setState({message: error.response.data.errorMessage});
         });
+    }
+
+    onSnackbarClose(event?: React.SyntheticEvent, reason?: string) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({message: null});
     }
 
     render() {
@@ -124,22 +141,30 @@ class User extends React.Component<UserProps, UserState> {
                                         error={formik.touched.email && Boolean(formik.errors.email)}
                                         helperText={formik.touched.email && formik.errors.email}
                                     />
-                                    <FormControl fullWidth className="input">
-                                        <InputLabel htmlFor="role">Age</InputLabel>
-                                        <Select
-                                            name="role" id="role"
-                                            value={formik.values.role}
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            error={formik.touched.role && Boolean(formik.errors.role)}>
-                                            {roles.map(role =>
-                                                <MenuItem key={role} value={role}>{role}</MenuItem>
-                                            )};
-                                        </Select>
-                                        <FormHelperText
-                                            error={true}>{formik.touched.role && formik.errors.role}</FormHelperText>
-                                    </FormControl>
-                                    {/*<div className="error">{this.state?.error}</div>*/}
+                                    {
+                                        this.currentUser?.role === 'Admin' &&
+                                        <FormControl fullWidth className="input">
+                                            <InputLabel htmlFor="role">Role</InputLabel>
+                                            <Select
+                                                name="role" id="role"
+                                                value={formik.values.role}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                error={formik.touched.role && Boolean(formik.errors.role)}>
+                                                {roles.map(role =>
+                                                    <MenuItem key={role} value={role}>{role}</MenuItem>
+                                                )};
+                                            </Select>
+                                            <FormHelperText
+                                                error={true}>{formik.touched.role && formik.errors.role}</FormHelperText>
+                                        </FormControl>
+                                    }
+                                    <Snackbar open={!!this.state.message} autoHideDuration={2000}
+                                              onClose={() => this.onSnackbarClose()}>
+                                        <Alert onClose={() => this.onSnackbarClose()} severity="success">
+                                            {this.state.message}
+                                        </Alert>
+                                    </Snackbar>
                                     <div className="buttons">
                                         <Button className={'button primary submit'} color="inherit" variant="contained"
                                                 type="submit">
