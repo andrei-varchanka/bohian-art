@@ -1,7 +1,11 @@
 
 .user {
+  display: flex;
+
   .form {
+    flex-grow: 1;
     padding: 16px;
+    margin-right: 16px;
 
     .input {
       margin-bottom: 8px;
@@ -16,6 +20,14 @@
         width: 100%;
         max-width: 200px;
       }
+    }
+  }
+
+  .actions {
+    padding: 0 16px;
+
+    li.selected {
+      background-color: rgba(0, 0, 0, 0.04);
     }
   }
 }

@@ -4,7 +4,7 @@ import {
     FormControl,
     FormHelperText,
     InputLabel,
-    MenuItem,
+    MenuItem, MenuList,
     Paper,
     Select,
     Snackbar,
@@ -20,9 +20,11 @@ import {from} from "rxjs";
 import '../../styles/user/user.scss';
 import {roles} from "../../constants";
 import {Alert} from "@material-ui/lab";
+import {Link} from "react-router-dom";
+import PersonIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 type UserProps = { match: any, history: any };
-type UserState = { user: UserModel, message: string };
+type UserState = { user: UserModel, message: string, passwordChanging: boolean };
 
 class User extends React.Component<UserProps, UserState> {
 
@@ -60,7 +62,8 @@ class User extends React.Component<UserProps, UserState> {
                 role: '',
                 password: ''
             },
-            message: ''
+            message: '',
+            passwordChanging: false
         };
     }
 
@@ -100,7 +103,8 @@ class User extends React.Component<UserProps, UserState> {
     render() {
         return (
             <div className="user">
-                <Paper>
+                <Paper className="form">
+                    {!this.state.passwordChanging &&
                     <Formik
                         initialValues={this.state.user}
                         validationSchema={this.validationSchema}
@@ -108,7 +112,7 @@ class User extends React.Component<UserProps, UserState> {
                         onSubmit={(values) => this.submit(values)}>
                         {
                             formik => (
-                                <form className="form" onSubmit={formik.handleSubmit}>
+                                <form onSubmit={formik.handleSubmit}>
                                     <TextField
                                         className="input" fullWidth name="firstName" label="First name"
                                         value={formik.values.firstName}
@@ -176,6 +180,26 @@ class User extends React.Component<UserProps, UserState> {
                         }
 
                     </Formik>
+                    }
+                    {this.state.passwordChanging}
+                </Paper>
+                <Paper className="actions">
+                    <MenuList>
+                        <MenuItem className={this.state.passwordChanging ? '' : 'selected'}
+                                  onClick={() => this.setState({passwordChanging: false})}>
+                            General information
+                        </MenuItem>
+                        {
+                            this.currentUser?.id === this.userId &&
+                            <MenuItem className={this.state.passwordChanging ? 'selected' : ''}
+                                      onClick={() => this.setState({passwordChanging: true})}>
+                                Change password
+                            </MenuItem>
+                        }
+                        <MenuItem>
+                            <Link className="link" to={'/gallery?userId=' + this.userId}>View uploaded artworks</Link>
+                        </MenuItem>
+                    </MenuList>
                 </Paper>
             </div>
         );
@@ -185,20 +209,6 @@ class User extends React.Component<UserProps, UserState> {
 export default User;
 
 // <div class="user">
-//     <mat-card class="form" *ngIf="user && !passwordChanging" [formGroup]="form">
-//
-//
-//     <mat-form-field *ngIf="currentUser?.role === 'Admin'">
-//       <mat-label>Role</mat-label>
-//       <mat-select formControlName="role">
-//         <mat-option *ngFor="let role of roles" [value]="role">
-//           {{role}}
-//         </mat-option>
-//       </mat-select>
-//       <mat-error>{{getErrorMessage('role')}}</mat-error>
-//     </mat-form-field>
-//     <button class="submit" mat-flat-button color="primary" (click)="submit()">Submit</button>
-// </mat-card>
 //
 // <mat-card class="form" *ngIf="user && passwordChanging" [formGroup]="changePassForm">
 // <mat-form-field>
