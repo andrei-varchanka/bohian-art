@@ -12,7 +12,7 @@ import {LinearProgress} from "@material-ui/core";
 type GalleryProps = { location: any, history: any };
 type GalleryState = {
     paintings?: Array<Painting>, count?: number, totalPages?: number, filteredGenres?: string[],
-    filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel, loading: boolean
+    filteredWidth?: RangeModel, filteredHeight?: RangeModel, filteredPrice?: RangeModel, filteredUser: string, loading: boolean
 };
 
 class Gallery extends React.Component<GalleryProps, GalleryState> {
@@ -27,6 +27,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
             filteredWidth: {},
             filteredHeight: {},
             filteredPrice: {},
+            filteredUser: '',
             loading: true
         };
         this.onFilterApply = this.onFilterApply.bind(this);
@@ -43,6 +44,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         let filteredWidth = new RangeModel();
         let filteredHeight = new RangeModel();
         let filteredPrice = new RangeModel();
+        let filteredUser: string;
         if (query.get('genres')) {
             filteredGenres = (query.get('genres') + '').split(',');
         }
@@ -64,7 +66,10 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         if (query.get('price_to')) {
             filteredPrice.value2 = +(query.get('price_to') || 0);
         }
-        this.setState({filteredGenres, filteredWidth, filteredHeight, filteredPrice});
+        if (query.get('userId')) {
+            filteredUser = query.get('userId');
+        }
+        this.setState({filteredGenres, filteredWidth, filteredHeight, filteredPrice, filteredUser});
     }
 
     async getPaintings() {
@@ -85,7 +90,7 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
         return {
             page: this.page,
             limit: this.limit,
-            userId: undefined,
+            userId: this.state.filteredUser,
             price_from: this.state.filteredPrice?.value1 || undefined,
             price_to: this.state.filteredPrice?.value2 || undefined,
             width_from: this.state.filteredWidth?.value1 || undefined,
