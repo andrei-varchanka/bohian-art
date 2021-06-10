@@ -18,13 +18,13 @@ import {User as UserModel} from "../../api/";
 import {userService} from "../../services/api";
 import {from} from "rxjs";
 import '../../styles/user/user.scss';
-import {roles} from "../../constants";
+import {passwordRegExp, roles} from "../../constants";
 import {Alert} from "@material-ui/lab";
 import {Link} from "react-router-dom";
-import PersonIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import {mergeMap} from "rxjs/operators";
 
 type UserProps = { match: any, history: any };
-type UserState = { user: UserModel, message: string, passwordChanging: boolean };
+type UserState = { user: any, successMessage: string, errorMessage: string, passwordChanging: boolean };
 
 class User extends React.Component<UserProps, UserState> {
 
@@ -47,6 +47,17 @@ class User extends React.Component<UserProps, UserState> {
             .required('Role is required')
     });
 
+    passwordsValidationSchema = yup.object({
+        password: yup
+            .string()
+            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
+            .required('Password is required'),
+        confirmPassword: yup
+            .string()
+            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
+            .required('Password is required')
+    });
+
     currentUser: UserModel;
 
     userId: string;
@@ -60,9 +71,9 @@ class User extends React.Component<UserProps, UserState> {
                 phone: '',
                 email: '',
                 role: '',
-                password: ''
             },
-            message: '',
+            successMessage: '',
+            errorMessage: '',
             passwordChanging: false
         };
     }
@@ -78,18 +89,37 @@ class User extends React.Component<UserProps, UserState> {
     }
 
     submit(values) {
-        this.setState({message: ''});
+        this.setState({successMessage: '', errorMessage: ''});
         console.log(values);
         from(userService.updateUser(this.userId, values)).subscribe(response => {
             if (response.data.success) {
-                this.setState({message: 'Saved!'});
+                this.setState({successMessage: 'Saved!'});
                 if (this.currentUser.id === this.userId) {
                     this.currentUser = response.data.user;
                     storageService.setUser(response.data.user);
                 }
             }
         }, error => {
-            this.setState({message: error.response.data.errorMessage});
+            this.setState({errorMessage: error.response.data.errorMessage});
+        });
+    }
+
+    changePassword(values) {
+        this.setState({successMessage: '', errorMessage: ''});
+        if (values.password !== values.confirmPassword) {
+            this.setState({errorMessage: 'Passwords don\'t match'});
+            return;
+        }
+        console.log(values);
+        const password = values.password;
+        from(userService.changePassword(this.userId, {password}))
+            .pipe(mergeMap(response => {
+            const email = response.data.user.email;
+            return from(userService.auth({email, password}));
+        })).subscribe(response => {
+            storageService.setToken(response.data.token);
+            storageService.setUser(response.data.user);
+            this.setState({successMessage: 'Saved!'});
         });
     }
 
@@ -97,7 +127,7 @@ class User extends React.Component<UserProps, UserState> {
         if (reason === 'clickaway') {
             return;
         }
-        this.setState({message: null});
+        this.setState({successMessage: null, errorMessage: null});
     }
 
     render() {
@@ -163,12 +193,6 @@ class User extends React.Component<UserProps, UserState> {
                                                 error={true}>{formik.touched.role && formik.errors.role}</FormHelperText>
                                         </FormControl>
                                     }
-                                    <Snackbar open={!!this.state.message} autoHideDuration={2000}
-                                              onClose={() => this.onSnackbarClose()}>
-                                        <Alert onClose={() => this.onSnackbarClose()} severity="success">
-                                            {this.state.message}
-                                        </Alert>
-                                    </Snackbar>
                                     <div className="buttons">
                                         <Button className={'button primary submit'} color="inherit" variant="contained"
                                                 type="submit">
@@ -181,8 +205,62 @@ class User extends React.Component<UserProps, UserState> {
 
                     </Formik>
                     }
-                    {this.state.passwordChanging}
+                    {this.state.passwordChanging &&
+                    <Formik
+                        initialValues={{password: '', confirmPassword: ''}}
+                        validationSchema={this.passwordsValidationSchema}
+                        enableReinitialize={true}
+                        onSubmit={(values) => this.changePassword(values)}>
+                        {
+                            formik => (
+                                <form onSubmit={formik.handleSubmit}>
+                                    <TextField className="input"
+                                               fullWidth
+                                               name="password"
+                                               label="Password"
+                                               type="password"
+                                               value={formik.values.password}
+                                               onChange={formik.handleChange}
+                                               onBlur={formik.handleBlur}
+                                               error={formik.touched.password && Boolean(formik.errors.password)}
+                                               helperText={formik.touched.password && formik.errors.password}
+                                    />
+                                    <TextField className="input"
+                                               fullWidth
+                                               name="confirmPassword"
+                                               label="Confirm password"
+                                               type="password"
+                                               value={formik.values.confirmPassword}
+                                               onChange={formik.handleChange}
+                                               onBlur={formik.handleBlur}
+                                               error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                                               helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                    />
+                                    <div className="buttons">
+                                        <Button className={'button primary submit'} color="inherit" variant="contained"
+                                                type="submit">
+                                            Submit
+                                        </Button>
+                                    </div>
+                                </form>
+                            )
+                        }
+
+                    </Formik>
+                    }
                 </Paper>
+                <Snackbar open={!!this.state.successMessage} autoHideDuration={2000}
+                          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} onClose={() => this.onSnackbarClose()}>
+                    <Alert onClose={() => this.onSnackbarClose()} severity="success">
+                        {this.state.successMessage}
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={!!this.state.errorMessage} autoHideDuration={2000}
+                          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} onClose={() => this.onSnackbarClose()}>
+                    <Alert onClose={() => this.onSnackbarClose()} severity="error">
+                        {this.state.errorMessage}
+                    </Alert>
+                </Snackbar>
                 <Paper className="actions">
                     <MenuList>
                         <MenuItem className={this.state.passwordChanging ? '' : 'selected'}

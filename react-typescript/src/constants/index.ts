@@ -13,3 +13,5 @@ export const navigationItems = [
         label: 'Contacts'
     }
 ];
+
+export const passwordRegExp = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=^.{6,128}$)');

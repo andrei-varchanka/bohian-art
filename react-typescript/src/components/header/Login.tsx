@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import {userService} from "../../services/api";
 import storageService from "../../services/storage";
 import {from} from "rxjs";
+import {passwordRegExp} from "../../constants";
 
 
 type LoginProps = {onRegistration?: Function, onClose?: Function, isOpened: boolean };
@@ -20,7 +21,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             .required('Email is required'),
         password: yup
             .string()
-            .min(8, 'Password should be of minimum 8 characters length')
+            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
             .required('Password is required'),
     });
 
