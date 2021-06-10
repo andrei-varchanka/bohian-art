@@ -7,7 +7,7 @@ export const checkIsInRole = (...roles) => async (req, res, next) => {
         return next();
     }
     if (roles.indexOf(ROLES.Self) !== -1 && req.params.userId === req.user.toJSON().id) {
-        if (req.method === 'PUT' && req.body.role !== req.user.toJSON().role) {
+        if (req.method === 'PUT' && req.route.path === '/:userId' &&  req.body.role !== req.user.toJSON().role) {
             return res.status(403).send(new BaseResponse(null, 'Forbidden'));
         } else {
             return next();
