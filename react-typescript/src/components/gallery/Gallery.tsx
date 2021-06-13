@@ -140,6 +140,8 @@ class Gallery extends React.Component<GalleryProps, GalleryState> {
                         return <div className="item" key={painting?.name}><PaintingCard painting={painting}/></div>;
                     })}
                 </div>
+                {this.state.paintings.length === 0 &&
+                <div className="message">No paintings found!</div>}
                 <div className="paginator">
                     <Pagination count={this.state.totalPages} onChange={(event, page) => this.changePage(event, page)}/>
                 </div>
