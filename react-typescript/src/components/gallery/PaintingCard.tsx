@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import {Link} from "react-router-dom";
 
 type PaintingCardProps = {painting: Painting};
 type PaintingCardState = {};
@@ -21,7 +22,9 @@ class PaintingCard extends React.Component<PaintingCardProps, PaintingCardState>
         return (
             <Card className="painting-card">
                 <CardActionArea>
-                    <CardMedia component="img" alt={this.painting?.name} height="300" src={this.painting?.image.data}/>
+                    <Link to={'/gallery/' + this.painting.id}>
+                        <CardMedia component="img" alt={this.painting?.name} height="300" src={this.painting?.image.data}/>
+                    </Link>
                 </CardActionArea>
                 <CardContent className="content">
                     <div className="left">

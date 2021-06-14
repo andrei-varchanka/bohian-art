@@ -1,2 +1,4 @@
 ##TODO
-user deleting
+painting page actions
+registration
+contacts

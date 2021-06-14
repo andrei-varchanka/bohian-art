@@ -6,6 +6,7 @@ import {User} from "../../api/models/user";
 import {mergeMap} from "rxjs/operators";
 import {UsersService} from "../../api/services/users.service";
 import {MatDialog} from "@angular/material";
+import {ContextService} from "../../services/context-service";
 
 @Component({
   selector: 'app-painting',
@@ -18,11 +19,14 @@ export class PaintingComponent implements OnInit {
 
   user: User;
 
+  currentUser: User;
+
   constructor(private route: ActivatedRoute, private paintingService: PaintingsService, private userService: UsersService,
-              public dialog: MatDialog, private router: Router) {
+              public dialog: MatDialog, private router: Router, private context: ContextService) {
   }
 
   ngOnInit() {
+    this.currentUser = this.context.getCurrentUser();
     const paintingId = this.route.snapshot.params.id;
     this.paintingService.getPainting(paintingId).pipe(mergeMap(response => {
       this.painting = response.painting;

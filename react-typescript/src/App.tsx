@@ -11,6 +11,7 @@ import Footer from "./components/shared/Footer";
 import Registration from "./components/registration/Registration";
 import User from "./components/user/User";
 import Contacts from "./components/contacts/Contacts";
+import Painting from "./components/painting/Painting";
 
 class App extends React.Component {
 
@@ -23,6 +24,7 @@ class App extends React.Component {
             </div>
             <div className="app__content">
               <Switch>
+                <Route path="/gallery/:id" component={Painting}/>
                 <Route path="/gallery" component={Gallery}/>
                 <Route path="/contacts" component={Contacts}/>
                 <Route path="/user/:id" component={User}/>

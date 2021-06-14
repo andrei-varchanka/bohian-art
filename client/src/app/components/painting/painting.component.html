@@ -5,7 +5,7 @@
     </mat-card>
     <div class="details-wrapper">
       <mat-card class="details">
-        <div class="actions" *ngIf="painting.userId === user.id || user.role === 'Admin'">
+        <div class="actions" *ngIf="painting.userId === currentUser?.id || currentUser?.role === 'Admin'">
           <mat-icon [routerLink]="'/painting-editor/' + painting.id">edit</mat-icon>
           <mat-icon (click)="delete()">delete</mat-icon>
         </div>
