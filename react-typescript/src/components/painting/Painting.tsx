@@ -1,6 +1,6 @@
 import React from "react";
 import '../../styles/painting/painting.scss';
-import {Card} from "@material-ui/core";
+import {Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import {paintingService, userService} from "../../services/api";
 import {mergeMap} from "rxjs/operators";
@@ -12,8 +12,8 @@ import {Link} from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-type PaintingProps = { match: any };
-type PaintingState = { painting: PaintingModel, user: UserModel };
+type PaintingProps = { match: any, history: any };
+type PaintingState = { painting: PaintingModel, user: UserModel, deleteConfirmationOpened: boolean };
 
 class Painting extends React.Component<PaintingProps, PaintingState> {
 
@@ -25,7 +25,8 @@ class Painting extends React.Component<PaintingProps, PaintingState> {
         super(props);
         this.state = {
             painting: null,
-            user: null
+            user: null,
+            deleteConfirmationOpened: false
         }
     }
 
@@ -40,8 +41,18 @@ class Painting extends React.Component<PaintingProps, PaintingState> {
         });
     }
 
-    delete() {
+    openDeleteConfirmationPopup() {
+        this.setState({deleteConfirmationOpened: true});
+    }
 
+    closeDeleteConfirmationPopup() {
+        this.setState({deleteConfirmationOpened: false});
+    }
+
+    delete() {
+        from(paintingService.deletePainting(this.paintingId)).subscribe(response => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -58,7 +69,22 @@ class Painting extends React.Component<PaintingProps, PaintingState> {
                                 (this.state.painting.userId === this.currentUser?.id || this.currentUser?.role === 'Admin') &&
                                 <div className="actions">
                                     <Link to={'/painting-editor/' + this.paintingId}><EditIcon/></Link>
-                                    <DeleteIcon onClick={() => this.delete()}/>
+                                    <DeleteIcon className="delete-icon" onClick={() => this.openDeleteConfirmationPopup()}/>
+                                    <Dialog open={this.state.deleteConfirmationOpened}
+                                            onClose={() => this.closeDeleteConfirmationPopup()}>
+                                        <DialogTitle>Deletion confirmation</DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText>Are you sure you what to delete this painting?</DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={() => this.closeDeleteConfirmationPopup()} color="primary">
+                                                Cancel
+                                            </Button>
+                                            <Button onClick={() => this.delete()} color="primary">
+                                                Submit
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
                                 </div>
                             }
                             <div className="field title">{this.state.painting.name}</div>

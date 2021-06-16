@@ -1,4 +1,4 @@
 ##TODO
-painting page actions
+painting editor
 registration
 contacts
