@@ -3,6 +3,7 @@ import {Painting as PaintingModel, User as UserModel} from "../../api";
 import * as yup from "yup";
 import {paintingService} from "../../services/api";
 import {from} from "rxjs";
+import ImageUploader from "../shared/ImageUploader";
 
 
 type PaintingEditorProps = { match: any, history: any };
@@ -46,7 +47,7 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
     render() {
         return (
             <div className="painting-editor">
-
+                <ImageUploader/>
             </div>
         );
     }

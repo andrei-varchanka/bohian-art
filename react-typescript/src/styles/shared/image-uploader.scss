@@ -2,5 +2,34 @@
 @import "../variables";
 
 .image-uploader {
+  &__drop-area {
+    height: 60px;
+    border: 1px dashed rgba(0, 0, 0, 0.54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    &:hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    &_hint {
+      margin-top: 5px;
+    }
+  }
+
+  &__file {
+    position: relative;
+    width: fit-content;
+    margin-top: 16px;
+
+    .delete {
+      position: absolute;
+      cursor: pointer;
+      width: 30px;
+      right: -17px;
+      top: -10px;
+    }
+  }
 }
