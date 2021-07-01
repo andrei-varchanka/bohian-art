@@ -42,7 +42,10 @@ class UserMenu extends React.Component<UserMenuProps, UserMenuState> {
                                     <MenuItem>
                                         <Link className="link" to={'/user/' + this.user.id}><PersonIcon/>My profile</Link>
                                     </MenuItem>
-                                    {this.user.role === 'Artist' && <MenuItem><AddIcon/>Add new painting</MenuItem>}
+                                    {this.user.role === 'Artist' &&
+                                    <MenuItem>
+                                        <Link className="link" to={'/painting-editor/'}><AddIcon/>Add new painting</Link>
+                                    </MenuItem>}
                                     {this.user.role === 'Admin' && <MenuItem><WcIcon/>Users</MenuItem>}
                                     <MenuItem onClick={() => this.logout()}><ExitToAppIcon/>Logout</MenuItem>
                                 </MenuList>

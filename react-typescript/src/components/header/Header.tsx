@@ -49,7 +49,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             <nav className="header">
                 <div className="header__content">
                     <div className="left">
-                        <Link className="logo" to="/">BOHIAN ART</Link>
+                        <Link className="logo" to="/"><div className="icon"></div>BOHIAN ART</Link>
                         <div className="navigation-items">
                             {navigationItems.map(item => {
                                 return <Link key={item.label} className="navigation-item"

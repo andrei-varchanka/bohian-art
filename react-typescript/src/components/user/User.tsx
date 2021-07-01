@@ -32,33 +32,16 @@ type UserState = {
 class User extends React.Component<UserProps, UserState> {
 
     validationSchema = yup.object({
-        firstName: yup
-            .string()
-            .required('First name is required'),
-        lastName: yup
-            .string()
-            .required('Last name is required'),
-        phone: yup
-            .string()
-            .phone('BY', false, 'Enter a valid phone number starting +37529'),
-        email: yup
-            .string()
-            .email('Enter a valid email')
-            .required('Email is required'),
-        role: yup
-            .string()
-            .required('Role is required')
+        firstName: yup.string().required('First name is required'),
+        lastName: yup.string().required('Last name is required'),
+        phone: yup.string().phone('BY', false, 'Enter a valid phone number starting +37529'),
+        email: yup.string().email('Enter a valid email').required('Email is required'),
+        role: yup.string().required('Role is required')
     });
 
     passwordsValidationSchema = yup.object({
-        password: yup
-            .string()
-            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
-            .required('Password is required'),
-        confirmPassword: yup
-            .string()
-            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
-            .required('Password is required')
+        password: yup.string().matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character').required('Password is required'),
+        confirmPassword: yup.string().matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character').required('Password is required')
     });
 
     currentUser: UserModel;
@@ -335,43 +318,3 @@ class User extends React.Component<UserProps, UserState> {
 }
 
 export default User;
-
-// <div class="user">
-//
-// <mat-card class="form" *ngIf="user && passwordChanging" [formGroup]="changePassForm">
-// <mat-form-field>
-// <input [type]="hidePassword1 ? 'password' : 'text'" matInput placeholder="Password"
-// formControlName="password"/>
-//     <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword1 = !hidePassword1">
-//     <mat-icon>{{hidePassword1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-// </button>
-// <mat-error>{{getErrorMessage('password')}}</mat-error>
-// </mat-form-field>
-//
-// <mat-form-field>
-// <input [type]="hidePassword2 ? 'password' : 'text'" matInput placeholder="Confirm password"
-// formControlName="confirm"/>
-// <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2">
-// <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
-// </button>
-// <mat-error>{{getErrorMessage('confirm', 'email confirmation')}}</mat-error>
-// </mat-form-field>
-//
-// <button class="submit" mat-flat-button color="primary" (click)="changePassword()">Submit</button>
-// </mat-card>
-//
-// <mat-card class="actions">
-// <button mat-button [class.selected]="!passwordChanging" (click)="passwordChanging = false">General information</button>
-// <button mat-button *ngIf="currentUser?.id === user?.id" [class.selected]="passwordChanging"
-// (click)="passwordChanging = true">
-// Change password
-// </button>
-// <button mat-button (click)="redirectToUserGallery()">View uploaded artworks</button>
-// </mat-card>
-//
-// </div>
-// <div class="user__delete">
-// <div class="button" (click)="delete()">
-// Delete the account
-// </div>
-// </div>

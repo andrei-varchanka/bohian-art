@@ -15,14 +15,8 @@ type LoginState = {error: string};
 class Login extends React.Component<LoginProps, LoginState> {
 
     validationSchema = yup.object({
-        email: yup
-            .string()
-            .email('Enter a valid email')
-            .required('Email is required'),
-        password: yup
-            .string()
-            .matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character')
-            .required('Password is required'),
+        email: yup.string().email('Enter a valid email').required('Email is required'),
+        password: yup.string().matches(passwordRegExp, 'Minimum of 6 characters, with an uppercase, lowercase, numeric and non-alphanumeric character').required('Password is required'),
     });
 
     initialValues = {
