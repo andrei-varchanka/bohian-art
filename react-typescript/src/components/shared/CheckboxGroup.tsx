@@ -7,13 +7,13 @@ type CheckboxGroupState = {};
 class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxGroupState> {
     items: any[];
 
-    selectedItems: string[] = [];
+    selectedItems: string[];
 
     constructor(props: any) {
         super(props);
         this.state = {};
         this.items = props.items;
-        this.selectedItems = props.value;
+        this.selectedItems = props.value || [];
     }
 
     updateSelectedItems(item: string) {

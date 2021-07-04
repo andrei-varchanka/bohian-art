@@ -102,7 +102,7 @@ class ImageUploader extends React.Component<ImageUploaderProps, ImageUploaderSta
                 </div>
                 {
                     this.state.fileSrcs.map((file, i) => {
-                        return <div className="image-uploader__file">
+                        return <div className="image-uploader__file" key={i}>
                             <img src={file} height="150px"/>
                             <DeleteIcon className="delete" onClick={() => this.deleteAttachment(i)}/>
                         </div>

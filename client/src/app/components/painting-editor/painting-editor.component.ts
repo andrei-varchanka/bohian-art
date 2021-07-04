@@ -117,7 +117,7 @@ export class PaintingEditorComponent implements OnInit {
       name: this.form.controls.name.value,
       author: this.form.controls.author.value,
       userId: this.context.getCurrentUser().id,
-      genres: this.form.controls.genres.value,
+      genres: this.form.controls.genres.value.join('+'),
       width: +this.form.controls.width.value,
       height: +this.form.controls.height.value,
       price: +this.form.controls.price.value,

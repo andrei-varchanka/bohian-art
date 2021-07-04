@@ -229,9 +229,7 @@ paths:
           required: true
         - in: "formData"
           name: "genres"
-          type: "array"
-          items:
-            type: "string"
+          type: "string"
           required: true
         - in: "formData"
           name: "height"
@@ -314,9 +312,7 @@ paths:
           required: true
         - in: "formData"
           name: "genres"
-          type: "array"
-          items:
-            type: "string"
+          type: "string"
           required: true
         - in: "formData"
           name: "height"

@@ -12,7 +12,7 @@ import Registration from "./components/registration/Registration";
 import User from "./components/user/User";
 import Contacts from "./components/contacts/Contacts";
 import Painting from "./components/painting/Painting";
-import PaintingEditor from "./components/painting-editor/Painting-editor";
+import PaintingEditor from "./components/painting-editor/PaintingEditor";
 
 class App extends React.Component {
 

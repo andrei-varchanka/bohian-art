@@ -158,7 +158,7 @@ class PaintingsService extends __BaseService {
     if (params.name != null) { __formData.append('name', params.name as string | Blob);}
     if (params.image != null) { __formData.append('image', params.image as string | Blob);}
     if (params.height != null) { __formData.append('height', JSON.stringify(params.height));}
-    (params.genres || []).forEach(val => {if (val != null) __formData.append('genres', val as string | Blob)});
+    if (params.genres != null) { __formData.append('genres', params.genres as string | Blob);}
     if (params.author != null) { __formData.append('author', params.author as string | Blob);}
     if (params.description != null) { __formData.append('description', params.description as string | Blob);}
     let req = new HttpRequest<any>(
@@ -319,7 +319,7 @@ class PaintingsService extends __BaseService {
 
     if (params.name != null) { __formData.append('name', params.name as string | Blob);}
     if (params.height != null) { __formData.append('height', JSON.stringify(params.height));}
-    (params.genres || []).forEach(val => {if (val != null) __formData.append('genres', val as string | Blob)});
+    if (params.genres != null) { __formData.append('genres', params.genres as string | Blob);}
     if (params.author != null) { __formData.append('author', params.author as string | Blob);}
     if (params.image != null) { __formData.append('image', params.image as string | Blob);}
     if (params.description != null) { __formData.append('description', params.description as string | Blob);}
@@ -439,7 +439,7 @@ module PaintingsService {
     name: string;
     image: Blob;
     height: number;
-    genres: Array<string>;
+    genres: string;
     author: string;
     description?: string;
   }
@@ -454,7 +454,7 @@ module PaintingsService {
     paintingId: string;
     name: string;
     height: number;
-    genres: Array<string>;
+    genres: string;
     author: string;
     image?: Blob;
     description?: string;

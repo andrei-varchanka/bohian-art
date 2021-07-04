@@ -600,7 +600,7 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -609,7 +609,7 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePainting: async (paintingId: string, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, image?: any, description?: string, options: any = {}): Promise<RequestArgs> => {
+        updatePainting: async (paintingId: string, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, image?: any, description?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'paintingId' is not null or undefined
             assertParamExists('updatePainting', 'paintingId', paintingId)
             // verify required parameter 'name' is not null or undefined
@@ -659,10 +659,10 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
             if (userId !== undefined) { 
                 localVarFormParams.append('userId', userId as any);
             }
-                if (genres) {
-                localVarFormParams.append(genres.join(COLLECTION_FORMATS.csv));
+    
+            if (genres !== undefined) { 
+                localVarFormParams.append('genres', genres as any);
             }
-
     
             if (height !== undefined) { 
                 localVarFormParams.append('height', height as any);
@@ -700,7 +700,7 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -708,7 +708,7 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadPainting: async (image: any, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, description?: string, options: any = {}): Promise<RequestArgs> => {
+        uploadPainting: async (image: any, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, description?: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'image' is not null or undefined
             assertParamExists('uploadPainting', 'image', image)
             // verify required parameter 'name' is not null or undefined
@@ -757,10 +757,10 @@ export const PaintingsApiAxiosParamCreator = function (configuration?: Configura
             if (userId !== undefined) { 
                 localVarFormParams.append('userId', userId as any);
             }
-                if (genres) {
-                localVarFormParams.append(genres.join(COLLECTION_FORMATS.csv));
+    
+            if (genres !== undefined) { 
+                localVarFormParams.append('genres', genres as any);
             }
-
     
             if (height !== undefined) { 
                 localVarFormParams.append('height', height as any);
@@ -860,7 +860,7 @@ export const PaintingsApiFp = function(configuration?: Configuration) {
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -869,7 +869,7 @@ export const PaintingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePainting(paintingId: string, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, image?: any, description?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaintingResponse>> {
+        async updatePainting(paintingId: string, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, image?: any, description?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaintingResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePainting(paintingId, name, author, userId, genres, height, width, price, image, description, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -880,7 +880,7 @@ export const PaintingsApiFp = function(configuration?: Configuration) {
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -888,7 +888,7 @@ export const PaintingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadPainting(image: any, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, description?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaintingResponse>> {
+        async uploadPainting(image: any, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, description?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaintingResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadPainting(image, name, author, userId, genres, height, width, price, description, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -957,7 +957,7 @@ export const PaintingsApiFactory = function (configuration?: Configuration, base
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -966,7 +966,7 @@ export const PaintingsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePainting(paintingId: string, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, image?: any, description?: string, options?: any): AxiosPromise<PaintingResponse> {
+        updatePainting(paintingId: string, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, image?: any, description?: string, options?: any): AxiosPromise<PaintingResponse> {
             return localVarFp.updatePainting(paintingId, name, author, userId, genres, height, width, price, image, description, options).then((request) => request(axios, basePath));
         },
         /**
@@ -976,7 +976,7 @@ export const PaintingsApiFactory = function (configuration?: Configuration, base
          * @param {string} name 
          * @param {string} author 
          * @param {string} userId 
-         * @param {Array<string>} genres 
+         * @param {string} genres 
          * @param {number} height 
          * @param {number} width 
          * @param {number} price 
@@ -984,7 +984,7 @@ export const PaintingsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadPainting(image: any, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, description?: string, options?: any): AxiosPromise<PaintingResponse> {
+        uploadPainting(image: any, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, description?: string, options?: any): AxiosPromise<PaintingResponse> {
             return localVarFp.uploadPainting(image, name, author, userId, genres, height, width, price, description, options).then((request) => request(axios, basePath));
         },
     };
@@ -1060,7 +1060,7 @@ export class PaintingsApi extends BaseAPI {
      * @param {string} name 
      * @param {string} author 
      * @param {string} userId 
-     * @param {Array<string>} genres 
+     * @param {string} genres 
      * @param {number} height 
      * @param {number} width 
      * @param {number} price 
@@ -1070,7 +1070,7 @@ export class PaintingsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PaintingsApi
      */
-    public updatePainting(paintingId: string, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, image?: any, description?: string, options?: any) {
+    public updatePainting(paintingId: string, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, image?: any, description?: string, options?: any) {
         return PaintingsApiFp(this.configuration).updatePainting(paintingId, name, author, userId, genres, height, width, price, image, description, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1081,7 +1081,7 @@ export class PaintingsApi extends BaseAPI {
      * @param {string} name 
      * @param {string} author 
      * @param {string} userId 
-     * @param {Array<string>} genres 
+     * @param {string} genres 
      * @param {number} height 
      * @param {number} width 
      * @param {number} price 
@@ -1090,7 +1090,7 @@ export class PaintingsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PaintingsApi
      */
-    public uploadPainting(image: any, name: string, author: string, userId: string, genres: Array<string>, height: number, width: number, price: number, description?: string, options?: any) {
+    public uploadPainting(image: any, name: string, author: string, userId: string, genres: string, height: number, width: number, price: number, description?: string, options?: any) {
         return PaintingsApiFp(this.configuration).uploadPainting(image, name, author, userId, genres, height, width, price, description, options).then((request) => request(this.axios, this.basePath));
     }
 }
