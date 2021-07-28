@@ -12,7 +12,7 @@ import CheckboxGroup from "../shared/CheckboxGroup";
 import '../../styles/painting-editor/painting-editor.scss';
 
 type PaintingEditorProps = { match: any, history: any };
-type PaintingEditorState = { painting: PaintingModel, images: File[] };
+type PaintingEditorState = { painting: PaintingModel, images: File[], imagesSrc: string[], loading: boolean };
 
 class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditorState> {
 
@@ -23,10 +23,8 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
         height: yup.number().required('Height is required'),
         width: yup.number().required('Width is required'),
         price: yup.string().required('Price is required'),
-        description: yup.string()
+        description: yup.string().nullable(true)
     });
-
-    imagesSrc: string[] = [];
 
     paintingId: string;
 
@@ -44,7 +42,9 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
                 image: undefined,
                 userId: undefined
             },
-            images: []
+            images: [],
+            imagesSrc: [],
+            loading: true
         };
     }
 
@@ -52,11 +52,10 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
         this.paintingId = this.props.match.params.id;
         if (this.paintingId) {
             from(paintingService.getPainting(this.paintingId)).subscribe(response => {
-                this.setState({painting: response.data.painting});
-                this.imagesSrc = [response.data.painting.image.data];
+                this.setState({painting: response.data.painting, loading: false, imagesSrc: [response.data.painting.image.data]});
             });
         } else {
-
+            this.setState({loading: false});
         }
     }
 
@@ -76,6 +75,10 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
             // this.paintingService.updatePainting(paintingDto).subscribe(response => {
             //     this.router.navigate(['/gallery/' + this.paintingId]);
             // });
+            from(paintingService.updatePainting(this.paintingId, values.name, values.author, this.state.painting.userId,
+                values.genres.join('+'), values.height, values.width, values.price, this.state.images[0] || undefined, values.description)).subscribe(response => {
+
+            });
         } else {
             from(paintingService.uploadPainting(this.state.images[0], values.name, values.author, storageService.getUser().id,
                 values.genres.join('+'), values.height, values.width, values.price, values.description)).subscribe(response => {
@@ -88,6 +91,7 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
     render() {
         return (
             <div className="painting-editor">
+                {!this.state.loading &&
                 <Formik
                     initialValues={this.state.painting}
                     validationSchema={this.validationSchema}
@@ -96,7 +100,7 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
                     {
                         formik => (
                             <form className="form" onSubmit={formik.handleSubmit}>
-                                <ImageUploader onUpload={(image) => this.setImage(image)}/>
+                                <ImageUploader oldFileSrcs={this.state.imagesSrc} onUpload={(image) => this.setImage(image)}/>
                                 <div className="field-error">
                                     {this.state.images.length === 0 && formik.touched.image && !this.paintingId ? 'Please upload an image' : ''}
                                 </div>
@@ -169,6 +173,7 @@ class PaintingEditor extends React.Component<PaintingEditorProps, PaintingEditor
                         )
                     }
                 </Formik>
+                }
             </div>
         );
     }

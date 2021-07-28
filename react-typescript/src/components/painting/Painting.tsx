@@ -128,19 +128,4 @@ class Painting extends React.Component<PaintingProps, PaintingState> {
     }
 }
 
-/*
-* <div class="painting">
-  <ng-container *ngIf="painting && user">
-    <div class="details-wrapper">
-      <mat-card class="details">
-        <div class="actions" *ngIf="painting.userId === user.id || user.role === 'Admin'">
-          <mat-icon [routerLink]="'/painting-editor/' + painting.id">edit</mat-icon>
-          <mat-icon (click)="delete()">delete</mat-icon>
-        </div>
-      </mat-card>
-
-    </div>
-  </ng-container>
-</div>
-*/
 export default Painting;
