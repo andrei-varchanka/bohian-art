@@ -1,0 +1,22 @@
+<div class="login" [formGroup]="loginForm">
+  <p>Please enter your account details</p>
+
+  <mat-form-field>
+    <input matInput placeholder="Email" formControlName="email"/>
+    <mat-error>{{getErrorMessage('email')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="loginRow">
+    <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="Password"
+           formControlName="password"/>
+    <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error>{{getErrorMessage('password')}}</mat-error>
+  </mat-form-field>
+
+  <div class="error">{{error}}</div>
+
+  <button class="login-button" mat-raised-button color="primary" (click)="login()">Sign In</button>
+  <button class="login-button" mat-raised-button color="secondary" (click)="redirectToRegistration()">Go to registration</button>
+</div>

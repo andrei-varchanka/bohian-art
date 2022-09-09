@@ -1,0 +1,62 @@
+@import "~src/shared/styles/colors";
+@import "~src/shared/styles/variables";
+
+.painting {
+  display: flex;
+
+  .image {
+    img {
+      margin-bottom: -16px;
+      border-radius: inherit;
+    }
+  }
+
+  .details-wrapper {
+    width: 343px;
+    flex-shrink: 0;
+    margin-left: 16px;
+
+    .field {
+      display: flex;
+
+      .label {
+        font-weight: 500;
+        margin-right: 8px;
+      }
+
+      margin-bottom: 8px;
+    }
+  }
+
+  .details {
+    margin-bottom: 8px;
+    position: relative;
+
+    .actions {
+      position: absolute;
+      right: 16px;
+
+      mat-icon {
+        cursor: pointer;
+      }
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 27px;
+      font-weight: 700;
+      font-style: italic;
+      color: $mat-accent;
+    }
+
+  }
+}

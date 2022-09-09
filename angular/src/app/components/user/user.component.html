@@ -1,0 +1,71 @@
+<div class="user">
+  <mat-card class="form" *ngIf="user && !passwordChanging" [formGroup]="form">
+    <mat-form-field>
+      <input matInput placeholder="First name" formControlName="firstName"/>
+      <mat-error>{{getErrorMessage('firstName', 'first name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Last Name" formControlName="lastName"/>
+      <mat-error>{{getErrorMessage('lastName', 'last name')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Phone number" formControlName="phone"/>
+      <mat-error>{{getErrorMessage('phone')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email"/>
+      <mat-error>{{getErrorMessage('email')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="currentUser?.role === 'Admin'">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{role}}
+        </mat-option>
+      </mat-select>
+      <mat-error>{{getErrorMessage('role')}}</mat-error>
+    </mat-form-field>
+    <button class="submit" mat-flat-button color="primary" (click)="submit()">Submit</button>
+  </mat-card>
+
+  <mat-card class="form" *ngIf="user && passwordChanging" [formGroup]="changePassForm">
+    <mat-form-field>
+      <input [type]="hidePassword1 ? 'password' : 'text'" matInput placeholder="Password"
+             formControlName="password"/>
+      <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword1 = !hidePassword1">
+        <mat-icon>{{hidePassword1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error>{{getErrorMessage('password')}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input [type]="hidePassword2 ? 'password' : 'text'" matInput placeholder="Confirm password"
+             formControlName="confirm"/>
+      <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2">
+        <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error>{{getErrorMessage('confirm', 'email confirmation')}}</mat-error>
+    </mat-form-field>
+
+    <button class="submit" mat-flat-button color="primary" (click)="changePassword()">Submit</button>
+  </mat-card>
+
+  <mat-card class="actions">
+    <button mat-button [class.selected]="!passwordChanging" (click)="passwordChanging = false">General information</button>
+    <button mat-button *ngIf="currentUser?.id === user?.id" [class.selected]="passwordChanging"
+            (click)="passwordChanging = true">
+      Change password
+    </button>
+    <button mat-button (click)="redirectToUserGallery()">View uploaded artworks</button>
+  </mat-card>
+
+</div>
+<div class="user__delete">
+  <div class="button" (click)="delete()">
+    Delete the account
+  </div>
+</div>

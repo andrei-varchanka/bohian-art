@@ -1,0 +1,19 @@
+
+.range {
+  position: relative;
+
+  .title {
+    color: rgba(0, 0, 0, .54);
+    font-size: 11px;
+    position: absolute;
+  }
+
+  &-row {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .separator {
+    margin: 0 8px;
+  }
+}

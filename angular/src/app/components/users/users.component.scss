@@ -1,0 +1,11 @@
+
+.users {
+  .mat-column-id, .mat-column-email {
+    flex-grow: 2;
+  }
+
+  .mat-column-actions {
+    flex-grow: 0;
+    min-width: 40px;
+  }
+}

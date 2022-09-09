@@ -1,0 +1,43 @@
+<div class="header">
+  <div class="header__content">
+    <div class="left">
+      <div class="logo" [routerLink]="'/'">
+        <div class="icon"></div>
+        BOHIAN ART
+      </div>
+      <div class="navigation-item" *ngFor="let navigationItem of navigationItems" [routerLink]="navigationItem.route"
+           [class.selected]="selectedRoute.indexOf(navigationItem.route) !== -1">
+        {{navigationItem.label}}
+      </div>
+    </div>
+    <div class="actions">
+      <ng-container *ngIf="!contextService.getCurrentUser()">
+        <button class="login-button" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>
+      </ng-container>
+      <ng-container *ngIf="contextService.getCurrentUser()" >
+        <button mat-button [matMenuTriggerFor]="menu">
+          <span>{{getUserName()}}</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu class="user-menu" #menu="matMenu">
+          <button mat-menu-item [routerLink]="'/user/' + contextService.getCurrentUser().id">
+            <mat-icon>person</mat-icon>
+            <span>My profile</span>
+          </button>
+          <button  mat-menu-item *ngIf="getRole() === 'Artist'" [routerLink]="'/painting-editor'">
+            <mat-icon>add</mat-icon>
+            <span>Add new painting</span>
+          </button>
+          <button  mat-menu-item *ngIf="getRole() === 'Admin'" [routerLink]="'/users'">
+            <mat-icon>wc</mat-icon>
+            <span>Users</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Log out</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </div>
+  </div>
+</div>

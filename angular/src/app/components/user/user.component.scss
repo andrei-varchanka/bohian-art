@@ -1,0 +1,38 @@
+
+.user {
+  display: flex;
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-left: 16px;
+
+    button.selected {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .submit {
+    align-self: center;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  &__delete {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+
+    .button {
+      cursor: pointer;
+    }
+  }
+}

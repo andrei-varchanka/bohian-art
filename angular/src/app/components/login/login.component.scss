@@ -1,0 +1,23 @@
+@import "~src/shared/styles/colors";
+
+.login {
+  max-width: 300px;
+  width: 100%;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  &-button {
+    & + .login-button {
+      margin-left: 16px;
+    }
+  }
+
+  .error {
+    font-size: 14px;
+    height: 20px;
+    color: $mat-warn;
+    margin-bottom: 8px;
+  }
+}

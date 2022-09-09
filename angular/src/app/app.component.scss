@@ -1,0 +1,13 @@
+@import "~src/shared/styles/variables";
+@import "~src/shared/styles/colors";
+
+.app {
+  &__content {
+    width: 100%;
+    max-width: $max-content-width;
+    margin: 0 auto;
+    padding: 100px 16px 32px;
+    background-color: $overlay-1;
+    min-height: 100vh;
+  }
+}

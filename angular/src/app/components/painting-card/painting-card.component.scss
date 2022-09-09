@@ -1,0 +1,31 @@
+
+.painting-card {
+
+  img {
+    cursor: pointer;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .left {
+    .name {
+      font-weight: 700;
+    }
+
+    .author {
+      font-size: 15px;
+    }
+  }
+
+  .right {
+    font-size: 20px;
+    font-weight: 300;
+    white-space: nowrap;
+  }
+}

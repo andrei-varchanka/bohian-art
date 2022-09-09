@@ -1,0 +1,33 @@
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+
+  .filters {
+    display: flex;
+    margin-bottom: 16px;
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .item {
+    width: 300px;
+    margin: 10px;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.filter-popup {
+  padding: 0 16px;
+}
+
+.filter-button + .filter-button {
+  margin-left: 32px;
+}

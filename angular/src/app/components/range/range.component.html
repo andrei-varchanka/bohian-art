@@ -1,0 +1,14 @@
+<div class="range">
+  <div class="title">{{name}}</div>
+  <div class="range-row">
+    <mat-form-field floatLabel='never'>
+      <input matInput type="number" min="0" max="2147483647" [placeholder]="placeholder1"
+             [(ngModel)]="value.value1" (change)="onChange()">
+    </mat-form-field>
+    <div class="separator">-</div>
+    <mat-form-field floatLabel='never'>
+      <input matInput type="number" min="0" max="2147483647" [placeholder]="placeholder2"
+             [(ngModel)]="value.value2" (change)="onChange()">
+    </mat-form-field>
+  </div>
+</div>

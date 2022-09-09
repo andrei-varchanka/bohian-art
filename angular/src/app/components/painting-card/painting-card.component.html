@@ -1,0 +1,12 @@
+<mat-card class="painting-card">
+  <img mat-card-image [src]="getImageSrc() | safeHtml" [alt]="painting.name" (click)="open()">
+  <mat-card-content class="content">
+    <div class="left">
+      <div class="name">{{painting.name}}</div>
+      <div class="author">{{painting.author}}</div>
+    </div>
+    <div class="right">
+      {{painting.price + ' BYN'}}
+    </div>
+  </mat-card-content>
+</mat-card>

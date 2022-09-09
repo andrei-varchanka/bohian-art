@@ -1,0 +1,68 @@
+<div class="users">
+  <div>
+    <mat-form-field>
+      <input matInput type="text" (keyup)="doSearch($event.target.value)" placeholder="Search">
+    </mat-form-field>
+  </div>
+
+  <mat-table matSort class="table" [dataSource]="dataSource">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.email}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>First name</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.firstName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Last name</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.lastName}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Phone</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.phone}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Role</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.role}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onEditClick(user)">
+            <mat-icon class="mat-18">edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="onDeleteClick(user)">
+            <mat-icon class="mat-18">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons>
+  </mat-paginator>
+</div>
