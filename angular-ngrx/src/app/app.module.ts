@@ -34,6 +34,10 @@ import { RangeComponent } from './components/range/range.component';
 import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import {AngularYandexMapsModule, IConfig, YA_MAP_CONFIG} from "angular8-yandex-maps";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './store/reducers/app.reducers';
+import { UserEffects } from './store/effects/user.effects';
 
 const mapConfig: IConfig = {
   apikey: 'API_KEY',
@@ -73,7 +77,9 @@ const mapConfig: IConfig = {
     BrowserAnimationsModule,
     MaterialModules,
     AngularYandexMapsModule.forRoot(mapConfig),
-    ApiModule.forRoot({rootUrl: 'http://localhost:3000'})
+    ApiModule.forRoot({rootUrl: 'http://localhost:3000'}),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [
     RouterModule,
