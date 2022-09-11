@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {FormsValidators} from "../../utils/forms-validators";
 import {UsersService} from "../../api/services/users.service";
 import {ContextService} from "../../services/context-service";
@@ -15,12 +15,12 @@ export class LoginComponent implements OnInit {
 
   hidePassword = true;
 
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
   error: string;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private usersService: UsersService,
               private contextService: ContextService,
               private router: Router) {

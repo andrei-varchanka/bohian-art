@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContextService} from "../../services/context-service";
@@ -11,7 +11,7 @@ import {ContextService} from "../../services/context-service";
 })
 export class PaintingEditorComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
   genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
 
@@ -23,7 +23,7 @@ export class PaintingEditorComponent implements OnInit {
 
   paintingId: string;
 
-  constructor(private formBuilder: FormBuilder, private paintingService: PaintingsService, private router: Router,
+  constructor(private formBuilder: UntypedFormBuilder, private paintingService: PaintingsService, private router: Router,
               private context: ContextService, private route: ActivatedRoute) {
   }
 

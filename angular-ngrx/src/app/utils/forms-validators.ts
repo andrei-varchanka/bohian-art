@@ -1,9 +1,9 @@
-import {FormControl, ValidatorFn, ValidationErrors, FormGroup} from '@angular/forms';
+import {UntypedFormControl, ValidatorFn, ValidationErrors, UntypedFormGroup} from '@angular/forms';
 
 // @dynamic
 export class FormsValidators {
   static number(): ValidatorFn {
-    return (control: FormControl): ValidationErrors | null => {
+    return (control: UntypedFormControl): ValidationErrors | null => {
       const value = control.value;
 
       if (value) {
@@ -21,7 +21,7 @@ export class FormsValidators {
   }
 
   static decimal(fractionalLength: number) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       const value = control.value;
 
       if (value) {
@@ -48,7 +48,7 @@ export class FormsValidators {
     };
   }
 
-  static date(control: FormControl): ValidationErrors {
+  static date(control: UntypedFormControl): ValidationErrors {
     const value = control.value;
 
     if (!value) {
@@ -56,7 +56,7 @@ export class FormsValidators {
     }
   }
 
-  static dateOfBirth(control: FormControl): ValidationErrors {
+  static dateOfBirth(control: UntypedFormControl): ValidationErrors {
     const value = control.value;
 
     if (value) {
@@ -73,7 +73,7 @@ export class FormsValidators {
     return null;
   }
 
-  static names(control: FormControl): ValidationErrors {
+  static names(control: UntypedFormControl): ValidationErrors {
     const value = control.value;
 
     if (value) {
@@ -88,7 +88,7 @@ export class FormsValidators {
     return null;
   }
 
-  static email(control: FormControl): ValidationErrors {
+  static email(control: UntypedFormControl): ValidationErrors {
     const value = control.value;
 
     if (value) {
@@ -103,7 +103,7 @@ export class FormsValidators {
     return null;
   }
 
-  static password(control: FormControl): ValidationErrors {
+  static password(control: UntypedFormControl): ValidationErrors {
     const value = control.value;
 
     if (value) {
@@ -119,14 +119,14 @@ export class FormsValidators {
   }
 
   static confirmMatch(field: string) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       const value1 = control.value as string;
 
       if (!value1) {
         return null;
       }
 
-      const confirmationField = (control.parent as FormGroup).get(field);
+      const confirmationField = (control.parent as UntypedFormGroup).get(field);
 
       if (!confirmationField) {
         return null;

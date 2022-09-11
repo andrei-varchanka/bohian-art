@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UsersService} from "../../api/services/users.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {User} from "../../api/models/user";
@@ -18,9 +18,9 @@ import {UserDeletionConfirmationComponent} from "../users/users.component";
 })
 export class UserComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
 
-  changePassForm: FormGroup = new FormGroup({});
+  changePassForm: UntypedFormGroup = new UntypedFormGroup({});
 
   passwordChanging: boolean;
 
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
 
   hidePassword2 = true;
 
-  constructor(private formBuilder: FormBuilder, private userService: UsersService, private route: ActivatedRoute,
+  constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute,
               private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog) {
   }
 

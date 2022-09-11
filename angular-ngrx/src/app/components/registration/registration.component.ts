@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UsersService} from "../../api/services/users.service";
 import {ContextService} from "../../services/context-service";
 import {FormsValidators} from "../../utils/forms-validators";
@@ -16,9 +16,9 @@ export class RegistrationComponent implements OnInit {
 
   hidePassword2 = true;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private usersService: UsersService,
               private contextService: ContextService,
               private router: Router) { }
