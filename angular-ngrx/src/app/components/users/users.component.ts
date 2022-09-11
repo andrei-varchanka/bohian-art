@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -6,13 +6,19 @@ import { MatTableDataSource } from "@angular/material/table";
 import {User} from "../../api/models/user";
 import {UsersService} from "../../api/services/users.service";
 import {Router} from "@angular/router";
+import { select, Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/state/app.state';
+import { getUsersAction } from 'src/app/store/actions/user.actions';
+import { selectUsers } from 'src/app/store/selectors/user.selectors';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit, AfterViewInit {
+export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dataSource = new MatTableDataSource<User>();
 
@@ -22,11 +28,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private dialog: MatDialog, private usersService: UsersService, private router: Router) { }
+  unsubscribe$ = new Subject();
+
+  constructor(private dialog: MatDialog, private usersService: UsersService, private router: Router, private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.usersService.getAllUsers().subscribe(data => {
-      this.dataSource.data = data.users as User[];
+    this.store.dispatch(getUsersAction());
+    this.store.select(selectUsers).pipe(takeUntil(this.unsubscribe$)).subscribe((users) => {
+      this.dataSource.data = users as User[];
     });
   }
 
@@ -54,6 +63,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }
 
 @Component({

@@ -3,7 +3,8 @@ import { AuthUser, User } from "src/app/api/models";
 
 export enum UserActions {
   Auth = '[Users API] Auth Success',
-  GetUsers = '[Users API] Get Users Success',
+  GetUsers = '[Users] Get Users',
+  GetUsersSuccess = '[Users API] Get Users Success',
   CreateUser = '[Users API] Create User Success',
   GetUser = '[Users API] Get User Success',
   UpdateUser = '[Users API] Update User Success',
@@ -13,7 +14,9 @@ export enum UserActions {
 
 export const authAction = createAction(UserActions.Auth, props<AuthUser>());
 
-export const getUsersAction = createAction(UserActions.GetUsers, props<{users: User[]}>());
+export const getUsersAction = createAction(UserActions.GetUsers);
+
+export const getUsersSuccessAction = createAction(UserActions.GetUsersSuccess, props<{users: User[]}>());
 
 export const createUserAction = createAction(UserActions.CreateUser, props<User>());
 

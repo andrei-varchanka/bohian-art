@@ -4,7 +4,7 @@ import { select, Store } from "@ngrx/store";
 import { EMPTY, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
 import { UsersService } from "src/app/api/services";
-import { getUsersAction, UserActions } from "../actions/user.actions";
+import { getUsersSuccessAction, UserActions } from "../actions/user.actions";
 
 @Injectable()
 export class UserEffects {
@@ -26,7 +26,7 @@ export class UserEffects {
       ofType(UserActions.GetUsers),
       mergeMap(() => this.userService.getAllUsers()
         .pipe(
-          map(response => getUsersAction({ users: response.users })),
+          map(response => getUsersSuccessAction({ users: response.users })),
           catchError(() => EMPTY)
         )
       )

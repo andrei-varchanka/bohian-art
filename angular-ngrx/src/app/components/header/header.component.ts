@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   navigationItems: any[];
 
-  constructor(public dialog: MatDialog, private contextService: ContextService, private router: Router) {
+  constructor(public dialog: MatDialog, public contextService: ContextService, private router: Router) {
   }
 
   ngOnInit() {

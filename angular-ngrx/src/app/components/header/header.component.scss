@@ -1,5 +1,5 @@
-@import "~src/shared/styles/colors";
-@import "~src/shared/styles/variables";
+@import "../../../shared/styles/colors";
+@import "../../../shared/styles/variables";
 
 .header {
   background-color: $mat-primary;
@@ -33,7 +33,7 @@
       align-items: center;
 
       .icon {
-        background-image: url("src/assets/img/logo.svg");
+        background-image: url("../../../assets/img/logo.svg");
         width: 48px;
         min-width: 48px;
         height: 48px;
