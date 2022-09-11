@@ -38,6 +38,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { appReducers } from './store/reducers/app.reducers';
 import { UserEffects } from './store/effects/user.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 const mapConfig: IConfig = {
   apikey: 'API_KEY',
@@ -80,6 +81,11 @@ const mapConfig: IConfig = {
         ApiModule.forRoot({ rootUrl: 'http://localhost:3000' }),
         StoreModule.forRoot(appReducers),
         EffectsModule.forRoot([UserEffects]),
+        StoreDevtoolsModule.instrument({
+          maxAge: 25, // Retains last 25 states
+          logOnly: false, // Restrict extension to log-only mode
+          autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+        }),
     ],
     providers: [
         RouterModule,
