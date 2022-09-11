@@ -15,9 +15,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['id', 'email', 'firstName', 'lastName', 'phone', 'role', 'actions'];
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private dialog: MatDialog, private usersService: UsersService, private router: Router) { }
 
