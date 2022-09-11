@@ -45,52 +45,51 @@ const mapConfig: IConfig = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    GalleryComponent,
-    PaintingComponent,
-    PaintingDeletionConfirmationComponent,
-    LoginComponent,
-    PaintingEditorComponent,
-    HeaderComponent,
-    FooterComponent,
-    ImageUploaderComponent,
-    DragDropDirective,
-    SafeHtmlPipe,
-    PlaygroundComponent,
-    CheckboxGroupComponent,
-    PaintingCardComponent,
-    RegistrationComponent,
-    UserComponent,
-    RangeComponent,
-    UsersComponent,
-    UserDeletionConfirmationComponent,
-    ContactsComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialModules,
-    AngularYandexMapsModule.forRoot(mapConfig),
-    ApiModule.forRoot({rootUrl: 'http://localhost:3000'}),
-    StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([UserEffects]),
-  ],
-  providers: [
-    RouterModule,
-    CookieService,
-    ContextService,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: YA_MAP_CONFIG, useValue: {apikey: 'API_KEY', lang: 'en_US'}},
-    AuthGuard
-  ],
-  entryComponents: [LoginComponent, PaintingDeletionConfirmationComponent, UserDeletionConfirmationComponent],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        GalleryComponent,
+        PaintingComponent,
+        PaintingDeletionConfirmationComponent,
+        LoginComponent,
+        PaintingEditorComponent,
+        HeaderComponent,
+        FooterComponent,
+        ImageUploaderComponent,
+        DragDropDirective,
+        SafeHtmlPipe,
+        PlaygroundComponent,
+        CheckboxGroupComponent,
+        PaintingCardComponent,
+        RegistrationComponent,
+        UserComponent,
+        RangeComponent,
+        UsersComponent,
+        UserDeletionConfirmationComponent,
+        ContactsComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModules,
+        AngularYandexMapsModule.forRoot(mapConfig),
+        ApiModule.forRoot({ rootUrl: 'http://localhost:3000' }),
+        StoreModule.forRoot(appReducers),
+        EffectsModule.forRoot([UserEffects]),
+    ],
+    providers: [
+        RouterModule,
+        CookieService,
+        ContextService,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: YA_MAP_CONFIG, useValue: { apikey: 'API_KEY', lang: 'en_US' } },
+        AuthGuard
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
