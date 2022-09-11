@@ -5,7 +5,7 @@ import {Painting} from "../../api/models/painting";
 import {User} from "../../api/models/user";
 import {mergeMap} from "rxjs/operators";
 import {UsersService} from "../../api/services/users.service";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {ContextService} from "../../services/context-service";
 
 @Component({

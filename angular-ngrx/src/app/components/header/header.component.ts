@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginComponent} from "../login/login.component";
-import {MatDialog} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
 import {ContextService} from "../../services/context-service";
 import {User} from "../../api/models/user";
 import {NavigationEnd, Router} from "@angular/router";
