@@ -9,5 +9,5 @@ export interface AppState {
 }
 
 export const initialAppState: AppState = {
-  users: initialUserState
+  users: initialUserState,
 };
