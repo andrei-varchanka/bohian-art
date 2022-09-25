@@ -3,15 +3,23 @@ import { AuthUser, User } from "src/app/api/models";
 
 export enum UserActions {
   // Auth = '[Users API] Auth Success',
+
   GetUsers = '[Users Interface] Get Users',
   GetUsersSuccess = '[Users API] Get Users Success',
   GetUsersError = '[Users API] Get Users Error',
+
   // CreateUser = '[Users API] Create User Success',
-  // GetUser = '[Users API] Get User Success',
+
+  GetUser = '[Users Interface] Get User',
+  GetUserSuccess = '[Users API] Get User Success',
+  GetUserError = '[Users API] Get User Error',
+
   // UpdateUser = '[Users API] Update User Success',
+
   DeleteUser = '[Users Interface] Delete User',
   DeleteUserSuccess = '[Users API] Delete User Success',
   DeleteUserError = '[Users API] Delete User Error',
+
   // ChangePassword = '[Users API] Change Password Success'
 }
 
@@ -25,7 +33,11 @@ export const getUsersErrorAction = createAction(UserActions.GetUsersError, props
 
 // export const createUserAction = createAction(UserActions.CreateUser, props<User>());
 
-// export const getUserAction = createAction(UserActions.GetUser);
+export const getUserAction = createAction(UserActions.GetUser, props<{userId: string}>());
+
+export const getUserSuccessAction = createAction(UserActions.GetUserSuccess, props<User>());
+
+export const getUserErrorAction = createAction(UserActions.GetUserError, props<Error>());
 
 // export const updateUserAction = createAction(UserActions.UpdateUser, props<User>());
 

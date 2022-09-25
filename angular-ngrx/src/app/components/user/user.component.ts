@@ -1,22 +1,28 @@
-import {Component, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {UsersService} from "../../api/services/users.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {User} from "../../api/models/user";
-import {FormsValidators} from "../../utils/forms-validators";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { UsersService } from "../../api/services/users.service";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { User } from "../../api/models/user";
+import { FormsValidators } from "../../utils/forms-validators";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import {mergeMap} from "rxjs/operators";
-import {ContextService} from "../../services/context-service";
-import {query} from "@angular/animations";
-import {UserDeletionConfirmationComponent} from "../users/users.component";
+import { mergeMap, takeUntil } from "rxjs/operators";
+import { ContextService } from "../../services/context-service";
+import { query } from "@angular/animations";
+import { UserDeletionConfirmationComponent } from "../users/users.component";
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';
+import { Observable, Subject } from 'rxjs';
+import { getUserAction } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
 
   form: UntypedFormGroup = new UntypedFormGroup({});
 
@@ -26,7 +32,7 @@ export class UserComponent implements OnInit {
 
   userId: string;
 
-  user: User;
+  user$: Observable<User>;
 
   currentUser: User;
 
@@ -36,46 +42,46 @@ export class UserComponent implements OnInit {
 
   hidePassword2 = true;
 
-  constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute,
-              private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog) {
+  unsubscribe$ = new Subject();
+
+  constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private store: Store<AppState>,
+    private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog) {
+    this.form = this.formBuilder.group({
+      email: [null, [Validators.required, FormsValidators.email]],
+      firstName: [null, [Validators.required]],
+      lastName: [null, [Validators.required]],
+      role: [null, [Validators.required]],
+      phone: [null, []]
+    });
+    this.changePassForm = this.formBuilder.group({
+      password: [null, [Validators.required, FormsValidators.password]],
+      confirm: [null, [Validators.required, FormsValidators.confirmMatch('password')]]
+    });
   }
 
   ngOnInit() {
+    this.currentUser = this.context.getCurrentUser();
     this.init();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.init();
       }
     });
-
   }
 
   init() {
-    this.currentUser = this.context.getCurrentUser();
     this.userId = this.route.snapshot.params.id;
     if (this.userId) {
-      this.userService.getUser(this.userId).subscribe(response => {
-        this.user = response.user;
-        this.fillForms();
+      this.store.dispatch(getUserAction({ userId: this.userId }))
+      this.user$ = this.store.select(selectSelectedUser);
+      this.user$.pipe(takeUntil(this.unsubscribe$)).subscribe((user: User) => {
+        this.form.patchValue(user);
       });
     } else {
       this.router.navigate(['/']);
     }
   }
 
-  fillForms() {
-    this.form = this.formBuilder.group({
-      email: [this.user.email, [Validators.required, FormsValidators.email]],
-      firstName: [this.user.firstName, [Validators.required]],
-      lastName: [this.user.lastName, [Validators.required]],
-      role: [this.user.role, [Validators.required]],
-      phone: [this.user.phone, []]
-    });
-    this.changePassForm = this.formBuilder.group({
-      password: ['', [Validators.required, FormsValidators.password]],
-      confirm: ['', [Validators.required, FormsValidators.confirmMatch('password')]]
-    });
-  }
 
   isFormValid(): boolean {
     let isFormValid = true;
@@ -135,13 +141,13 @@ export class UserComponent implements OnInit {
       phone: this.form.controls.phone.value
     };
 
-    this.userService.updateUser({userId: this.userId, body: user}).subscribe(response => {
-      if (this.currentUser.id === this.user.id) {
-        this.currentUser = response.user;
-        this.context.setCurrentUser(response.user);
-      }
-      this.snackBar.open('Saved!', null, {duration: 2000});
-    });
+    // this.userService.updateUser({userId: this.userId, body: user}).subscribe(response => {
+    //   if (this.currentUser.id === this.user.id) {
+    //     this.currentUser = response.user;
+    //     this.context.setCurrentUser(response.user);
+    //   }
+    //   this.snackBar.open('Saved!', null, {duration: 2000});
+    // });
   }
 
   changePassword() {
@@ -151,34 +157,39 @@ export class UserComponent implements OnInit {
     const password = this.changePassForm.controls.password.value;
     this.userService.changePassword({
       userId: this.userId,
-      body: {password}
+      body: { password }
     }).pipe(mergeMap(response => {
       const email = response.user.email;
-      return this.userService.auth({email, password});
+      return this.userService.auth({ email, password });
     })).subscribe(response => {
       this.context.setAuthToken(response.token);
       this.context.setCurrentUser(response.user);
-      this.snackBar.open('Saved!', null, {duration: 2000});
+      this.snackBar.open('Saved!', null, { duration: 2000 });
     });
   }
 
   redirectToUserGallery() {
-    this.router.navigate(['/gallery'], {queryParams: {userId: this.userId}});
+    this.router.navigate(['/gallery'], { queryParams: { userId: this.userId } });
   }
 
   delete() {
-    const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.deleteUser(this.userId).subscribe(response => {
-          if (this.context.getCurrentUser().id === this.user.id) {
-            this.router.navigate(['/']);
-          } else {
-            this.router.navigate(['/users']);
-          }
-        });
-      }
-    });
+    // const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     this.userService.deleteUser(this.userId).subscribe(response => {
+    //       if (this.context.getCurrentUser().id === this.user.id) {
+    //         this.router.navigate(['/']);
+    //       } else {
+    //         this.router.navigate(['/users']);
+    //       }
+    //     });
+    //   }
+    // });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }

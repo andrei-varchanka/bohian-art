@@ -1,5 +1,5 @@
 <div class="user">
-  <mat-card class="form" *ngIf="user && !passwordChanging" [formGroup]="form">
+  <mat-card class="form" *ngIf="(user$ | async) && !passwordChanging" [formGroup]="form">
     <mat-form-field>
       <input matInput placeholder="First name" formControlName="firstName"/>
       <mat-error>{{getErrorMessage('firstName', 'first name')}}</mat-error>
@@ -32,7 +32,7 @@
     <button class="submit" mat-flat-button color="primary" (click)="submit()">Submit</button>
   </mat-card>
 
-  <mat-card class="form" *ngIf="user && passwordChanging" [formGroup]="changePassForm">
+  <mat-card class="form" *ngIf="(user$ | async) && passwordChanging" [formGroup]="changePassForm">
     <mat-form-field>
       <input [type]="hidePassword1 ? 'password' : 'text'" matInput placeholder="Password"
              formControlName="password"/>
@@ -56,10 +56,10 @@
 
   <mat-card class="actions">
     <button mat-button [class.selected]="!passwordChanging" (click)="passwordChanging = false">General information</button>
-    <button mat-button *ngIf="currentUser?.id === user?.id" [class.selected]="passwordChanging"
+    <!-- <button mat-button *ngIf="currentUser?.id === user?.id" [class.selected]="passwordChanging"
             (click)="passwordChanging = true">
       Change password
-    </button>
+    </button> -->
     <button mat-button (click)="redirectToUserGallery()">View uploaded artworks</button>
   </mat-card>
 
