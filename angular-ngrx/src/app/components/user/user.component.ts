@@ -14,7 +14,8 @@ import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';
 import { Observable, Subject } from 'rxjs';
-import { getUserAction } from 'src/app/store/actions/user.actions';
+import { getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-user',
@@ -45,7 +46,7 @@ export class UserComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
 
   constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private store: Store<AppState>,
-    private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog) {
+    private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog, private actions$: Actions) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required, FormsValidators.email]],
       firstName: [null, [Validators.required]],
@@ -132,7 +133,8 @@ export class UserComponent implements OnInit, OnDestroy {
     if (!this.isFormValid()) {
       return;
     }
-    const user = {
+    const user: User = {
+      id: this.userId,
       email: this.form.controls.email.value,
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
@@ -140,14 +142,16 @@ export class UserComponent implements OnInit, OnDestroy {
       role: this.form.controls.role.value,
       phone: this.form.controls.phone.value
     };
-
-    // this.userService.updateUser({userId: this.userId, body: user}).subscribe(response => {
-    //   if (this.currentUser.id === this.user.id) {
-    //     this.currentUser = response.user;
-    //     this.context.setCurrentUser(response.user);
-    //   }
-    //   this.snackBar.open('Saved!', null, {duration: 2000});
-    // });
+    this.store.dispatch(updateUserAction(user));
+    this.actions$.pipe(
+      ofType(UserActions.UpdateUserSuccess)
+    ).subscribe((payload: User) => {
+        if (this.currentUser.id === this.userId) {
+          this.currentUser = payload;
+          this.context.setCurrentUser(payload);
+        }
+      this.snackBar.open('Saved!', null, { duration: 2000 });
+    });
   }
 
   changePassword() {

@@ -8,10 +8,4 @@ const selectUsersFromState = (state: AppState) => state.users;
 
 export const selectUsers = createSelector( selectUsersFromState, (state: UserState) => state.users);
 
-export const selectSelectedUser = createSelector( selectUsersFromState, (state: UserState) => {
-  if (state.action === UserActions.GetUser && state.done) {
-    return state.selectedUser;
-  } else {
-    return null;
-  }
-});
+export const selectSelectedUser = createSelector( selectUsersFromState, (state: UserState) => state.selectedUser);

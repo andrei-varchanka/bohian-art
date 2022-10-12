@@ -4,7 +4,7 @@ import { select, Store } from "@ngrx/store";
 import { EMPTY, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
 import { UsersService } from "src/app/api/services";
-import { deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, UserActions } from "../actions/user.actions";
+import { deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 
 @Injectable()
 export class UserEffects {
@@ -24,6 +24,15 @@ export class UserEffects {
       mergeMap(() => this.userService.getAllUsers()),
       map(response => getUsersSuccessAction({ users: response.users })),
       catchError((err) => [getUsersErrorAction(err)])
+    )
+  );
+
+  updateUser$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(UserActions.UpdateUser),
+      mergeMap((action) => this.userService.updateUser({userId: (action as any).id, body: action})),
+      map(response => updateUserSuccessAction(response.user)),
+      catchError((err) => [updateUserErrorAction(err)])
     )
   );
 

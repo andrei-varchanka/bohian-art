@@ -55,9 +55,6 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(deleteUserAction({userId: user.id}));
-        // this.usersService.deleteUser(user.id).subscribe(response => {
-        //   this.dataSource.data = this.dataSource.data.filter(u => user.id !== u.id);
-        // });
         this.actions$.pipe(
           ofType(UserActions.DeleteUserError),
         ).subscribe(action => console.log((action as any).payload));
