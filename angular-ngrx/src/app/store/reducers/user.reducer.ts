@@ -14,13 +14,13 @@ export const userReducer = createReducer(
   on(getUserErrorAction, (state, payload) => ({...state, done: true, error: payload})),
 
   on(deleteUserAction, (state) => ({...state, action: UserActions.DeleteUser, done: false, error: null})),
-  on(deleteUserSuccessAction, (state, payload) => ({...state, done: true, users: state.users.filter(u => u.id != payload.userId), selectedUser: null})),
+  on(deleteUserSuccessAction, (state, payload) => ({...state, done: true, users: state.users?.filter(u => u.id != payload.userId), selectedUser: null})),
   on(deleteUserErrorAction, (state, payload) => ({...state, done: true, error: payload})),
   
   on(updateUserAction, (state, payload) => ({...state, action: UserActions.UpdateUser, selectedUser: payload, done: false, error: null})),
   on(updateUserSuccessAction, (state, payload) => {
     const index = state.users?.findIndex(user => user.id === state.selectedUser.id);
-    return {...state, done: true, users: index ? [...state.users.slice(0, index), state.selectedUser, ...state.users.slice(index + 1)] : null};
+    return {...state, done: true, users: index && state.users ? [...state.users.slice(0, index), state.selectedUser, ...state.users.slice(index + 1)] : null};
   }),
   on(updateUserErrorAction, (state, payload) => ({...state, done: true, selectedUser: null, error: payload}))
 );

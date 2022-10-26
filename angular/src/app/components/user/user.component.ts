@@ -171,7 +171,7 @@ export class UserComponent implements OnInit {
       if (result) {
         this.userService.deleteUser(this.userId).subscribe(response => {
           if (this.context.getCurrentUser().id === this.user.id) {
-            this.router.navigate(['/']);
+            this.context.logout();
           } else {
             this.router.navigate(['/users']);
           }

@@ -14,7 +14,7 @@ import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';
 import { Observable, Subject } from 'rxjs';
-import { getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
+import { deleteUserAction, getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
 import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
@@ -146,10 +146,10 @@ export class UserComponent implements OnInit, OnDestroy {
     this.actions$.pipe(
       ofType(UserActions.UpdateUserSuccess)
     ).subscribe((payload: User) => {
-        if (this.currentUser.id === this.userId) {
-          this.currentUser = payload;
-          this.context.setCurrentUser(payload);
-        }
+      if (this.currentUser.id === this.userId) {
+        this.currentUser = payload;
+        this.context.setCurrentUser(payload);
+      }
       this.snackBar.open('Saved!', null, { duration: 2000 });
     });
   }
@@ -177,18 +177,21 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    // const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     this.userService.deleteUser(this.userId).subscribe(response => {
-    //       if (this.context.getCurrentUser().id === this.user.id) {
-    //         this.router.navigate(['/']);
-    //       } else {
-    //         this.router.navigate(['/users']);
-    //       }
-    //     });
-    //   }
-    // });
+    const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store.dispatch(deleteUserAction({ userId: this.userId }));
+        this.actions$.pipe(
+          ofType(UserActions.DeleteUserSuccess),
+        ).subscribe(action => {
+          if (this.context.getCurrentUser().id === this.userId) {
+            this.context.logout();
+          } else {
+            this.router.navigate(['/users']);
+          }
+        });
+      }
+    });
   }
 
   ngOnDestroy() {
