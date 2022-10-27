@@ -1,10 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {FormsValidators} from "../../utils/forms-validators";
-import {UsersService} from "../../api/services/users.service";
-import {ContextService} from "../../services/context-service";
-import {Router} from "@angular/router";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { FormsValidators } from "../../utils/forms-validators";
+import { UsersService } from "../../api/services/users.service";
+import { ContextService } from "../../services/context-service";
+import { Router } from "@angular/router";
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { authAction, UserActions } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +24,10 @@ export class LoginComponent implements OnInit {
   error: string;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
-              private formBuilder: UntypedFormBuilder,
-              private usersService: UsersService,
-              private contextService: ContextService,
-              private router: Router) {
+    private formBuilder: UntypedFormBuilder,
+    private usersService: UsersService,
+    private contextService: ContextService,
+    private router: Router, private store: Store<AppState>, private actions$: Actions) {
   }
 
   ngOnInit() {
@@ -31,6 +35,7 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
+    this.subscribeOnLogin();
   }
 
   getErrorMessage(controlName: string): string {
@@ -46,18 +51,21 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.error = null;
-    this.usersService.auth({
+    this.store.dispatch(authAction({
       email: this.loginForm.controls.email.value,
       password: this.loginForm.controls.password.value
-    }).subscribe(response => {
-      if (response.success) {
-        this.contextService.setCurrentUser(response.user);
-        this.contextService.setAuthToken(response.token);
-        this.dialogRef.close();
-        window.location.reload();
-      }
-    }, error => {
-      this.error = error.error.errorMessage;
+    }));
+  }
+
+  subscribeOnLogin() {
+    this.actions$.pipe(ofType(UserActions.AuthSuccess)).subscribe(response => {
+      this.contextService.setCurrentUser((response as any).user);
+      this.contextService.setAuthToken((response as any).token);
+      this.dialogRef.close();
+      window.location.reload();
+    });
+    this.actions$.pipe(ofType(UserActions.AuthError)).subscribe(error => {
+      this.error = (error as any)?.error.errorMessage;
     });
   }
 

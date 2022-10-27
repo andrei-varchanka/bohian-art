@@ -181,9 +181,7 @@ export class UserComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(deleteUserAction({ userId: this.userId }));
-        this.actions$.pipe(
-          ofType(UserActions.DeleteUserSuccess),
-        ).subscribe(action => {
+        this.actions$.pipe(ofType(UserActions.DeleteUserSuccess)).subscribe(action => {
           if (this.context.getCurrentUser().id === this.userId) {
             this.context.logout();
           } else {

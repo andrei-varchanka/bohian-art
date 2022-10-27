@@ -4,35 +4,56 @@ import { select, Store } from "@ngrx/store";
 import { EMPTY, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
 import { UsersService } from "src/app/api/services";
-import { deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
+import { authErrorAction, authSuccessAction, deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 
 @Injectable()
 export class UserEffects {
 
+  auth$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(UserActions.Auth),
+      mergeMap(action => this.userService.auth(action)
+        .pipe(
+          map(response => authSuccessAction({ token: response.token, user: response.user })),
+          catchError((err) => of(authErrorAction(err)))
+        )
+      )
+    )
+  );
+
   getUser$ = createEffect(() => this.actions$
     .pipe(
       ofType(UserActions.GetUser),
-      mergeMap(action => this.userService.getUser((action as any).userId)),
-      map(response => getUserSuccessAction(response.user)),
-      catchError((err) => [getUserErrorAction(err)])
+      mergeMap(action => this.userService.getUser((action as any).userId)
+        .pipe(
+          map(response => getUserSuccessAction(response.user)),
+          catchError((err) => of(getUserErrorAction(err)))
+        )
+      )
     )
   );
 
   getUsers$ = createEffect(() => this.actions$
     .pipe(
       ofType(UserActions.GetUsers),
-      mergeMap(() => this.userService.getAllUsers()),
-      map(response => getUsersSuccessAction({ users: response.users })),
-      catchError((err) => [getUsersErrorAction(err)])
+      mergeMap(() => this.userService.getAllUsers()
+        .pipe(
+          map(response => getUsersSuccessAction({ users: response.users })),
+          catchError((err) => of(getUsersErrorAction(err)))
+        )
+      )
     )
   );
 
   updateUser$ = createEffect(() => this.actions$
     .pipe(
       ofType(UserActions.UpdateUser),
-      mergeMap((action) => this.userService.updateUser({userId: (action as any).id, body: action})),
-      map(response => updateUserSuccessAction(response.user)),
-      catchError((err) => [updateUserErrorAction(err)])
+      mergeMap((action) => this.userService.updateUser({ userId: (action as any).id, body: action })
+        .pipe(
+          map(response => updateUserSuccessAction(response.user)),
+          catchError((err) => of(updateUserErrorAction(err)))
+        )
+      )
     )
   );
 
@@ -42,7 +63,7 @@ export class UserEffects {
       mergeMap((action) => this.userService.deleteUser((action as any).userId)
         .pipe(
           map(response => deleteUserSuccessAction({ userId: (action as any).userId })),
-          catchError((err) => [deleteUserErrorAction(err)])
+          catchError((err) => of(deleteUserErrorAction(err)))
         )
       )
     )

@@ -56,10 +56,10 @@
 
   <mat-card class="actions">
     <button mat-button [class.selected]="!passwordChanging" (click)="passwordChanging = false">General information</button>
-    <!-- <button mat-button *ngIf="currentUser?.id === user?.id" [class.selected]="passwordChanging"
+    <button mat-button *ngIf="currentUser?.id === userId" [class.selected]="passwordChanging"
             (click)="passwordChanging = true">
       Change password
-    </button> -->
+    </button>
     <button mat-button (click)="redirectToUserGallery()">View uploaded artworks</button>
   </mat-card>
 

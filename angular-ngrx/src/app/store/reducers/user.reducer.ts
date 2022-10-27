@@ -1,10 +1,14 @@
 import { createReducer, on } from "@ngrx/store";
-import { deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
+import { authAction, authErrorAction, authSuccessAction, deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 import { initialUserState } from "../state/user.state";
 
 
 export const userReducer = createReducer(
   initialUserState,
+  on(authAction, (state) => ({...state, action: UserActions.Auth, done: false, error: null})),
+  on(authSuccessAction, (state) => ({...state, done: true})),
+  on(authErrorAction, (state, payload) => ({...state, done: true, error: payload})),
+
   on(getUsersAction, (state) => ({...state, action: UserActions.GetUsers, done: false, error: null})),
   on(getUsersSuccessAction, (state, payload) => ({ ...state, done: true, users: payload.users })),
   on(getUsersErrorAction, (state, payload) => ({...state, done: true, error: payload})),

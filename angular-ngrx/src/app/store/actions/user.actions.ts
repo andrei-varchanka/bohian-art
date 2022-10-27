@@ -2,7 +2,9 @@ import { createAction, props } from "@ngrx/store";
 import { AuthUser, User } from "src/app/api/models";
 
 export enum UserActions {
-  // Auth = '[Users API] Auth Success',
+  Auth = '[User Interface] Authorize',
+  AuthSuccess = '[Users API] Auth Success',
+  AuthError = '[Users API] Auth Error',
 
   GetUsers = '[Users Interface] Get Users',
   GetUsersSuccess = '[Users API] Get Users Success',
@@ -22,10 +24,14 @@ export enum UserActions {
   DeleteUserSuccess = '[Users API] Delete User Success',
   DeleteUserError = '[Users API] Delete User Error',
 
-  // ChangePassword = '[Users API] Change Password Success'
+  ChangePassword = '[User Interface] Change Password',
+  ChangePasswordSuccess = '[Users API] Change Password Success',
+  ChangePasswordError = '[Users API] Change Password Error'
 }
 
-//export const authAction = createAction(UserActions.Auth, props<AuthUser>());
+export const authAction = createAction(UserActions.Auth, props<AuthUser>());
+export const authSuccessAction = createAction(UserActions.AuthSuccess, props<{token: string, user: User}>());
+export const authErrorAction = createAction(UserActions.AuthError, props<Error>());
 
 export const getUsersAction = createAction(UserActions.GetUsers);
 export const getUsersSuccessAction = createAction(UserActions.GetUsersSuccess, props<{users: User[]}>());
@@ -45,4 +51,6 @@ export const deleteUserAction = createAction(UserActions.DeleteUser, props<{user
 export const deleteUserSuccessAction = createAction(UserActions.DeleteUserSuccess, props<{userId: string}>());
 export const deleteUserErrorAction = createAction(UserActions.DeleteUserError, props<Error>());
 
-// export const changePasswordAction = createAction(UserActions.ChangePassword, props<{password: string}>());
+export const changePasswordAction = createAction(UserActions.ChangePassword, props<{userId: string, password: string}>());
+export const changePasswordSuccessAction = createAction(UserActions.ChangePasswordSuccess, props<User>());
+export const changePasswoedErrorAction = createAction(UserActions.ChangePasswordError, props<Error>());
