@@ -4,6 +4,9 @@ import { MatDialog } from "@angular/material/dialog";
 import {ContextService} from "../../services/context-service";
 import {User} from "../../api/models/user";
 import {NavigationEnd, Router} from "@angular/router";
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/state/app.state';
+import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 
 @Component({
   selector: 'app-header',
@@ -16,10 +19,15 @@ export class HeaderComponent implements OnInit {
 
   navigationItems: any[];
 
-  constructor(public dialog: MatDialog, public contextService: ContextService, private router: Router) {
+  currentUser: User;
+
+  constructor(public dialog: MatDialog, public contextService: ContextService, private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
+    this.store.select(selectCurrentUser).subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
     this.navigationItems = [
       {
         route: 'gallery',
@@ -47,12 +55,11 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserName() {
-    const user = this.contextService.getCurrentUser();
-    return user.firstName + ' ' + user.lastName;
+    return this.currentUser ? (this.currentUser.firstName + ' ' + this.currentUser.lastName) : '';
   }
 
   getRole() {
-    return this.contextService.getCurrentUser().role;
+    return this.currentUser?.role;
   }
 
   getSelectedRoute() {

@@ -28,7 +28,7 @@ import {CheckboxGroupComponent} from './components/checkbox-group/checkbox-group
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
 import {PaintingCardComponent} from './components/painting-card/painting-card.component';
 import {RegistrationComponent} from './components/registration/registration.component';
-import {AuthGuard} from "./components/guards/auth-guard";
+import {AuthGuard} from "./guards/auth-guard";
 import { UserComponent } from './components/user/user.component';
 import { RangeComponent } from './components/range/range.component';
 import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
@@ -39,6 +39,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { appReducers } from './store/reducers/app.reducers';
 import { UserEffects } from './store/effects/user.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { metaReducers } from './store/reducers/meta.reducers';
 
 const mapConfig: IConfig = {
   apikey: 'API_KEY',
@@ -79,7 +80,7 @@ const mapConfig: IConfig = {
         MaterialModules,
         AngularYandexMapsModule.forRoot(mapConfig),
         ApiModule.forRoot({ rootUrl: 'http://localhost:3000' }),
-        StoreModule.forRoot(appReducers),
+        StoreModule.forRoot(appReducers, {metaReducers}),
         EffectsModule.forRoot([UserEffects]),
         StoreDevtoolsModule.instrument({
           maxAge: 25, // Retains last 25 states

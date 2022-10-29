@@ -9,6 +9,7 @@ import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { authAction, UserActions } from 'src/app/store/actions/user.actions';
+import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
 
 @Component({
   selector: 'app-login',
@@ -59,10 +60,12 @@ export class LoginComponent implements OnInit {
 
   subscribeOnLogin() {
     this.actions$.pipe(ofType(UserActions.AuthSuccess)).subscribe(response => {
-      this.contextService.setCurrentUser((response as any).user);
-      this.contextService.setAuthToken((response as any).token);
+      this.store.dispatch(setCurrentUserAction((response as any).user));
+      this.store.dispatch(setAuthTokenAction({token: (response as any).token}));
+      // this.contextService.setCurrentUser((response as any).user);
+      // this.contextService.setAuthToken((response as any).token);
       this.dialogRef.close();
-      window.location.reload();
+      // window.location.reload();
     });
     this.actions$.pipe(ofType(UserActions.AuthError)).subscribe(error => {
       this.error = (error as any)?.error.errorMessage;

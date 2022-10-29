@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {ContextService} from "../services/context-service";
+import { selectToken } from '../store/selectors/system.selectors';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/state/app.state';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private context: ContextService) { }
+
+  token: string;
+
+    constructor(private store: Store<AppState>) {
+      this.store.select(selectToken).subscribe(token => {
+        this.token = token;
+      });
+     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        const authToken = this.context.getAuthToken();
+        const authToken = this.token;
         if (authToken) {
             request = request.clone({
                 setHeaders: {

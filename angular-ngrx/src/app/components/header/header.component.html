@@ -11,16 +11,16 @@
       </div>
     </div>
     <div class="actions">
-      <ng-container *ngIf="!contextService.getCurrentUser()">
+      <ng-container *ngIf="!currentUser">
         <button class="login-button" mat-raised-button color="primary" (click)="openDialog()">Sign In / Sign Up</button>
       </ng-container>
-      <ng-container *ngIf="contextService.getCurrentUser()" >
+      <ng-container *ngIf="currentUser" >
         <button mat-button [matMenuTriggerFor]="menu">
           <span>{{getUserName()}}</span>
           <mat-icon>expand_more</mat-icon>
         </button>
         <mat-menu class="user-menu" #menu="matMenu">
-          <button mat-menu-item [routerLink]="'/user/' + contextService.getCurrentUser().id">
+          <button mat-menu-item [routerLink]="'/user/' + currentUser.id">
             <mat-icon>person</mat-icon>
             <span>My profile</span>
           </button>

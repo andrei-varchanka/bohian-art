@@ -5,7 +5,7 @@ import {HomeComponent} from "./components/home/home.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingEditorComponent} from "./components/painting-editor/painting-editor.component";
 import {PlaygroundComponent} from "./components/playground/playground.component";
-import {AuthGuard} from "./components/guards/auth-guard";
+import {AuthGuard} from "./guards/auth-guard";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserComponent} from "./components/user/user.component";
 import {UsersComponent} from "./components/users/users.component";
