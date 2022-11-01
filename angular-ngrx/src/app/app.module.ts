@@ -23,7 +23,6 @@ import {ImageUploaderComponent} from "./components/image-uploader/image-uploader
 import {PlaygroundComponent} from './components/playground/playground.component';
 import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
-import {ContextService} from "./services/context-service";
 import {CheckboxGroupComponent} from './components/checkbox-group/checkbox-group.component';
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
 import {PaintingCardComponent} from './components/painting-card/painting-card.component';
@@ -91,7 +90,6 @@ const mapConfig: IConfig = {
     providers: [
         RouterModule,
         CookieService,
-        ContextService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: YA_MAP_CONFIG, useValue: { apikey: 'API_KEY', lang: 'en_US' } },
         AuthGuard

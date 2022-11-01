@@ -9,6 +9,6 @@ export enum SystemActions {
 }
 
 export const getCurrentUserAction = createAction(SystemActions.GetCurrentUser);
-export const setCurrentUserAction = createAction(SystemActions.SetCurrentUser, props<User>());
+export const setCurrentUserAction = createAction(SystemActions.SetCurrentUser, props<{user: User}>());
 export const getAuthTokenAction = createAction(SystemActions.GetAuthToken);
 export const setAuthTokenAction = createAction(SystemActions.SetAuthToken, props<{token: string}>());

@@ -6,7 +6,9 @@ import {User} from "../../api/models/user";
 import {mergeMap} from "rxjs/operators";
 import {UsersService} from "../../api/services/users.service";
 import { MatDialog } from "@angular/material/dialog";
-import {ContextService} from "../../services/context-service";
+import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-painting',
@@ -22,11 +24,13 @@ export class PaintingComponent implements OnInit {
   currentUser: User;
 
   constructor(private route: ActivatedRoute, private paintingService: PaintingsService, private userService: UsersService,
-              public dialog: MatDialog, private router: Router, private context: ContextService) {
+              public dialog: MatDialog, private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.currentUser = this.context.getCurrentUser();
+    this.store.select(selectCurrentUser).subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
     const paintingId = this.route.snapshot.params.id;
     this.paintingService.getPainting(paintingId).pipe(mergeMap(response => {
       this.painting = response.painting;

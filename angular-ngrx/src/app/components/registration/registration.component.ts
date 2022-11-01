@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UsersService} from "../../api/services/users.service";
-import {ContextService} from "../../services/context-service";
 import {FormsValidators} from "../../utils/forms-validators";
 import {Router} from "@angular/router";
+import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-registration',
@@ -19,8 +21,7 @@ export class RegistrationComponent implements OnInit {
   form: UntypedFormGroup;
 
   constructor(private formBuilder: UntypedFormBuilder,
-              private usersService: UsersService,
-              private contextService: ContextService,
+              private usersService: UsersService, private store: Store<AppState>,
               private router: Router) { }
 
   ngOnInit() {
@@ -81,8 +82,8 @@ export class RegistrationComponent implements OnInit {
       phone: this.form.controls.phone.value
     }).subscribe(response => {
       if (response.success) {
-        this.contextService.setCurrentUser(response.user);
-        this.contextService.setAuthToken(response.token);
+        this.store.dispatch(setCurrentUserAction({user: (response as any).user}));
+        this.store.dispatch(setAuthTokenAction({token: (response as any).token}));
         this.router.navigate(['/']);
       }
     });

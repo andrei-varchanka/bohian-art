@@ -1,9 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
-import { FormsValidators } from "../../utils/forms-validators";
-import { UsersService } from "../../api/services/users.service";
-import { ContextService } from "../../services/context-service";
 import { Router } from "@angular/router";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -26,8 +23,6 @@ export class LoginComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: UntypedFormBuilder,
-    private usersService: UsersService,
-    private contextService: ContextService,
     private router: Router, private store: Store<AppState>, private actions$: Actions) {
   }
 
@@ -60,12 +55,9 @@ export class LoginComponent implements OnInit {
 
   subscribeOnLogin() {
     this.actions$.pipe(ofType(UserActions.AuthSuccess)).subscribe(response => {
-      this.store.dispatch(setCurrentUserAction((response as any).user));
+      this.store.dispatch(setCurrentUserAction({user: (response as any).user}));
       this.store.dispatch(setAuthTokenAction({token: (response as any).token}));
-      // this.contextService.setCurrentUser((response as any).user);
-      // this.contextService.setAuthToken((response as any).token);
       this.dialogRef.close();
-      // window.location.reload();
     });
     this.actions$.pipe(ofType(UserActions.AuthError)).subscribe(error => {
       this.error = (error as any)?.error.errorMessage;

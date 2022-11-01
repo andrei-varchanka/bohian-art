@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginComponent} from "../login/login.component";
 import { MatDialog } from "@angular/material/dialog";
-import {ContextService} from "../../services/context-service";
 import {User} from "../../api/models/user";
 import {NavigationEnd, Router} from "@angular/router";
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
+import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(public dialog: MatDialog, public contextService: ContextService, private router: Router, private store: Store<AppState>) {
+  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
@@ -51,7 +51,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.contextService.logout();
+    this.store.dispatch(setCurrentUserAction(null));
+    this.store.dispatch(setAuthTokenAction({token: null}));
+    this.router.navigate(['/']);
   }
 
   getUserName() {

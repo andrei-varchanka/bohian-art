@@ -7,8 +7,6 @@ import { FormsValidators } from "../../utils/forms-validators";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { mergeMap, takeUntil } from "rxjs/operators";
-import { ContextService } from "../../services/context-service";
-import { query } from "@angular/animations";
 import { UserDeletionConfirmationComponent } from "../users/users.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -16,6 +14,8 @@ import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';
 import { Observable, Subject } from 'rxjs';
 import { deleteUserAction, getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
 import { Actions, ofType } from '@ngrx/effects';
+import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
+import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 
 @Component({
   selector: 'app-user',
@@ -46,7 +46,7 @@ export class UserComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
 
   constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private store: Store<AppState>,
-    private router: Router, private snackBar: MatSnackBar, private context: ContextService, private dialog: MatDialog, private actions$: Actions) {
+    private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog, private actions$: Actions) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required, FormsValidators.email]],
       firstName: [null, [Validators.required]],
@@ -61,7 +61,9 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.currentUser = this.context.getCurrentUser();
+    this.store.select(selectCurrentUser).subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
     this.init();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -147,8 +149,7 @@ export class UserComponent implements OnInit, OnDestroy {
       ofType(UserActions.UpdateUserSuccess)
     ).subscribe((payload: User) => {
       if (this.currentUser.id === this.userId) {
-        this.currentUser = payload;
-        this.context.setCurrentUser(payload);
+        this.store.dispatch(setCurrentUserAction({ user: payload }));
       }
       this.snackBar.open('Saved!', null, { duration: 2000 });
     });
@@ -166,8 +167,8 @@ export class UserComponent implements OnInit, OnDestroy {
       const email = response.user.email;
       return this.userService.auth({ email, password });
     })).subscribe(response => {
-      this.context.setAuthToken(response.token);
-      this.context.setCurrentUser(response.user);
+      this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
+      this.store.dispatch(setAuthTokenAction({ token: (response as any).token }));
       this.snackBar.open('Saved!', null, { duration: 2000 });
     });
   }
@@ -182,8 +183,10 @@ export class UserComponent implements OnInit, OnDestroy {
       if (result) {
         this.store.dispatch(deleteUserAction({ userId: this.userId }));
         this.actions$.pipe(ofType(UserActions.DeleteUserSuccess)).subscribe(action => {
-          if (this.context.getCurrentUser().id === this.userId) {
-            this.context.logout();
+          if (this.currentUser.id === this.userId) {
+            this.store.dispatch(setCurrentUserAction(null));
+            this.store.dispatch(setAuthTokenAction({ token: null }));
+            this.router.navigate(['/']);
           } else {
             this.router.navigate(['/users']);
           }

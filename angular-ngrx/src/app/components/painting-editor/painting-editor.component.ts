@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {PaintingsService} from "../../api/services/paintings.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ContextService} from "../../services/context-service";
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { PaintingsService } from "../../api/services/paintings.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { User } from 'src/app/api/models';
+import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-painting-editor',
@@ -23,11 +26,16 @@ export class PaintingEditorComponent implements OnInit {
 
   paintingId: string;
 
+  currentUser: User;
+
   constructor(private formBuilder: UntypedFormBuilder, private paintingService: PaintingsService, private router: Router,
-              private context: ContextService, private route: ActivatedRoute) {
+    private route: ActivatedRoute, private store: Store<AppState>) {
   }
 
   ngOnInit() {
+    this.store.select(selectCurrentUser).subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
     this.paintingId = this.route.snapshot.params.id;
     if (this.paintingId) {
       this.loading = true;
@@ -91,7 +99,7 @@ export class PaintingEditorComponent implements OnInit {
   checkNumberFormat(event, formControlName: string) {
     const correctedValue = event.target.value.replace(/([^\d]*)(\d*(\.\d{0,2})?)(.*)/, '$2');
     event.target.value = correctedValue;
-    this.form.controls[formControlName].setValue(correctedValue, {emitEvent: false});
+    this.form.controls[formControlName].setValue(correctedValue, { emitEvent: false });
   }
 
   deleteImages() {
@@ -116,7 +124,7 @@ export class PaintingEditorComponent implements OnInit {
     const paintingDto = {
       name: this.form.controls.name.value,
       author: this.form.controls.author.value,
-      userId: this.context.getCurrentUser().id,
+      userId: this.currentUser.id,
       genres: this.form.controls.genres.value.join('+'),
       width: +this.form.controls.width.value,
       height: +this.form.controls.height.value,
