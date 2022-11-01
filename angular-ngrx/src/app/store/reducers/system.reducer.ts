@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { getCurrentUserAction, setAuthTokenAction, setCurrentUserAction } from "../actions/system.actions";
+import { setAuthTokenAction, setCurrentUserAction } from "../actions/system.actions";
 import { initialSystemState } from "../state/system.state";
 
 export const systemReducer = createReducer(
