@@ -53,4 +53,4 @@ export const deleteUserErrorAction = createAction(UserActions.DeleteUserError, p
 
 export const changePasswordAction = createAction(UserActions.ChangePassword, props<{userId: string, password: string}>());
 export const changePasswordSuccessAction = createAction(UserActions.ChangePasswordSuccess, props<User>());
-export const changePasswoedErrorAction = createAction(UserActions.ChangePasswordError, props<Error>());
+export const changePasswordErrorAction = createAction(UserActions.ChangePasswordError, props<Error>());

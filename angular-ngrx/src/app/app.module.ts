@@ -20,7 +20,6 @@ import {FooterComponent} from './components/footer/footer.component';
 import {DragDropDirective} from "./directives/drag-drop.directive";
 import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
-import {PlaygroundComponent} from './components/playground/playground.component';
 import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
 import {CheckboxGroupComponent} from './components/checkbox-group/checkbox-group.component';
@@ -59,7 +58,6 @@ const mapConfig: IConfig = {
         ImageUploaderComponent,
         DragDropDirective,
         SafeHtmlPipe,
-        PlaygroundComponent,
         CheckboxGroupComponent,
         PaintingCardComponent,
         RegistrationComponent,

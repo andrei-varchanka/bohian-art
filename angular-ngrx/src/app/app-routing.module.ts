@@ -4,7 +4,6 @@ import {GalleryComponent} from "./components/gallery/gallery.component";
 import {HomeComponent} from "./components/home/home.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingEditorComponent} from "./components/painting-editor/painting-editor.component";
-import {PlaygroundComponent} from "./components/playground/playground.component";
 import {AuthGuard} from "./guards/auth-guard";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserComponent} from "./components/user/user.component";
@@ -22,7 +21,6 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent, canActivate: [AuthGuard]},
   {path: 'painting-editor', component: PaintingEditorComponent, canActivate: [AuthGuard]},
   {path: 'painting-editor/:id', component: PaintingEditorComponent, canActivate: [AuthGuard]},
-  {path: 'playground', component: PlaygroundComponent}
 ];
 
 @NgModule({

@@ -60,6 +60,8 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: check multi-subscribing and unsubscribing, add ngrx change password
+  // https://github.com/ngneat/until-destroy
   ngOnInit() {
     this.store.select(selectCurrentUser).subscribe(currentUser => {
       this.currentUser = currentUser;

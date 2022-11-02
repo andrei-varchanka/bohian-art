@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { authAction, authErrorAction, authSuccessAction, deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
+import { authAction, authErrorAction, authSuccessAction, changePasswordAction, changePasswordErrorAction, changePasswordSuccessAction, deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 import { initialUserState } from "../state/user.state";
 
 
@@ -26,5 +26,9 @@ export const userReducer = createReducer(
     const index = state.users?.findIndex(user => user.id === state.selectedUser.id);
     return {...state, done: true, users: index && state.users ? [...state.users.slice(0, index), state.selectedUser, ...state.users.slice(index + 1)] : null};
   }),
-  on(updateUserErrorAction, (state, payload) => ({...state, done: true, selectedUser: null, error: payload}))
+  on(updateUserErrorAction, (state, payload) => ({...state, done: true, selectedUser: null, error: payload})),
+
+  on(changePasswordAction, (state) => ({...state, action: UserActions.ChangePassword, done: false, error: null})),
+  on(changePasswordSuccessAction, (state, payload) => ({...state, done: true})),
+  on(changePasswordErrorAction, (state, payload) => ({...state, done: true, error: payload}))
 );
