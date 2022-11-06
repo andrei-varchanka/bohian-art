@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -7,19 +7,23 @@ import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { authAction, UserActions } from 'src/app/store/actions/user.actions';
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   hidePassword = true;
 
   loginForm: UntypedFormGroup;
 
   error: string;
+
+  componentDestroyed = new Subject();
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>,
     private formBuilder: UntypedFormBuilder,
@@ -54,12 +58,18 @@ export class LoginComponent implements OnInit {
   }
 
   subscribeOnLogin() {
-    this.actions$.pipe(ofType(UserActions.AuthSuccess)).subscribe(response => {
-      this.store.dispatch(setCurrentUserAction({user: (response as any).user}));
-      this.store.dispatch(setAuthTokenAction({token: (response as any).token}));
+    this.actions$.pipe(
+      ofType(UserActions.AuthSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(response => {
+      this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
+      this.store.dispatch(setAuthTokenAction({ token: (response as any).token }));
       this.dialogRef.close();
     });
-    this.actions$.pipe(ofType(UserActions.AuthError)).subscribe(error => {
+    this.actions$.pipe(
+      ofType(UserActions.AuthError),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(error => {
       this.error = (error as any)?.error.errorMessage;
     });
   }
@@ -67,6 +77,11 @@ export class LoginComponent implements OnInit {
   redirectToRegistration() {
     this.dialogRef.close();
     this.router.navigate(['/registration']);
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
 }

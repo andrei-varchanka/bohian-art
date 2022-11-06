@@ -12,7 +12,7 @@ import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';
 import { Observable, Subject } from 'rxjs';
-import { deleteUserAction, getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
+import { authAction, changePasswordAction, deleteUserAction, getUserAction, updateUserAction, UserActions } from 'src/app/store/actions/user.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
@@ -43,7 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   hidePassword2 = true;
 
-  unsubscribe$ = new Subject();
+  componentDestroyed = new Subject();
 
   constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private store: Store<AppState>,
     private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog, private actions$: Actions) {
@@ -60,14 +60,16 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
 
-  // TODO: check multi-subscribing and unsubscribing, add ngrx change password
-  // https://github.com/ngneat/until-destroy
   ngOnInit() {
-    this.store.select(selectCurrentUser).subscribe(currentUser => {
+    this.store.select(selectCurrentUser).pipe(takeUntil(this.componentDestroyed)).subscribe(currentUser => {
       this.currentUser = currentUser;
     });
     this.init();
-    this.router.events.subscribe((event) => {
+    this.subscribeOnSubmit();
+    this.subscribeOnChangePassword();
+    this.subscribeOnDelete();
+    this.subscribeOnAuth();
+    this.router.events.pipe(takeUntil(this.componentDestroyed)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.init();
       }
@@ -79,7 +81,7 @@ export class UserComponent implements OnInit, OnDestroy {
     if (this.userId) {
       this.store.dispatch(getUserAction({ userId: this.userId }))
       this.user$ = this.store.select(selectSelectedUser);
-      this.user$.pipe(takeUntil(this.unsubscribe$)).subscribe((user: User) => {
+      this.user$.pipe(takeUntil(this.componentDestroyed)).subscribe((user: User) => {
         this.form.patchValue(user);
       });
     } else {
@@ -147,8 +149,12 @@ export class UserComponent implements OnInit, OnDestroy {
       phone: this.form.controls.phone.value
     };
     this.store.dispatch(updateUserAction(user));
+  }
+
+  subscribeOnSubmit() {
     this.actions$.pipe(
-      ofType(UserActions.UpdateUserSuccess)
+      ofType(UserActions.UpdateUserSuccess),
+      takeUntil(this.componentDestroyed)
     ).subscribe((payload: User) => {
       if (this.currentUser.id === this.userId) {
         this.store.dispatch(setCurrentUserAction({ user: payload }));
@@ -162,17 +168,31 @@ export class UserComponent implements OnInit, OnDestroy {
       return;
     }
     const password = this.changePassForm.controls.password.value;
-    this.userService.changePassword({
-      userId: this.userId,
-      body: { password }
-    }).pipe(mergeMap(response => {
-      const email = response.user.email;
-      return this.userService.auth({ email, password });
-    })).subscribe(response => {
+    this.store.dispatch(changePasswordAction({ userId: this.userId, password }));
+  }
+
+  subscribeOnChangePassword() {
+    this.actions$.pipe(
+      ofType(UserActions.ChangePasswordSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe((payload: User) => {
+      this.store.dispatch(authAction({
+        email: payload.email,
+        password: this.changePassForm.controls.password.value
+      }));
+    });
+  }
+
+  subscribeOnAuth() {
+    this.actions$.pipe(
+      ofType(UserActions.AuthSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(response => {
       this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
       this.store.dispatch(setAuthTokenAction({ token: (response as any).token }));
+      this.changePassForm.reset();
       this.snackBar.open('Saved!', null, { duration: 2000 });
-    });
+    })
   }
 
   redirectToUserGallery() {
@@ -181,25 +201,31 @@ export class UserComponent implements OnInit, OnDestroy {
 
   delete() {
     const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.componentDestroyed)).subscribe(result => {
       if (result) {
         this.store.dispatch(deleteUserAction({ userId: this.userId }));
-        this.actions$.pipe(ofType(UserActions.DeleteUserSuccess)).subscribe(action => {
-          if (this.currentUser.id === this.userId) {
-            this.store.dispatch(setCurrentUserAction(null));
-            this.store.dispatch(setAuthTokenAction({ token: null }));
-            this.router.navigate(['/']);
-          } else {
-            this.router.navigate(['/users']);
-          }
-        });
+      }
+    });
+  }
+
+  subscribeOnDelete() {
+    this.actions$.pipe(
+      ofType(UserActions.DeleteUserSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(action => {
+      if (this.currentUser.id === this.userId) {
+        this.store.dispatch(setCurrentUserAction(null));
+        this.store.dispatch(setAuthTokenAction({ token: null }));
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/users']);
       }
     });
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 
 }

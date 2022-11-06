@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { PaintingsService } from "../../api/services/paintings.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -6,13 +6,15 @@ import { User } from 'src/app/api/models';
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-painting-editor',
   templateUrl: './painting-editor.component.html',
   styleUrls: ['./painting-editor.component.scss']
 })
-export class PaintingEditorComponent implements OnInit {
+export class PaintingEditorComponent implements OnInit, OnDestroy {
 
   form: UntypedFormGroup = new UntypedFormGroup({});
 
@@ -28,12 +30,14 @@ export class PaintingEditorComponent implements OnInit {
 
   currentUser: User;
 
+  componentDestroyed = new Subject();
+
   constructor(private formBuilder: UntypedFormBuilder, private paintingService: PaintingsService, private router: Router,
     private route: ActivatedRoute, private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.store.select(selectCurrentUser).subscribe(currentUser => {
+    this.store.select(selectCurrentUser).pipe(takeUntil(this.componentDestroyed)).subscribe(currentUser => {
       this.currentUser = currentUser;
     });
     this.paintingId = this.route.snapshot.params.id;
@@ -145,5 +149,10 @@ export class PaintingEditorComponent implements OnInit {
       });
     }
 
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 }

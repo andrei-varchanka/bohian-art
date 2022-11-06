@@ -1,21 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
 import {User} from "../../api/models/user";
-import {mergeMap} from "rxjs/operators";
+import {mergeMap, takeUntil} from "rxjs/operators";
 import {UsersService} from "../../api/services/users.service";
 import { MatDialog } from "@angular/material/dialog";
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-painting',
   templateUrl: './painting.component.html',
   styleUrls: ['./painting.component.scss']
 })
-export class PaintingComponent implements OnInit {
+export class PaintingComponent implements OnInit, OnDestroy {
 
   painting: Painting;
 
@@ -23,12 +24,14 @@ export class PaintingComponent implements OnInit {
 
   currentUser: User;
 
+  componentDestroyed = new Subject();
+
   constructor(private route: ActivatedRoute, private paintingService: PaintingsService, private userService: UsersService,
               public dialog: MatDialog, private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit() {
-    this.store.select(selectCurrentUser).subscribe(currentUser => {
+    this.store.select(selectCurrentUser).pipe(takeUntil(this.componentDestroyed)).subscribe(currentUser => {
       this.currentUser = currentUser;
     });
     const paintingId = this.route.snapshot.params.id;
@@ -48,13 +51,18 @@ export class PaintingComponent implements OnInit {
 
   delete() {
     const dialogRef = this.dialog.open(PaintingDeletionConfirmationComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.componentDestroyed)).subscribe(result => {
       if (result) {
         this.paintingService.deletePainting(this.painting.id).subscribe(response => {
           this.router.navigate(['/']);
         });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
 }

@@ -1,11 +1,11 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import {User} from "../../api/models/user";
-import {UsersService} from "../../api/services/users.service";
-import {Router} from "@angular/router";
+import { User } from "../../api/models/user";
+import { UsersService } from "../../api/services/users.service";
+import { Router } from "@angular/router";
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
 import { deleteUserAction, getUsersAction, getUsersErrorAction, UserActions } from 'src/app/store/actions/user.actions';
@@ -30,15 +30,16 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  unsubscribe$ = new Subject();
+  componentDestroyed = new Subject();
 
   constructor(private dialog: MatDialog, private usersService: UsersService, private router: Router, private store: Store<AppState>, private actions$: Actions) { }
 
   ngOnInit() {
     this.store.dispatch(getUsersAction());
-    this.store.select(selectUsers).pipe(takeUntil(this.unsubscribe$)).subscribe((users) => {
+    this.store.select(selectUsers).pipe(takeUntil(this.componentDestroyed)).subscribe((users) => {
       this.dataSource.data = users as User[];
     });
+    this.subscribeOnDelete();
   }
 
   ngAfterViewInit(): void {
@@ -52,14 +53,18 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onDeleteClick(user: User) {
     const dialogRef = this.dialog.open(UserDeletionConfirmationComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.componentDestroyed)).subscribe(result => {
       if (result) {
-        this.store.dispatch(deleteUserAction({userId: user.id}));
-        this.actions$.pipe(
-          ofType(UserActions.DeleteUserError),
-        ).subscribe(action => console.log((action as any).payload));
+        this.store.dispatch(deleteUserAction({ userId: user.id }));
       }
     });
+  }
+
+  subscribeOnDelete() {
+    this.actions$.pipe(
+      ofType(UserActions.DeleteUserError),
+      takeUntil(this.componentDestroyed)
+    ).subscribe(action => console.log((action as any).payload));
   }
 
   doSearch(value: string) {
@@ -67,8 +72,8 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 }
 
@@ -76,4 +81,4 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   selector: 'app-user-deletion-confirmation',
   templateUrl: './user-deletion-confirmation.html',
 })
-export class UserDeletionConfirmationComponent {}
+export class UserDeletionConfirmationComponent { }
