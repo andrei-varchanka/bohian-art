@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {UsersService} from "../../api/services/users.service";
-import {FormsValidators} from "../../utils/forms-validators";
-import {Router} from "@angular/router";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { UsersService } from "../../api/services/users.service";
+import { FormsValidators } from "../../utils/forms-validators";
+import { Router } from "@angular/router";
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { createUserAction, createUserSuccessAction } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-registration',
@@ -20,9 +22,8 @@ export class RegistrationComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder,
-              private usersService: UsersService, private store: Store<AppState>,
-              private router: Router) { }
+  constructor(private formBuilder: UntypedFormBuilder, private store: Store<AppState>, private actions$: Actions,
+    private router: Router) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -33,6 +34,7 @@ export class RegistrationComponent implements OnInit {
       lastName: ['', [Validators.required]],
       phone: ['', []]
     });
+    this.subscribeOnRegister();
   }
 
   getErrorMessage(controlName: string, inputName?: string): string {
@@ -73,19 +75,21 @@ export class RegistrationComponent implements OnInit {
     if (!this.isFormValid()) {
       return;
     }
-    this.usersService.createUser({
+    this.store.dispatch(createUserAction({
       email: this.form.controls.email.value,
       password: this.form.controls.password.value,
       firstName: this.form.controls.firstName.value,
       lastName: this.form.controls.lastName.value,
       role: 'Artist',
       phone: this.form.controls.phone.value
-    }).subscribe(response => {
-      if (response.success) {
-        this.store.dispatch(setCurrentUserAction({user: (response as any).user}));
-        this.store.dispatch(setAuthTokenAction({token: (response as any).token}));
-        this.router.navigate(['/']);
-      }
-    });
+    }));
+  }
+
+  subscribeOnRegister() {
+    this.actions$.pipe(ofType(createUserSuccessAction)).subscribe(response => {
+      this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
+      this.store.dispatch(setAuthTokenAction({ token: (response as any).token }));
+      this.router.navigate(['/']);
+    })
   }
 }

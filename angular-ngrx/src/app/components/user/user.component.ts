@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
-import { UsersService } from "../../api/services/users.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { User } from "../../api/models/user";
 import { FormsValidators } from "../../utils/forms-validators";
@@ -45,7 +44,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   componentDestroyed = new Subject();
 
-  constructor(private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private store: Store<AppState>,
+  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private store: Store<AppState>,
     private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog, private actions$: Actions) {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required, FormsValidators.email]],

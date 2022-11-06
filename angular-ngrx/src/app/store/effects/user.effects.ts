@@ -4,7 +4,7 @@ import { select, Store } from "@ngrx/store";
 import { EMPTY, of } from "rxjs";
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
 import { UsersService } from "src/app/api/services";
-import { authErrorAction, authSuccessAction, changePasswordErrorAction, changePasswordSuccessAction, deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
+import { authErrorAction, authSuccessAction, changePasswordErrorAction, changePasswordSuccessAction, createUserErrorAction, createUserSuccessAction, deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 
 @Injectable()
 export class UserEffects {
@@ -16,6 +16,18 @@ export class UserEffects {
         .pipe(
           map(response => authSuccessAction({ token: response.token, user: response.user })),
           catchError((err) => of(authErrorAction(err)))
+        )
+      )
+    )
+  );
+
+  createUser$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(UserActions.CreateUser),
+      mergeMap(action => this.userService.createUser(action)
+        .pipe(
+          map(response => createUserSuccessAction({ token: response.token, user: response.user })),
+          catchError((err) => of(createUserErrorAction(err)))
         )
       )
     )

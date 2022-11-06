@@ -6,11 +6,13 @@ export enum UserActions {
   AuthSuccess = '[Users API] Auth Success',
   AuthError = '[Users API] Auth Error',
 
+  CreateUser = '[Registration Interface] Create User',
+  CreateUserSuccess = '[Users API] Create User Success',
+  CreateUserError = '[Users API] Create User Error',
+
   GetUsers = '[Users Interface] Get Users',
   GetUsersSuccess = '[Users API] Get Users Success',
   GetUsersError = '[Users API] Get Users Error',
-
-  // CreateUser = '[Users API] Create User Success',
 
   GetUser = '[Users Interface] Get User',
   GetUserSuccess = '[Users API] Get User Success',
@@ -33,11 +35,13 @@ export const authAction = createAction(UserActions.Auth, props<AuthUser>());
 export const authSuccessAction = createAction(UserActions.AuthSuccess, props<{token: string, user: User}>());
 export const authErrorAction = createAction(UserActions.AuthError, props<Error>());
 
+export const createUserAction = createAction(UserActions.CreateUser, props<User>());
+export const createUserSuccessAction = createAction(UserActions.CreateUserSuccess, props<{token: string, user: User}>());
+export const createUserErrorAction = createAction(UserActions.CreateUserError, props<Error>());
+
 export const getUsersAction = createAction(UserActions.GetUsers);
 export const getUsersSuccessAction = createAction(UserActions.GetUsersSuccess, props<{users: User[]}>());
 export const getUsersErrorAction = createAction(UserActions.GetUsersError, props<Error>());
-
-// export const createUserAction = createAction(UserActions.CreateUser, props<User>());
 
 export const getUserAction = createAction(UserActions.GetUser, props<{userId: string}>());
 export const getUserSuccessAction = createAction(UserActions.GetUserSuccess, props<User>());

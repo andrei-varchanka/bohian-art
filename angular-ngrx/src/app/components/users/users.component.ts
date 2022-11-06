@@ -4,7 +4,6 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { User } from "../../api/models/user";
-import { UsersService } from "../../api/services/users.service";
 import { Router } from "@angular/router";
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
@@ -32,7 +31,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   componentDestroyed = new Subject();
 
-  constructor(private dialog: MatDialog, private usersService: UsersService, private router: Router, private store: Store<AppState>, private actions$: Actions) { }
+  constructor(private dialog: MatDialog, private router: Router, private store: Store<AppState>, private actions$: Actions) { }
 
   ngOnInit() {
     this.store.dispatch(getUsersAction());

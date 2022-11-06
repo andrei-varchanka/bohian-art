@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { authAction, authErrorAction, authSuccessAction, changePasswordAction, changePasswordErrorAction, changePasswordSuccessAction, deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
+import { authAction, authErrorAction, authSuccessAction, changePasswordAction, changePasswordErrorAction, changePasswordSuccessAction, createUserAction, createUserErrorAction, createUserSuccessAction, deleteUserAction, deleteUserErrorAction, deleteUserSuccessAction, getUserAction, getUserErrorAction, getUsersAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 import { initialUserState } from "../state/user.state";
 
 
@@ -8,6 +8,10 @@ export const userReducer = createReducer(
   on(authAction, (state) => ({...state, action: UserActions.Auth, done: false, error: null})),
   on(authSuccessAction, (state) => ({...state, done: true})),
   on(authErrorAction, (state, payload) => ({...state, done: true, error: payload})),
+
+  on(createUserAction, (state) => ({...state, action: UserActions.CreateUser, done: false, error: null})),
+  on(createUserSuccessAction, (state, payload) => ({...state, done: true, users: state.users?.concat(payload.user)})),
+  on(createUserErrorAction, (state, payload) => ({...state, done: true, error: payload})),
 
   on(getUsersAction, (state) => ({...state, action: UserActions.GetUsers, done: false, error: null})),
   on(getUsersSuccessAction, (state, payload) => ({ ...state, done: true, users: payload.users })),
