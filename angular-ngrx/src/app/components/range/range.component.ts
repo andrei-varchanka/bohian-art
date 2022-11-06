@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 export class RangeModel {
   value1?: number;
@@ -8,7 +8,8 @@ export class RangeModel {
 @Component({
   selector: 'app-range',
   templateUrl: './range.component.html',
-  styleUrls: ['./range.component.scss']
+  styleUrls: ['./range.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RangeComponent implements OnInit {
 

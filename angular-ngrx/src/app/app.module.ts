@@ -7,7 +7,6 @@ import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {RouterModule} from "@angular/router";
 import {MaterialModules} from "./imports/material-modules";
-import {HomeComponent} from './components/home/home.component';
 import {GalleryComponent} from './components/gallery/gallery.component';
 import {
   PaintingComponent,
@@ -47,7 +46,6 @@ const mapConfig: IConfig = {
 @NgModule({
     declarations: [
         AppComponent,
-        HomeComponent,
         GalleryComponent,
         PaintingComponent,
         PaintingDeletionConfirmationComponent,

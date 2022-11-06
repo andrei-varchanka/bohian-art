@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LoginComponent} from "../login/login.component";
 import { MatDialog } from "@angular/material/dialog";
 import {User} from "../../api/models/user";
@@ -7,11 +7,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
 
@@ -21,12 +23,13 @@ export class HeaderComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppState>) {
+  constructor(public dialog: MatDialog, private router: Router, private store: Store<AppState>, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.store.select(selectCurrentUser).subscribe(currentUser => {
       this.currentUser = currentUser;
+      this.cdr.markForCheck();
     });
     this.navigationItems = [
       {

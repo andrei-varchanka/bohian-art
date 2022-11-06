@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
-import { UsersService } from "../../api/services/users.service";
 import { FormsValidators } from "../../utils/forms-validators";
 import { Router } from "@angular/router";
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
@@ -12,7 +11,8 @@ import { createUserAction, createUserSuccessAction } from 'src/app/store/actions
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegistrationComponent implements OnInit {
 

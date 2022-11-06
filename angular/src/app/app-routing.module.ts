@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from "@angular/core";
 import {GalleryComponent} from "./components/gallery/gallery.component";
-import {HomeComponent} from "./components/home/home.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingEditorComponent} from "./components/painting-editor/painting-editor.component";
 import {PlaygroundComponent} from "./components/playground/playground.component";
@@ -13,7 +12,6 @@ import {ContactsComponent} from "./components/contacts/contacts.component";
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
-  {path: 'home', component: HomeComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'gallery', component: GalleryComponent},
   {path: 'contacts', component: ContactsComponent},
