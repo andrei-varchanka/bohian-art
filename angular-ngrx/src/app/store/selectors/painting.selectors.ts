@@ -6,4 +6,8 @@ const selectPaintingsFromState = (state: AppState) => state.paintings;
 
 export const selectPaintings = createSelector( selectPaintingsFromState, (state: PaintingState) => state.paintings);
 
+export const selectPaintingsCount = createSelector( selectPaintingsFromState, (state: PaintingState) => state.count);
+
+export const selectPaintingsParameters = createSelector( selectPaintingsFromState, (state: PaintingState) => state.parameters);
+
 export const selectSelectedPainting = createSelector( selectPaintingsFromState, (state: PaintingState) => state.selectedPainting);

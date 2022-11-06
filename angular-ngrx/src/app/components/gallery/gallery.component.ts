@@ -8,9 +8,10 @@ import {RangeModel} from "../range/range.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
-import { getPaintingsAction, PaintingActions } from 'src/app/store/actions/painting.actions';
+import { getPaintingsAction, getPaintingsParametersAction, PaintingActions } from 'src/app/store/actions/painting.actions';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { selectPaintings, selectPaintingsCount, selectPaintingsParameters } from 'src/app/store/selectors/painting.selectors';
 
 @Component({
   selector: 'app-gallery',
@@ -19,9 +20,9 @@ import { Subject } from 'rxjs';
 })
 export class GalleryComponent implements OnInit, OnDestroy {
 
-  paintings: Painting[];
+  paintings$: Observable<Painting[]>;
 
-  parameters: PaintingsParametersResponse;
+  parameters$: Observable<PaintingsParametersResponse>;
 
   genres = ['Abstract', 'Still life', 'Landscape', 'Portrait', 'Genre art', 'Historical', 'Animalism', 'Nude'];
 
@@ -41,7 +42,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
 
   limit = 12;
 
-  count: number;
+  count$: Observable<number>;
 
   componentDestroyed = new Subject();
 
@@ -53,7 +54,9 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.getFiltersFromUrl();
     this.getParameters();
     this.getPaintings();
-    this.subscribeOnGetPaintings();
+    this.paintings$ = this.store.select(selectPaintings);
+    this.count$ = this.store.select(selectPaintingsCount);
+    this.parameters$ = this.store.select(selectPaintingsParameters);
   }
 
   getFiltersFromUrl() {
@@ -84,23 +87,11 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   getParameters() {
-    this.paintingService.getParameters().subscribe(response => {
-      this.parameters = response;
-    });
+    this.store.dispatch(getPaintingsParametersAction());
   }
 
   getPaintings() {
     this.store.dispatch(getPaintingsAction(this.getQueryParams()));
-  }
-
-  subscribeOnGetPaintings() {
-    this.actions$.pipe(
-      ofType(PaintingActions.GetPaintingsSuccess),
-      takeUntil(this.componentDestroyed)
-    ).subscribe((response: PaintingsResponse) => {
-      this.paintings = response.paintings;
-      this.count = response.count;
-    });
   }
 
   setFilteredGenres(genres: string[]) {

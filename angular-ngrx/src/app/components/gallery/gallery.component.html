@@ -1,5 +1,5 @@
 <div class="gallery">
-  <div class="filters" *ngIf="parameters">
+  <div class="filters" *ngIf="(parameters$ | async)">
     <button class="filter-button" mat-raised-button [matMenuTriggerFor]="genresPopup"
             [matBadge]="this.filteredGenres.length" [matBadgeHidden]="this.filteredGenres.length === 0"
             [matBadgeColor]="'accent'">
@@ -34,15 +34,15 @@
       <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <app-range
           [name]="'Width'"
-          [placeholder1]="'from ' + parameters.minWidth + 'cm'"
-          [placeholder2]="'to ' + parameters.maxWidth + 'cm'"
+          [placeholder1]="'from ' + (parameters$ | async).minWidth + 'cm'"
+          [placeholder2]="'to ' + (parameters$ | async).maxWidth + 'cm'"
           [value]="filteredWidth"
           (changeEvent)="setFilteredWidth($event)">
         </app-range>
         <app-range
           [name]="'Height'"
-          [placeholder1]="'from ' + parameters.minHeight + 'cm'"
-          [placeholder2]="'to ' + parameters.maxHeight + 'cm'"
+          [placeholder1]="'from ' + (parameters$ | async).minHeight + 'cm'"
+          [placeholder2]="'to ' + (parameters$ | async).maxHeight + 'cm'"
           [value]="filteredHeight"
           (changeEvent)="setFilteredHeight($event)">
         </app-range>
@@ -52,8 +52,8 @@
       <div class="filter-popup" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <app-range
           [name]="'Price'"
-          [placeholder1]="'from ' + parameters.minPrice + ' BYN'"
-          [placeholder2]="'to ' + parameters.maxPrice + ' BYN'"
+          [placeholder1]="'from ' + (parameters$ | async).minPrice + ' BYN'"
+          [placeholder2]="'to ' + (parameters$ | async).maxPrice + ' BYN'"
           [value]="filteredPrice"
           (changeEvent)="setFilteredPrice($event)">
         </app-range>
@@ -61,13 +61,13 @@
     </mat-menu>
   </div>
   <div class="items">
-    <div class="item" *ngFor="let item of paintings">
+    <div class="item" *ngFor="let item of (paintings$ | async)">
       <app-painting-card [painting]="item"></app-painting-card>
     </div>
   </div>
   <div class="paginator">
     <mat-paginator
-      [length]="count"
+      [length]="(count$ | async)"
       [pageSize]="limit"
       [pageSizeOptions]="[6, 12, 18]"
       (page)="changePageOrLimit($event)">

@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Painting } from "src/app/api/models";
+import { Painting, PaintingsParametersResponse, PaintingsResponse } from "src/app/api/models";
 import { PaintingsService } from "src/app/api/services";
 
 export enum PaintingActions {
@@ -32,12 +32,12 @@ export enum PaintingActions {
 // export const createPaintingSuccessAction = createAction(PaintingActions.CreatePaintingSuccess, props<{token: string, Painting: Painting}>());
 // export const createPaintingErrorAction = createAction(PaintingActions.CreatePaintingError, props<Error>());
 
-// export const getPaintingsParametersAction = createAction(PaintingActions.GetPaintings);
-// export const getPaintingsParametersSuccessAction = createAction(PaintingActions.GetPaintingsSuccess, props<{paintings: Painting[]}>());
-// export const getPaintingsParametersErrorAction = createAction(PaintingActions.GetPaintingsError, props<Error>());
+export const getPaintingsParametersAction = createAction(PaintingActions.GetPaintingsParameters);
+export const getPaintingsParametersSuccessAction = createAction(PaintingActions.GetPaintingsParametersSuccess, props<PaintingsParametersResponse>());
+export const getPaintingsParametersErrorAction = createAction(PaintingActions.GetPaintingsParametersError, props<Error>());
 
 export const getPaintingsAction = createAction(PaintingActions.GetPaintings, props<PaintingsService.GetAllPaintingsParams>());
-export const getPaintingsSuccessAction = createAction(PaintingActions.GetPaintingsSuccess, props<{paintings: Painting[], count: number}>());
+export const getPaintingsSuccessAction = createAction(PaintingActions.GetPaintingsSuccess, props<PaintingsResponse>());
 export const getPaintingsErrorAction = createAction(PaintingActions.GetPaintingsError, props<Error>());
 
 // export const getPaintingAction = createAction(PaintingActions.GetPainting, props<{PaintingId: string}>());
