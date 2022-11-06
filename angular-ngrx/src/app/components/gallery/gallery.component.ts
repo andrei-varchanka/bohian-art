@@ -1,17 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../api/models/user";
 import {PaintingsService} from "../../api/services/paintings.service";
 import {Painting} from "../../api/models/painting";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {PaintingsParametersResponse} from "../../api/models";
+import {PaintingsParametersResponse, PaintingsResponse} from "../../api/models";
 import {RangeModel} from "../range/range.component";
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import { getPaintingsAction, PaintingActions } from 'src/app/store/actions/painting.actions';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, OnDestroy {
 
   paintings: Painting[];
 
@@ -37,7 +43,9 @@ export class GalleryComponent implements OnInit {
 
   count: number;
 
-  constructor(private paintingService: PaintingsService, private router: Router,
+  componentDestroyed = new Subject();
+
+  constructor(private paintingService: PaintingsService, private router: Router, private store: Store<AppState>, private actions$: Actions,
               private route: ActivatedRoute) {
   }
 
@@ -45,6 +53,7 @@ export class GalleryComponent implements OnInit {
     this.getFiltersFromUrl();
     this.getParameters();
     this.getPaintings();
+    this.subscribeOnGetPaintings();
   }
 
   getFiltersFromUrl() {
@@ -81,7 +90,14 @@ export class GalleryComponent implements OnInit {
   }
 
   getPaintings() {
-    this.paintingService.getAllPaintings(this.getQueryParams()).subscribe(response => {
+    this.store.dispatch(getPaintingsAction(this.getQueryParams()));
+  }
+
+  subscribeOnGetPaintings() {
+    this.actions$.pipe(
+      ofType(PaintingActions.GetPaintingsSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe((response: PaintingsResponse) => {
       this.paintings = response.paintings;
       this.count = response.count;
     });
@@ -156,6 +172,11 @@ export class GalleryComponent implements OnInit {
 
   clearFilters() {
     window.location.search = '';
+  }
+
+  ngOnDestroy() {
+    this.componentDestroyed.next();
+    this.componentDestroyed.complete();
   }
 
 }

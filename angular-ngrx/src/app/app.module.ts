@@ -37,6 +37,7 @@ import { appReducers } from './store/reducers/app.reducers';
 import { UserEffects } from './store/effects/user.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers } from './store/reducers/meta.reducers';
+import { PaintingEffects } from './store/effects/painting.effects';
 
 const mapConfig: IConfig = {
   apikey: 'API_KEY',
@@ -76,7 +77,7 @@ const mapConfig: IConfig = {
         AngularYandexMapsModule.forRoot(mapConfig),
         ApiModule.forRoot({ rootUrl: 'http://localhost:3000' }),
         StoreModule.forRoot(appReducers, {metaReducers}),
-        EffectsModule.forRoot([UserEffects]),
+        EffectsModule.forRoot([UserEffects, PaintingEffects]),
         StoreDevtoolsModule.instrument({
           maxAge: 25, // Retains last 25 states
           logOnly: false, // Restrict extension to log-only mode

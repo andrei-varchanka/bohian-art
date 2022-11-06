@@ -1,6 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { UserActions } from '../actions/user.actions';
-
 import { AppState } from '../state/app.state';
 import { UserState } from '../state/user.state';
 

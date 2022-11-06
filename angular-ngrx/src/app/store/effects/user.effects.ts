@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { select, Store } from "@ngrx/store";
-import { EMPTY, of } from "rxjs";
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
+import { of } from "rxjs";
+import { catchError, map, mergeMap } from "rxjs/operators";
 import { UsersService } from "src/app/api/services";
 import { authErrorAction, authSuccessAction, changePasswordErrorAction, changePasswordSuccessAction, createUserErrorAction, createUserSuccessAction, deleteUserErrorAction, deleteUserSuccessAction, getUserErrorAction, getUsersErrorAction, getUsersSuccessAction, getUserSuccessAction, updateUserErrorAction, updateUserSuccessAction, UserActions } from "../actions/user.actions";
 
