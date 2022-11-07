@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { getPaintingAction, getPaintingErrorAction, getPaintingsAction, getPaintingsErrorAction, getPaintingsParametersAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
+import { deletePaintingAction, deletePaintingErrorAction, deletePaintingSuccessAction, getPaintingAction, getPaintingErrorAction, getPaintingsAction, getPaintingsErrorAction, getPaintingsParametersAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
 import { initialPaintingState } from "../state/painting.state";
 
 export const paintingReducer = createReducer(
@@ -15,4 +15,8 @@ export const paintingReducer = createReducer(
   on(getPaintingAction, (state) => ({...state, action: PaintingActions.GetPainting, done: false, error: null})),
   on(getPaintingSuccessAction, (state, payload) => ({ ...state, done: true, selectedPainting: payload })),
   on(getPaintingErrorAction, (state, payload) => ({...state, done: true, error: payload})),
+
+  on(deletePaintingAction, (state) => ({...state, action: PaintingActions.DeletePainting, done: false, error: null})),
+  on(deletePaintingSuccessAction, (state, payload) => ({...state, done: true, paintings: state.paintings?.filter(p => p.id != payload.paintingId), selectedPainting: null})),
+  on(deletePaintingErrorAction, (state, payload) => ({...state, done: true, error: payload})),
 );

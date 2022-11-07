@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { PaintingsService } from "src/app/api/services";
-import { getPaintingErrorAction, getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
+import { deletePaintingErrorAction, deletePaintingSuccessAction, getPaintingErrorAction, getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
 
 @Injectable()
 export class PaintingEffects {
@@ -68,17 +68,17 @@ export class PaintingEffects {
   //   )
   // );
 
-  // deletePainting$ = createEffect(() => this.actions$
-  //   .pipe(
-  //     ofType(PaintingActions.DeletePainting),
-  //     mergeMap((action) => this.paintingService.deletePainting((action as any).paintingId)
-  //       .pipe(
-  //         map(response => deletePaintingSuccessAction({ paintingId: (action as any).paintingId })),
-  //         catchError((err) => of(deletePaintingErrorAction(err)))
-  //       )
-  //     )
-  //   )
-  // );
+  deletePainting$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(PaintingActions.DeletePainting),
+      mergeMap((action) => this.paintingService.deletePainting((action as any).paintingId)
+        .pipe(
+          map(response => deletePaintingSuccessAction({ paintingId: (action as any).paintingId })),
+          catchError((err) => of(deletePaintingErrorAction(err)))
+        )
+      )
+    )
+  );
 
   constructor(
     private paintingService: PaintingsService,

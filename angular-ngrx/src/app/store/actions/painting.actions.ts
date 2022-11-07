@@ -48,7 +48,7 @@ export const getPaintingErrorAction = createAction(PaintingActions.GetPaintingEr
 // export const updatePaintingSuccessAction = createAction(PaintingActions.UpdatePaintingSuccess, props<Painting>());
 // export const updatePaintingErrorAction = createAction(PaintingActions.UpdatePaintingError, props<Error>());
 
-// export const deletePaintingAction = createAction(PaintingActions.DeletePainting, props<{PaintingId: string}>());
-// export const deletePaintingSuccessAction = createAction(PaintingActions.DeletePaintingSuccess, props<{PaintingId: string}>());
-// export const deletePaintingErrorAction = createAction(PaintingActions.DeletePaintingError, props<Error>());
+export const deletePaintingAction = createAction(PaintingActions.DeletePainting, props<{paintingId: string}>());
+export const deletePaintingSuccessAction = createAction(PaintingActions.DeletePaintingSuccess, props<{paintingId: string}>());
+export const deletePaintingErrorAction = createAction(PaintingActions.DeletePaintingError, props<Error>());
 
