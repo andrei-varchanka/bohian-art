@@ -40,9 +40,9 @@ export const getPaintingsAction = createAction(PaintingActions.GetPaintings, pro
 export const getPaintingsSuccessAction = createAction(PaintingActions.GetPaintingsSuccess, props<PaintingsResponse>());
 export const getPaintingsErrorAction = createAction(PaintingActions.GetPaintingsError, props<Error>());
 
-// export const getPaintingAction = createAction(PaintingActions.GetPainting, props<{PaintingId: string}>());
-// export const getPaintingSuccessAction = createAction(PaintingActions.GetPaintingSuccess, props<Painting>());
-// export const getPaintingErrorAction = createAction(PaintingActions.GetPaintingError, props<Error>());
+export const getPaintingAction = createAction(PaintingActions.GetPainting, props<{paintingId: string}>());
+export const getPaintingSuccessAction = createAction(PaintingActions.GetPaintingSuccess, props<Painting>());
+export const getPaintingErrorAction = createAction(PaintingActions.GetPaintingError, props<Error>());
 
 // export const updatePaintingAction = createAction(PaintingActions.UpdatePainting, props<Painting>());
 // export const updatePaintingSuccessAction = createAction(PaintingActions.UpdatePaintingSuccess, props<Painting>());

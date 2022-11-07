@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { PaintingsService } from "src/app/api/services";
-import { getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, PaintingActions } from "../actions/painting.actions";
+import { getPaintingErrorAction, getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
 
 @Injectable()
 export class PaintingEffects {
@@ -20,17 +20,17 @@ export class PaintingEffects {
   //   )
   // );
 
-  // getPainting$ = createEffect(() => this.actions$
-  //   .pipe(
-  //     ofType(PaintingActions.GetPainting),
-  //     mergeMap(action => this.paintingService.getPainting((action as any).paintingId)
-  //       .pipe(
-  //         map(response => getPaintingSuccessAction(response.painting)),
-  //         catchError((err) => of(getPaintingErrorAction(err)))
-  //       )
-  //     )
-  //   )
-  // );
+  getPainting$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(PaintingActions.GetPainting),
+      mergeMap(action => this.paintingService.getPainting((action as any).paintingId)
+        .pipe(
+          map(response => getPaintingSuccessAction(response.painting)),
+          catchError((err) => of(getPaintingErrorAction(err)))
+        )
+      )
+    )
+  );
 
   getPaintingsParameters$ = createEffect(() => this.actions$
     .pipe(

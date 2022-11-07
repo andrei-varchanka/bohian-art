@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Painting} from "../../api/models";
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-painting-card',
   templateUrl: './painting-card.component.html',
-  styleUrls: ['./painting-card.component.scss']
+  styleUrls: ['./painting-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaintingCardComponent implements OnInit {
 

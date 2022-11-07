@@ -1,11 +1,11 @@
 <div class="painting">
-  <ng-container *ngIf="painting && user">
+  <ng-container *ngIf="painting">
     <mat-card class="image">
       <img mat-card-image [src]="getImageSrc() | safeHtml" [alt]="painting.name">
     </mat-card>
     <div class="details-wrapper">
       <mat-card class="details">
-        <div class="actions" *ngIf="painting.userId === currentUser?.id || currentUser?.role === 'Admin'">
+        <div class="actions" *ngIf="painting.userId === (currentUser$ | async)?.id || (currentUser$ | async)?.role === 'Admin'">
           <mat-icon [routerLink]="'/painting-editor/' + painting.id">edit</mat-icon>
           <mat-icon (click)="delete()">delete</mat-icon>
         </div>
@@ -32,13 +32,13 @@
       </mat-card>
       <mat-card class="details">
         <div class="field subtitle">Contacts</div>
-        <div class="field" *ngIf="user.phone">
+        <div class="field" *ngIf="(user$ | async)?.phone">
           <div class="label">Phone number:</div>
-          <div class="value">{{user.phone}}</div>
+          <div class="value">{{(user$ | async)?.phone}}</div>
         </div>
         <div class="field">
           <div class="label">E-mail:</div>
-          <div class="value">{{user.email}}</div>
+          <div class="value">{{(user$ | async)?.email}}</div>
         </div>
       </mat-card>
 
