@@ -1,24 +1,22 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {User} from "../../api/models/user";
-import {PaintingsService} from "../../api/services/paintings.service";
-import {Painting} from "../../api/models/painting";
-import {ActivatedRoute, Params, Router} from "@angular/router";
-import {PaintingsParametersResponse, PaintingsResponse} from "../../api/models";
-import {RangeModel} from "../range/range.component";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { User } from "../../api/models/user";
+import { Painting } from "../../api/models/painting";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { PaintingsParametersResponse } from "../../api/models";
+import { RangeModel } from "../range/range.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
-import { getPaintingsAction, getPaintingsParametersAction, PaintingActions } from 'src/app/store/actions/painting.actions';
-import { takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { getPaintingsAction, getPaintingsParametersAction } from 'src/app/store/actions/painting.actions';
+import { Observable } from 'rxjs';
 import { selectPaintings, selectPaintingsCount, selectPaintingsParameters } from 'src/app/store/selectors/painting.selectors';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  styleUrls: ['./gallery.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GalleryComponent implements OnInit, OnDestroy {
+export class GalleryComponent implements OnInit {
 
   paintings$: Observable<Painting[]>;
 
@@ -44,10 +42,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
 
   count$: Observable<number>;
 
-  componentDestroyed = new Subject();
-
-  constructor(private paintingService: PaintingsService, private router: Router, private store: Store<AppState>, private actions$: Actions,
-              private route: ActivatedRoute) {
+  constructor(private router: Router, private store: Store<AppState>, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -63,23 +58,23 @@ export class GalleryComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.queryParams.genres) {
       this.filteredGenres = (this.route.snapshot.queryParams.genres + '').split(',');
     }
-    if (this.route.snapshot.queryParams.width_from) {
-      this.filteredWidth.value1 = +this.route.snapshot.queryParams.width_from;
+    if (this.route.snapshot.queryParams.widthFrom) {
+      this.filteredWidth.value1 = +this.route.snapshot.queryParams.widthFrom;
     }
-    if (this.route.snapshot.queryParams.width_to) {
-      this.filteredWidth.value2 = +this.route.snapshot.queryParams.width_to;
+    if (this.route.snapshot.queryParams.widthTo) {
+      this.filteredWidth.value2 = +this.route.snapshot.queryParams.widthTo;
     }
-    if (this.route.snapshot.queryParams.height_from) {
-      this.filteredHeight.value1 = +this.route.snapshot.queryParams.height_from;
+    if (this.route.snapshot.queryParams.heightFrom) {
+      this.filteredHeight.value1 = +this.route.snapshot.queryParams.heightFrom;
     }
-    if (this.route.snapshot.queryParams.height_to) {
-      this.filteredHeight.value2 = +this.route.snapshot.queryParams.height_to;
+    if (this.route.snapshot.queryParams.heightTo) {
+      this.filteredHeight.value2 = +this.route.snapshot.queryParams.heightTo;
     }
-    if (this.route.snapshot.queryParams.price_from) {
-      this.filteredPrice.value1 = +this.route.snapshot.queryParams.price_from;
+    if (this.route.snapshot.queryParams.priceFrom) {
+      this.filteredPrice.value1 = +this.route.snapshot.queryParams.priceFrom;
     }
-    if (this.route.snapshot.queryParams.price_to) {
-      this.filteredPrice.value2 = +this.route.snapshot.queryParams.price_to;
+    if (this.route.snapshot.queryParams.priceTo) {
+      this.filteredPrice.value2 = +this.route.snapshot.queryParams.priceTo;
     }
     if (this.route.snapshot.queryParams.userId) {
       this.filteredUserId = this.route.snapshot.queryParams.userId;
@@ -111,7 +106,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   getQueryParams() {
-    const queryParams: Params = { };
+    const queryParams: Params = {};
     queryParams.page = this.page;
     queryParams.limit = this.limit;
     if (this.filteredGenres && this.filteredGenres.length > 0) {
@@ -155,7 +150,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   changePageOrLimit(event) {
-    console.log(event);
     this.limit = event.pageSize;
     this.page = event.pageIndex + 1;
     this.refresh();
@@ -164,10 +158,4 @@ export class GalleryComponent implements OnInit, OnDestroy {
   clearFilters() {
     window.location.search = '';
   }
-
-  ngOnDestroy() {
-    this.componentDestroyed.next();
-    this.componentDestroyed.complete();
-  }
-
 }

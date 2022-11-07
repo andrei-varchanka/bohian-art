@@ -53,23 +53,23 @@ export class GalleryComponent implements OnInit {
     if (this.route.snapshot.queryParams.genres) {
       this.filteredGenres = (this.route.snapshot.queryParams.genres + '').split(',');
     }
-    if (this.route.snapshot.queryParams.width_from) {
-      this.filteredWidth.value1 = +this.route.snapshot.queryParams.width_from;
+    if (this.route.snapshot.queryParams.widthFrom) {
+      this.filteredWidth.value1 = +this.route.snapshot.queryParams.widthFrom;
     }
-    if (this.route.snapshot.queryParams.width_to) {
-      this.filteredWidth.value2 = +this.route.snapshot.queryParams.width_to;
+    if (this.route.snapshot.queryParams.widthTo) {
+      this.filteredWidth.value2 = +this.route.snapshot.queryParams.widthTo;
     }
-    if (this.route.snapshot.queryParams.height_from) {
-      this.filteredHeight.value1 = +this.route.snapshot.queryParams.height_from;
+    if (this.route.snapshot.queryParams.heightFrom) {
+      this.filteredHeight.value1 = +this.route.snapshot.queryParams.heightFrom;
     }
-    if (this.route.snapshot.queryParams.height_to) {
-      this.filteredHeight.value2 = +this.route.snapshot.queryParams.height_to;
+    if (this.route.snapshot.queryParams.heightTo) {
+      this.filteredHeight.value2 = +this.route.snapshot.queryParams.heightTo;
     }
-    if (this.route.snapshot.queryParams.price_from) {
-      this.filteredPrice.value1 = +this.route.snapshot.queryParams.price_from;
+    if (this.route.snapshot.queryParams.priceFrom) {
+      this.filteredPrice.value1 = +this.route.snapshot.queryParams.priceFrom;
     }
-    if (this.route.snapshot.queryParams.price_to) {
-      this.filteredPrice.value2 = +this.route.snapshot.queryParams.price_to;
+    if (this.route.snapshot.queryParams.priceTo) {
+      this.filteredPrice.value2 = +this.route.snapshot.queryParams.priceTo;
     }
     if (this.route.snapshot.queryParams.userId) {
       this.filteredUserId = this.route.snapshot.queryParams.userId;
