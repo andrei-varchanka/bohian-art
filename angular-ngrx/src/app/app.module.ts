@@ -21,13 +21,10 @@ import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
 import {ImageUploaderComponent} from "./components/image-uploader/image-uploader.component";
 import {ApiModule} from "./api/api.module";
 import {CookieService} from "ngx-cookie-service";
-import {CheckboxGroupComponent} from './components/checkbox-group/checkbox-group.component';
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
 import {PaintingCardComponent} from './components/painting-card/painting-card.component';
 import {RegistrationComponent} from './components/registration/registration.component';
-import {AuthGuard} from "./guards/auth-guard";
 import { UserComponent } from './components/user/user.component';
-import { RangeComponent } from './components/range/range.component';
 import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import {AngularYandexMapsModule, IConfig, YA_MAP_CONFIG} from "angular8-yandex-maps";
@@ -38,6 +35,7 @@ import { UserEffects } from './store/effects/user.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers } from './store/reducers/meta.reducers';
 import { PaintingEffects } from './store/effects/painting.effects';
+import { SharedModule } from './modules/shared/shared.module';
 
 const mapConfig: IConfig = {
   apikey: 'API_KEY',
@@ -57,11 +55,9 @@ const mapConfig: IConfig = {
         ImageUploaderComponent,
         DragDropDirective,
         SafeHtmlPipe,
-        CheckboxGroupComponent,
         PaintingCardComponent,
         RegistrationComponent,
         UserComponent,
-        RangeComponent,
         UsersComponent,
         UserDeletionConfirmationComponent,
         ContactsComponent
@@ -69,6 +65,7 @@ const mapConfig: IConfig = {
     imports: [
         AppRoutingModule,
         BrowserModule,
+        SharedModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
@@ -89,7 +86,6 @@ const mapConfig: IConfig = {
         CookieService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: YA_MAP_CONFIG, useValue: { apikey: 'API_KEY', lang: 'en_US' } },
-        AuthGuard
     ],
     bootstrap: [AppComponent]
 })

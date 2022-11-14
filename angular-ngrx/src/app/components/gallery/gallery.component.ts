@@ -3,7 +3,7 @@ import { User } from "../../api/models/user";
 import { Painting } from "../../api/models/painting";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { PaintingsParametersResponse } from "../../api/models";
-import { RangeModel } from "../range/range.component";
+import { RangeModel } from "../../modules/shared/components/range/range.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { getPaintingsAction, getPaintingsParametersAction } from 'src/app/store/actions/painting.actions';

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GalleryComponent } from './gallery.component';
-import {RangeComponent} from "../range/range.component";
-import {CheckboxGroupComponent} from "../checkbox-group/checkbox-group.component";
+import {RangeComponent} from "../../modules/shared/components/range/range.component";
+import {CheckboxGroupComponent} from "../../modules/shared/components/checkbox-group/checkbox-group.component";
 
 describe('GalleryComponent', () => {
   let component: GalleryComponent;

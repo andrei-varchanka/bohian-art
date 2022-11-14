@@ -3,11 +3,11 @@ import {NgModule} from "@angular/core";
 import {GalleryComponent} from "./components/gallery/gallery.component";
 import {PaintingComponent} from "./components/painting/painting.component";
 import {PaintingEditorComponent} from "./components/painting-editor/painting-editor.component";
-import {AuthGuard} from "./guards/auth-guard";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserComponent} from "./components/user/user.component";
 import {UsersComponent} from "./components/users/users.component";
 import {ContactsComponent} from "./components/contacts/contacts.component";
+import { AuthGuard } from './modules/shared/guards/auth-guard';
 
 const routes: Routes = [
   {path: '', component: GalleryComponent},
