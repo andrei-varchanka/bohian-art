@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { User } from "../../api/models/user";
-import { FormsValidators } from "../../utils/forms-validators";
+import { User } from "../../../../api/models/user";
+import { FormsValidators } from "../../../../utils/forms-validators";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { mergeMap, takeUntil } from "rxjs/operators";
-import { UserDeletionConfirmationComponent } from "../users/users.component";
+import { UserDeletionConfirmationComponent } from "./users/users.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';

@@ -24,8 +24,6 @@ import {CookieService} from "ngx-cookie-service";
 import {JwtInterceptor} from "./interceptors/jwt-interceptor";
 import {PaintingCardComponent} from './components/painting-card/painting-card.component';
 import {RegistrationComponent} from './components/registration/registration.component';
-import { UserComponent } from './components/user/user.component';
-import {UserDeletionConfirmationComponent, UsersComponent} from './components/users/users.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import {AngularYandexMapsModule, IConfig, YA_MAP_CONFIG} from "angular8-yandex-maps";
 import { StoreModule } from '@ngrx/store';
@@ -57,9 +55,6 @@ const mapConfig: IConfig = {
         SafeHtmlPipe,
         PaintingCardComponent,
         RegistrationComponent,
-        UserComponent,
-        UsersComponent,
-        UserDeletionConfirmationComponent,
         ContactsComponent
     ],
     imports: [

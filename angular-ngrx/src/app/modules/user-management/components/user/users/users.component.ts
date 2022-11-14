@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { User } from "../../api/models/user";
+import { User } from "../../../../../api/models/user";
 import { Router } from "@angular/router";
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onEditClick(user: User) {
-    this.router.navigate(['/user/' + user.id]);
+    this.router.navigate(['/users/' + user.id]);
   }
 
   onDeleteClick(user: User) {
