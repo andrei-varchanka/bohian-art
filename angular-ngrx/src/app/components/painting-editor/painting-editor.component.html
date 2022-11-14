@@ -1,4 +1,4 @@
-<div class="painting-editor" *ngIf="!loading">
+<div class="painting-editor" *ngIf="!(loading$ | async)">
   <form class="form" [formGroup]="form">
 
     <app-image-uploader
@@ -22,7 +22,7 @@
       <mat-error>{{getErrorMessage('author')}}</mat-error>
     </mat-form-field>
 
-    <app-checkbox-group [items]="genres" [selectedItems]="form.get('genres').value" (changeEvent)="setGenres($event)"></app-checkbox-group>
+    <app-checkbox-group [items]="genres" [selectedItems]="getSelectedGenres()" (changeEvent)="setGenres($event)"></app-checkbox-group>
     <div class="field-error">
       {{form.get('genres').invalid && form.get('genres').touched ? getErrorMessage('genres') : ''}}
     </div>
@@ -51,4 +51,4 @@
   <button class="submit" mat-flat-button color="primary" (click)="submit()">Submit</button>
 
 </div>
-<mat-progress-bar [mode]="'indeterminate'" *ngIf="loading"></mat-progress-bar>
+<mat-progress-bar [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-bar>

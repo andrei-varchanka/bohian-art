@@ -11,3 +11,5 @@ export const selectPaintingsCount = createSelector( selectPaintingsFromState, (s
 export const selectPaintingsParameters = createSelector( selectPaintingsFromState, (state: PaintingState) => state.parameters);
 
 export const selectSelectedPainting = createSelector( selectPaintingsFromState, (state: PaintingState) => state.selectedPainting);
+
+export const selectIsLoading = createSelector( selectPaintingsFromState, (state: PaintingState) => !state.done);

@@ -16,6 +16,6 @@ export const initialPaintingState: PaintingState = {
   parameters: null,
   selectedPainting: null,
   action: null,
-  done: false,
+  done: true,
   error: null,
 };

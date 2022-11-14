@@ -12,6 +12,6 @@ export const initialUserState: UserState = {
   users: null,
   selectedUser: null,
   action: null,
-  done: false,
+  done: true,
   error: null,
 };

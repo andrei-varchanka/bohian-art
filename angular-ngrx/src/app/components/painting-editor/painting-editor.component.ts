@@ -1,18 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { PaintingsService } from "../../api/services/paintings.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { User } from 'src/app/api/models';
+import { Painting, User } from 'src/app/api/models';
 import { selectCurrentUser } from 'src/app/store/selectors/system.selectors';
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { createPaintingAction, getPaintingAction, PaintingActions, updatePaintingAction } from 'src/app/store/actions/painting.actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { selectIsLoading } from 'src/app/store/selectors/painting.selectors';
 
 @Component({
   selector: 'app-painting-editor',
   templateUrl: './painting-editor.component.html',
-  styleUrls: ['./painting-editor.component.scss']
+  styleUrls: ['./painting-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaintingEditorComponent implements OnInit, OnDestroy {
 
@@ -24,7 +28,7 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
 
   imagesSrc: string[] = [];
 
-  loading: boolean;
+  loading$: Observable<boolean>;
 
   paintingId: string;
 
@@ -33,41 +37,63 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
   componentDestroyed = new Subject();
 
   constructor(private formBuilder: UntypedFormBuilder, private paintingService: PaintingsService, private router: Router,
-    private route: ActivatedRoute, private store: Store<AppState>) {
+    private route: ActivatedRoute, private store: Store<AppState>, private actions$: Actions) {
   }
 
   ngOnInit() {
     this.store.select(selectCurrentUser).pipe(takeUntil(this.componentDestroyed)).subscribe(currentUser => {
       this.currentUser = currentUser;
     });
+    this.loading$ = this.store.select(selectIsLoading);
     this.paintingId = this.route.snapshot.params.id;
+    this.form = this.formBuilder.group({
+      name: [null, [Validators.required]],
+      author: [null, [Validators.required]],
+      genres: [[], [Validators.required]],
+      height: [null, [Validators.required]],
+      width: [null, [Validators.required]],
+      price: [null, [Validators.required]],
+      description: [null]
+    });
     if (this.paintingId) {
-      this.loading = true;
-      this.paintingService.getPainting(this.paintingId).subscribe(response => {
-        const painting = response.painting;
-        this.form = this.formBuilder.group({
-          name: [painting.name, [Validators.required]],
-          author: [painting.author, [Validators.required]],
-          genres: [painting.genres, [Validators.required]],
-          height: [painting.height, [Validators.required]],
-          width: [painting.width, [Validators.required]],
-          price: [painting.price, [Validators.required]],
-          description: [painting.description]
-        });
-        this.imagesSrc = [painting.image.data];
-        this.loading = false;
-      });
-    } else {
-      this.form = this.formBuilder.group({
-        name: [null, [Validators.required]],
-        author: [null, [Validators.required]],
-        genres: [[], [Validators.required]],
-        height: [null, [Validators.required]],
-        width: [null, [Validators.required]],
-        price: [null, [Validators.required]],
-        description: [null]
-      });
+      this.getExistingPainting();
     }
+    this.subscribeOnUpdating();
+  }
+
+  subscribeOnUpdating() {
+    this.actions$.pipe(
+      ofType(PaintingActions.CreatePaintingSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe((painting: Painting) => {
+      this.router.navigate(['/gallery/' + painting.id]);
+    });
+    this.actions$.pipe(
+      ofType(PaintingActions.UpdatePaintingSuccess),
+      takeUntil(this.componentDestroyed)
+    ).subscribe((painting: Painting) => {
+      this.router.navigate(['/gallery/' + painting.id]);
+    });
+  }
+
+  getExistingPainting() {
+    this.store.dispatch(getPaintingAction({ paintingId: this.paintingId }));
+    this.actions$.pipe(
+      ofType(PaintingActions.GetPaintingSuccess),
+      takeUntil(this.componentDestroyed),
+    ).subscribe((response: Painting) => {
+      const painting = response;
+      this.form.patchValue({
+        name: painting.name,
+        author: painting.author,
+        genres: painting.genres,
+        height: painting.height,
+        width: painting.width,
+        price: painting.price,
+        description: painting.description
+      });
+      this.imagesSrc = [painting.image.data];
+    });
   }
 
   getErrorMessage(controlName: string, fieldName?: string): string {
@@ -90,6 +116,10 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
 
   setImages(event) {
     this.images = event;
+  }
+
+  getSelectedGenres(): string[] {
+    return JSON.parse(JSON.stringify(this.form.controls.genres.value));
   }
 
   setGenres(genres) {
@@ -140,13 +170,9 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
     }
     if (this.paintingId) {
       paintingDto.paintingId = this.paintingId;
-      this.paintingService.updatePainting(paintingDto).subscribe(response => {
-        this.router.navigate(['/gallery/' + this.paintingId]);
-      });
+      this.store.dispatch(updatePaintingAction(paintingDto));
     } else {
-      this.paintingService.uploadPainting(paintingDto).subscribe(response => {
-        this.router.navigate(['/gallery/' + response.painting.id]);
-      });
+      this.store.dispatch(createPaintingAction(paintingDto));
     }
 
   }

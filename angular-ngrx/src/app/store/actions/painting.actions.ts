@@ -28,9 +28,9 @@ export enum PaintingActions {
   DeletePaintingError = '[Paintings API] Delete Painting Error',
 }
 
-// export const createPaintingAction = createAction(PaintingActions.CreatePainting, props<Painting>());
-// export const createPaintingSuccessAction = createAction(PaintingActions.CreatePaintingSuccess, props<{token: string, Painting: Painting}>());
-// export const createPaintingErrorAction = createAction(PaintingActions.CreatePaintingError, props<Error>());
+export const createPaintingAction = createAction(PaintingActions.CreatePainting, props<Painting>());
+export const createPaintingSuccessAction = createAction(PaintingActions.CreatePaintingSuccess, props<Painting>());
+export const createPaintingErrorAction = createAction(PaintingActions.CreatePaintingError, props<Error>());
 
 export const getPaintingsParametersAction = createAction(PaintingActions.GetPaintingsParameters);
 export const getPaintingsParametersSuccessAction = createAction(PaintingActions.GetPaintingsParametersSuccess, props<PaintingsParametersResponse>());
@@ -44,9 +44,9 @@ export const getPaintingAction = createAction(PaintingActions.GetPainting, props
 export const getPaintingSuccessAction = createAction(PaintingActions.GetPaintingSuccess, props<Painting>());
 export const getPaintingErrorAction = createAction(PaintingActions.GetPaintingError, props<Error>());
 
-// export const updatePaintingAction = createAction(PaintingActions.UpdatePainting, props<Painting>());
-// export const updatePaintingSuccessAction = createAction(PaintingActions.UpdatePaintingSuccess, props<Painting>());
-// export const updatePaintingErrorAction = createAction(PaintingActions.UpdatePaintingError, props<Error>());
+export const updatePaintingAction = createAction(PaintingActions.UpdatePainting, props<Painting>());
+export const updatePaintingSuccessAction = createAction(PaintingActions.UpdatePaintingSuccess, props<Painting>());
+export const updatePaintingErrorAction = createAction(PaintingActions.UpdatePaintingError, props<Error>());
 
 export const deletePaintingAction = createAction(PaintingActions.DeletePainting, props<{paintingId: string}>());
 export const deletePaintingSuccessAction = createAction(PaintingActions.DeletePaintingSuccess, props<{paintingId: string}>());

@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-image-uploader',
   templateUrl: './image-uploader.component.html',
-  styleUrls: ['./image-uploader.component.scss']
+  styleUrls: ['./image-uploader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageUploaderComponent implements OnInit {
 

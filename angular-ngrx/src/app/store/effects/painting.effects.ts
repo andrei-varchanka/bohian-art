@@ -3,22 +3,22 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { PaintingsService } from "src/app/api/services";
-import { deletePaintingErrorAction, deletePaintingSuccessAction, getPaintingErrorAction, getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions } from "../actions/painting.actions";
+import { createPaintingErrorAction, createPaintingSuccessAction, deletePaintingErrorAction, deletePaintingSuccessAction, getPaintingErrorAction, getPaintingsErrorAction, getPaintingsParametersErrorAction, getPaintingsParametersSuccessAction, getPaintingsSuccessAction, getPaintingSuccessAction, PaintingActions, updatePaintingErrorAction, updatePaintingSuccessAction } from "../actions/painting.actions";
 
 @Injectable()
 export class PaintingEffects {
 
-  // createPainting$ = createEffect(() => this.actions$
-  //   .pipe(
-  //     ofType(PaintingActions.CreatePainting),
-  //     mergeMap(action => this.paintingService.createPainting(action)
-  //       .pipe(
-  //         map(response => createPaintingSuccessAction({ token: response.token, painting: response.painting })),
-  //         catchError((err) => of(createPaintingErrorAction(err)))
-  //       )
-  //     )
-  //   )
-  // );
+  createPainting$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(PaintingActions.CreatePainting),
+      mergeMap(action => this.paintingService.uploadPainting(action)
+        .pipe(
+          map(response => createPaintingSuccessAction(response.painting )),
+          catchError((err) => of(createPaintingErrorAction(err)))
+        )
+      )
+    )
+  );
 
   getPainting$ = createEffect(() => this.actions$
     .pipe(
@@ -56,17 +56,17 @@ export class PaintingEffects {
     )
   );
 
-  // updatePainting$ = createEffect(() => this.actions$
-  //   .pipe(
-  //     ofType(PaintingActions.UpdatePainting),
-  //     mergeMap((action) => this.paintingService.updatePainting({ paintingId: (action as any).id, body: action })
-  //       .pipe(
-  //         map(response => updatePaintingSuccessAction(response.painting)),
-  //         catchError((err) => of(updatePaintingErrorAction(err)))
-  //       )
-  //     )
-  //   )
-  // );
+  updatePainting$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(PaintingActions.UpdatePainting),
+      mergeMap((action) => this.paintingService.updatePainting(action)
+        .pipe(
+          map(response => updatePaintingSuccessAction(response.painting)),
+          catchError((err) => of(updatePaintingErrorAction(err)))
+        )
+      )
+    )
+  );
 
   deletePainting$ = createEffect(() => this.actions$
     .pipe(
