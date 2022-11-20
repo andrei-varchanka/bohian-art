@@ -6,7 +6,7 @@ import { FormsValidators } from "../../../../utils/forms-validators";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { mergeMap, takeUntil } from "rxjs/operators";
-import { UserDeletionConfirmationComponent } from "./users/users.component";
+import { UserDeletionConfirmationComponent } from "../users/users.component";
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectSelectedUser } from 'src/app/store/selectors/user.selectors';

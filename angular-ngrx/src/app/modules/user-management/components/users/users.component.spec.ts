@@ -1,31 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { PaintingComponent } from './painting.component';
+import { UsersComponent } from './users.component';
 
-describe('PaintingComponent', () => {
-  let component: PaintingComponent;
-  let fixture: ComponentFixture<PaintingComponent>;
+describe('UsersComponent', () => {
+  let component: UsersComponent;
+  let fixture: ComponentFixture<UsersComponent>;
   let initialState = {};
   let actions: Observable<any>;
   
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaintingComponent ],
+      declarations: [ UsersComponent ],
       providers: [
         provideMockStore({ initialState }),
         provideMockActions(() => actions),
-        {
-          provide: ActivatedRoute,
-          useValue: { 
-            snapshot: {
-              params: of({id: 123})
-            }
-          }
-        },
         {
           provide: MatDialog,
           useValue: jasmine.createSpyObj({
@@ -40,7 +31,7 @@ describe('PaintingComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaintingComponent);
+    fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

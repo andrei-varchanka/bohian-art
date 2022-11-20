@@ -36,7 +36,7 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
 
   componentDestroyed = new Subject();
 
-  constructor(private formBuilder: UntypedFormBuilder, private paintingService: PaintingsService, private router: Router,
+  constructor(private formBuilder: UntypedFormBuilder, private router: Router,
     private route: ActivatedRoute, private store: Store<AppState>, private actions$: Actions) {
   }
 
