@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   subscribeOnLogin() {
     this.actions$.pipe(
-      ofType(UserActions.AuthSuccess),
+      ofType(UserActions.AUTH_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe(response => {
       this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
     });
     this.actions$.pipe(
-      ofType(UserActions.AuthError),
+      ofType(UserActions.AUTH_ERROR),
       takeUntil(this.componentDestroyed)
     ).subscribe(error => {
       this.error = (error as any)?.error.errorMessage;

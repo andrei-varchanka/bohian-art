@@ -86,7 +86,7 @@ export class GalleryComponent implements OnInit {
   }
 
   getPaintings() {
-    this.store.dispatch(getPaintingsAction(this.getQueryParams()));
+    this.store.dispatch(getPaintingsAction({ params: this.getQueryParams() }));
   }
 
   setFilteredGenres(genres: string[]) {

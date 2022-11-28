@@ -147,12 +147,12 @@ export class UserComponent implements OnInit, OnDestroy {
       role: this.form.controls.role.value,
       phone: this.form.controls.phone.value
     };
-    this.store.dispatch(updateUserAction(user));
+    this.store.dispatch(updateUserAction({user: user}));
   }
 
   subscribeOnSubmit() {
     this.actions$.pipe(
-      ofType(UserActions.UpdateUserSuccess),
+      ofType(UserActions.UPDATE_USER_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe((payload: User) => {
       if (this.currentUser.id === this.userId) {
@@ -172,7 +172,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   subscribeOnChangePassword() {
     this.actions$.pipe(
-      ofType(UserActions.ChangePasswordSuccess),
+      ofType(UserActions.CHANGE_PASSWORD_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe((payload: User) => {
       this.store.dispatch(authAction({
@@ -184,7 +184,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   subscribeOnAuth() {
     this.actions$.pipe(
-      ofType(UserActions.AuthSuccess),
+      ofType(UserActions.AUTH_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe(response => {
       this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
@@ -209,7 +209,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   subscribeOnDelete() {
     this.actions$.pipe(
-      ofType(UserActions.DeleteUserSuccess),
+      ofType(UserActions.DELETE_USER_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe(action => {
       if (this.currentUser.id === this.userId) {

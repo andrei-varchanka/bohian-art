@@ -76,12 +76,14 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     this.store.dispatch(createUserAction({
-      email: this.form.controls.email.value,
-      password: this.form.controls.password.value,
-      firstName: this.form.controls.firstName.value,
-      lastName: this.form.controls.lastName.value,
-      role: 'Artist',
-      phone: this.form.controls.phone.value
+      user: {
+        email: this.form.controls.email.value,
+        password: this.form.controls.password.value,
+        firstName: this.form.controls.firstName.value,
+        lastName: this.form.controls.lastName.value,
+        role: 'Artist',
+        phone: this.form.controls.phone.value
+      }
     }));
   }
 

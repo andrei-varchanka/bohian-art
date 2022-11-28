@@ -2,59 +2,59 @@ import { createAction, props } from "@ngrx/store";
 import { AuthUser, User } from "src/app/api/models";
 
 export enum UserActions {
-  Auth = '[User Interface] Authorize',
-  AuthSuccess = '[Users API] Auth Success',
-  AuthError = '[Users API] Auth Error',
+  AUTH = '[User Interface] Authorize',
+  AUTH_SUCCESS = '[Users API] Auth Success',
+  AUTH_ERROR = '[Users API] Auth Error',
 
-  CreateUser = '[Registration Interface] Create User',
-  CreateUserSuccess = '[Users API] Create User Success',
-  CreateUserError = '[Users API] Create User Error',
+  CREATE_USER = '[Registration Interface] Create User',
+  CREATE_USER_SUCCESS = '[Users API] Create User Success',
+  CREATE_USER_ERROR = '[Users API] Create User Error',
 
-  GetUsers = '[Users Interface] Get Users',
-  GetUsersSuccess = '[Users API] Get Users Success',
-  GetUsersError = '[Users API] Get Users Error',
+  GET_USERS = '[Users Interface] Get Users',
+  GET_USERS_SUCCESS = '[Users API] Get Users Success',
+  GET_USERS_ERROR = '[Users API] Get Users Error',
 
-  GetUser = '[Users Interface] Get User',
-  GetUserSuccess = '[Users API] Get User Success',
-  GetUserError = '[Users API] Get User Error',
+  GET_USER = '[Users Interface] Get User',
+  GET_USER_SUCCESS = '[Users API] Get User Success',
+  GET_USER_ERROR = '[Users API] Get User Error',
 
-  UpdateUser = '[User Interface] Update User',
-  UpdateUserSuccess = '[Users API] Update User Success',
-  UpdateUserError = '[Users API] Update User Error',
+  UPDATE_USER = '[User Interface] Update User',
+  UPDATE_USER_SUCCESS = '[Users API] Update User Success',
+  UPDATE_USER_ERROR = '[Users API] Update User Error',
 
-  DeleteUser = '[Users Interface] Delete User',
-  DeleteUserSuccess = '[Users API] Delete User Success',
-  DeleteUserError = '[Users API] Delete User Error',
+  DELETE_USER = '[Users Interface] Delete User',
+  DELETE_USER_SUCCESS = '[Users API] Delete User Success',
+  DELETE_USER_ERROR = '[Users API] Delete User Error',
 
-  ChangePassword = '[User Interface] Change Password',
-  ChangePasswordSuccess = '[Users API] Change Password Success',
-  ChangePasswordError = '[Users API] Change Password Error'
+  CHANGE_PASSWORD = '[User Interface] Change Password',
+  CHANGE_PASSWORD_SUCCESS = '[Users API] Change Password Success',
+  CHANGE_PASSWORD_ERROR = '[Users API] Change Password Error'
 }
 
-export const authAction = createAction(UserActions.Auth, props<AuthUser>());
-export const authSuccessAction = createAction(UserActions.AuthSuccess, props<{token: string, user: User}>());
-export const authErrorAction = createAction(UserActions.AuthError, props<Error>());
+export const authAction = createAction(UserActions.AUTH, props<{ email: string, password: string }>());
+export const authSuccessAction = createAction(UserActions.AUTH_SUCCESS, props<{ token: string, user: User }>());
+export const authErrorAction = createAction(UserActions.AUTH_ERROR, props<{ error: Error }>());
 
-export const createUserAction = createAction(UserActions.CreateUser, props<User>());
-export const createUserSuccessAction = createAction(UserActions.CreateUserSuccess, props<{token: string, user: User}>());
-export const createUserErrorAction = createAction(UserActions.CreateUserError, props<Error>());
+export const createUserAction = createAction(UserActions.CREATE_USER, props<{ user: User }>());
+export const createUserSuccessAction = createAction(UserActions.CREATE_USER_SUCCESS, props<{ token: string, user: User }>());
+export const createUserErrorAction = createAction(UserActions.CREATE_USER_ERROR, props<{ error: Error }>());
 
-export const getUsersAction = createAction(UserActions.GetUsers);
-export const getUsersSuccessAction = createAction(UserActions.GetUsersSuccess, props<{users: User[]}>());
-export const getUsersErrorAction = createAction(UserActions.GetUsersError, props<Error>());
+export const getUsersAction = createAction(UserActions.GET_USERS);
+export const getUsersSuccessAction = createAction(UserActions.GET_USERS_SUCCESS, props<{ users: User[] }>());
+export const getUsersErrorAction = createAction(UserActions.GET_USERS_ERROR, props<{ error: Error }>());
 
-export const getUserAction = createAction(UserActions.GetUser, props<{userId: string}>());
-export const getUserSuccessAction = createAction(UserActions.GetUserSuccess, props<User>());
-export const getUserErrorAction = createAction(UserActions.GetUserError, props<Error>());
+export const getUserAction = createAction(UserActions.GET_USER, props<{ userId: string }>());
+export const getUserSuccessAction = createAction(UserActions.GET_USER_SUCCESS, props<{ user: User }>());
+export const getUserErrorAction = createAction(UserActions.GET_USER_ERROR, props<{ error: Error }>());
 
-export const updateUserAction = createAction(UserActions.UpdateUser, props<User>());
-export const updateUserSuccessAction = createAction(UserActions.UpdateUserSuccess, props<User>());
-export const updateUserErrorAction = createAction(UserActions.UpdateUserError, props<Error>());
+export const updateUserAction = createAction(UserActions.UPDATE_USER, props<{ user: User }>());
+export const updateUserSuccessAction = createAction(UserActions.UPDATE_USER_SUCCESS, props<{ user: User }>());
+export const updateUserErrorAction = createAction(UserActions.UPDATE_USER_ERROR, props<{ error: Error }>());
 
-export const deleteUserAction = createAction(UserActions.DeleteUser, props<{userId: string}>());
-export const deleteUserSuccessAction = createAction(UserActions.DeleteUserSuccess, props<{userId: string}>());
-export const deleteUserErrorAction = createAction(UserActions.DeleteUserError, props<Error>());
+export const deleteUserAction = createAction(UserActions.DELETE_USER, props<{ userId: string }>());
+export const deleteUserSuccessAction = createAction(UserActions.DELETE_USER_SUCCESS, props<{ userId: string }>());
+export const deleteUserErrorAction = createAction(UserActions.DELETE_USER_ERROR, props<{ error: Error }>());
 
-export const changePasswordAction = createAction(UserActions.ChangePassword, props<{userId: string, password: string}>());
-export const changePasswordSuccessAction = createAction(UserActions.ChangePasswordSuccess, props<User>());
-export const changePasswordErrorAction = createAction(UserActions.ChangePasswordError, props<Error>());
+export const changePasswordAction = createAction(UserActions.CHANGE_PASSWORD, props<{ userId: string, password: string }>());
+export const changePasswordSuccessAction = createAction(UserActions.CHANGE_PASSWORD_SUCCESS, props<{ user: User }>());
+export const changePasswordErrorAction = createAction(UserActions.CHANGE_PASSWORD_ERROR, props<{ error: Error }>());

@@ -39,7 +39,7 @@ export class PaintingComponent implements OnInit, OnDestroy {
     const paintingId = this.route.snapshot.params.id;
     this.store.dispatch(getPaintingAction({ paintingId }));
     this.actions$.pipe(
-      ofType(PaintingActions.GetPaintingSuccess),
+      ofType(PaintingActions.GET_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed),
     ).subscribe(response => {
       this.painting = response;
@@ -47,7 +47,7 @@ export class PaintingComponent implements OnInit, OnDestroy {
       this.store.dispatch(getUserAction({ userId: this.painting.userId }))
     });
     this.actions$.pipe(
-      ofType(PaintingActions.DeletePaintingSuccess),
+      ofType(PaintingActions.DELETE_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed),
     ).subscribe(() => {
       this.router.navigate(['/']);

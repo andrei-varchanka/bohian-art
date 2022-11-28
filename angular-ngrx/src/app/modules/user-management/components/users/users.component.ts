@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscribeOnDelete() {
     this.actions$.pipe(
-      ofType(UserActions.DeleteUserError),
+      ofType(UserActions.DELETE_USER_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe(action => console.log((action as any).payload));
   }

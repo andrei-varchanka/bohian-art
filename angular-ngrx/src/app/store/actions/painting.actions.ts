@@ -3,52 +3,52 @@ import { Painting, PaintingsParametersResponse, PaintingsResponse } from "src/ap
 import { PaintingsService } from "src/app/api/services";
 
 export enum PaintingActions {
-  CreatePainting = '[Painting Interface] Create Painting',
-  CreatePaintingSuccess = '[Paintings API] Create Painting Success',
-  CreatePaintingError = '[Paintings API] Create Painting Error',
+  CREATE_PAINTING = '[Painting Interface] Create Painting',
+  CREATE_PAINTING_SUCCESS = '[Paintings API] Create Painting Success',
+  CREATE_PAINTING_ERROR = '[Paintings API] Create Painting Error',
 
-  GetPaintingsParameters = '[Gallery Interface] Get Paintings Parameters',
-  GetPaintingsParametersSuccess = '[Paintings API] Get Paintings Parameters Success',
-  GetPaintingsParametersError = '[Paintings API] Get Paintings Parameters Error',
+  GET_PAINTINGS_PARAMETERS = '[Gallery Interface] Get Paintings Parameters',
+  GET_PAINTINGS_PARAMETERS_SUCCESS = '[Paintings API] Get Paintings Parameters Success',
+  GET_PAINTINGS_PARAMETERS_ERROR = '[Paintings API] Get Paintings Parameters Error',
 
-  GetPaintings = '[Gallery Interface] Get Paintings',
-  GetPaintingsSuccess = '[Paintings API] Get Paintings Success',
-  GetPaintingsError = '[Paintings API] Get Paintings Error',
+  GET_PAINTINGS = '[Gallery Interface] Get Paintings',
+  GET_PAINTINGS_SUCCESS = '[Paintings API] Get Paintings Success',
+  GET_PAINTINGS_ERROR = '[Paintings API] Get Paintings Error',
 
-  GetPainting = '[Painting Interface] Get Painting',
-  GetPaintingSuccess = '[Paintings API] Get Painting Success',
-  GetPaintingError = '[Paintings API] Get Painting Error',
+  GET_PAINTING = '[Painting Interface] Get Painting',
+  GET_PAINTING_SUCCESS = '[Paintings API] Get Painting Success',
+  GET_PAINTING_ERROR = '[Paintings API] Get Painting Error',
 
-  UpdatePainting = '[Painting Interface] Update Painting',
-  UpdatePaintingSuccess = '[Paintings API] Update Painting Success',
-  UpdatePaintingError = '[Paintings API] Update Painting Error',
+  UPDATE_PAINTING = '[Painting Interface] Update Painting',
+  UPDATE_PAINTING_SUCCESS = '[Paintings API] Update Painting Success',
+  UPDATE_PAINTING_ERROR = '[Paintings API] Update Painting Error',
 
-  DeletePainting = '[Painting Interface] Delete Painting',
-  DeletePaintingSuccess = '[Paintings API] Delete Painting Success',
-  DeletePaintingError = '[Paintings API] Delete Painting Error',
+  DELETE_PAINTING = '[Painting Interface] Delete Painting',
+  DELETE_PAINTING_SUCCESS = '[Paintings API] Delete Painting Success',
+  DELETE_PAINTING_ERROR = '[Paintings API] Delete Painting Error',
 }
 
-export const createPaintingAction = createAction(PaintingActions.CreatePainting, props<Painting>());
-export const createPaintingSuccessAction = createAction(PaintingActions.CreatePaintingSuccess, props<Painting>());
-export const createPaintingErrorAction = createAction(PaintingActions.CreatePaintingError, props<Error>());
+export const createPaintingAction = createAction(PaintingActions.CREATE_PAINTING, props<{ painting: Painting }>());
+export const createPaintingSuccessAction = createAction(PaintingActions.CREATE_PAINTING_SUCCESS, props<{ painting: Painting }>());
+export const createPaintingErrorAction = createAction(PaintingActions.CREATE_PAINTING_ERROR, props<{ error: Error }>());
 
-export const getPaintingsParametersAction = createAction(PaintingActions.GetPaintingsParameters);
-export const getPaintingsParametersSuccessAction = createAction(PaintingActions.GetPaintingsParametersSuccess, props<PaintingsParametersResponse>());
-export const getPaintingsParametersErrorAction = createAction(PaintingActions.GetPaintingsParametersError, props<Error>());
+export const getPaintingsParametersAction = createAction(PaintingActions.GET_PAINTINGS_PARAMETERS);
+export const getPaintingsParametersSuccessAction = createAction(PaintingActions.GET_PAINTINGS_PARAMETERS_SUCCESS, props<{ paintingParameters: PaintingsParametersResponse }>());
+export const getPaintingsParametersErrorAction = createAction(PaintingActions.GET_PAINTINGS_PARAMETERS_ERROR, props<{ error: Error }>());
 
-export const getPaintingsAction = createAction(PaintingActions.GetPaintings, props<PaintingsService.GetAllPaintingsParams>());
-export const getPaintingsSuccessAction = createAction(PaintingActions.GetPaintingsSuccess, props<PaintingsResponse>());
-export const getPaintingsErrorAction = createAction(PaintingActions.GetPaintingsError, props<Error>());
+export const getPaintingsAction = createAction(PaintingActions.GET_PAINTINGS, props<{ params: PaintingsService.GetAllPaintingsParams }>());
+export const getPaintingsSuccessAction = createAction(PaintingActions.GET_PAINTINGS_SUCCESS, props<{ paintingsResponse: PaintingsResponse }>());
+export const getPaintingsErrorAction = createAction(PaintingActions.GET_PAINTINGS_ERROR, props<{ error: Error }>());
 
-export const getPaintingAction = createAction(PaintingActions.GetPainting, props<{paintingId: string}>());
-export const getPaintingSuccessAction = createAction(PaintingActions.GetPaintingSuccess, props<Painting>());
-export const getPaintingErrorAction = createAction(PaintingActions.GetPaintingError, props<Error>());
+export const getPaintingAction = createAction(PaintingActions.GET_PAINTING, props<{ paintingId: string }>());
+export const getPaintingSuccessAction = createAction(PaintingActions.GET_PAINTING_SUCCESS, props<{ painting: Painting }>());
+export const getPaintingErrorAction = createAction(PaintingActions.GET_PAINTING_ERROR, props<{ error: Error }>());
 
-export const updatePaintingAction = createAction(PaintingActions.UpdatePainting, props<Painting>());
-export const updatePaintingSuccessAction = createAction(PaintingActions.UpdatePaintingSuccess, props<Painting>());
-export const updatePaintingErrorAction = createAction(PaintingActions.UpdatePaintingError, props<Error>());
+export const updatePaintingAction = createAction(PaintingActions.UPDATE_PAINTING, props<{ painting: Painting }>());
+export const updatePaintingSuccessAction = createAction(PaintingActions.UPDATE_PAINTING_SUCCESS, props<{ painting: Painting }>());
+export const updatePaintingErrorAction = createAction(PaintingActions.UPDATE_PAINTING_ERROR, props<{ error: Error }>());
 
-export const deletePaintingAction = createAction(PaintingActions.DeletePainting, props<{paintingId: string}>());
-export const deletePaintingSuccessAction = createAction(PaintingActions.DeletePaintingSuccess, props<{paintingId: string}>());
-export const deletePaintingErrorAction = createAction(PaintingActions.DeletePaintingError, props<Error>());
+export const deletePaintingAction = createAction(PaintingActions.DELETE_PAINTING, props<{ paintingId: string }>());
+export const deletePaintingSuccessAction = createAction(PaintingActions.DELETE_PAINTING_SUCCESS, props<{ paintingId: string }>());
+export const deletePaintingErrorAction = createAction(PaintingActions.DELETE_PAINTING_ERROR, props<{ error: Error }>());
 

@@ -63,13 +63,13 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
 
   subscribeOnUpdating() {
     this.actions$.pipe(
-      ofType(PaintingActions.CreatePaintingSuccess),
+      ofType(PaintingActions.CREATE_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe((painting: Painting) => {
       this.router.navigate(['/gallery/' + painting.id]);
     });
     this.actions$.pipe(
-      ofType(PaintingActions.UpdatePaintingSuccess),
+      ofType(PaintingActions.UPDATE_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed)
     ).subscribe((painting: Painting) => {
       this.router.navigate(['/gallery/' + painting.id]);
@@ -79,7 +79,7 @@ export class PaintingEditorComponent implements OnInit, OnDestroy {
   getExistingPainting() {
     this.store.dispatch(getPaintingAction({ paintingId: this.paintingId }));
     this.actions$.pipe(
-      ofType(PaintingActions.GetPaintingSuccess),
+      ofType(PaintingActions.GET_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed),
     ).subscribe((response: Painting) => {
       const painting = response;

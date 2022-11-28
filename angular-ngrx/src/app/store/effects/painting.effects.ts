@@ -10,10 +10,10 @@ export class PaintingEffects {
 
   createPainting$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.CreatePainting),
+      ofType(PaintingActions.CREATE_PAINTING),
       mergeMap(action => this.paintingService.uploadPainting(action)
         .pipe(
-          map(response => createPaintingSuccessAction(response.painting )),
+          map(response => createPaintingSuccessAction({ painting: response.painting })),
           catchError((err) => of(createPaintingErrorAction(err)))
         )
       )
@@ -22,10 +22,10 @@ export class PaintingEffects {
 
   getPainting$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.GetPainting),
+      ofType(PaintingActions.GET_PAINTING),
       mergeMap(action => this.paintingService.getPainting((action as any).paintingId)
         .pipe(
-          map(response => getPaintingSuccessAction(response.painting)),
+          map(response => getPaintingSuccessAction({ painting: response.painting })),
           catchError((err) => of(getPaintingErrorAction(err)))
         )
       )
@@ -34,10 +34,10 @@ export class PaintingEffects {
 
   getPaintingsParameters$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.GetPaintingsParameters),
+      ofType(PaintingActions.GET_PAINTINGS_PARAMETERS),
       mergeMap(() => this.paintingService.getParameters()
         .pipe(
-          map(response => getPaintingsParametersSuccessAction(response)),
+          map(response => getPaintingsParametersSuccessAction({ paintingParameters: response })),
           catchError((err) => of(getPaintingsParametersErrorAction(err)))
         )
       )
@@ -46,10 +46,10 @@ export class PaintingEffects {
 
   getPaintings$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.GetPaintings),
+      ofType(PaintingActions.GET_PAINTINGS),
       mergeMap((action) => this.paintingService.getAllPaintings(action)
         .pipe(
-          map(response => getPaintingsSuccessAction(response)),
+          map(response => getPaintingsSuccessAction({ paintingsResponse: response })),
           catchError((err) => of(getPaintingsErrorAction(err)))
         )
       )
@@ -58,10 +58,10 @@ export class PaintingEffects {
 
   updatePainting$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.UpdatePainting),
+      ofType(PaintingActions.UPDATE_PAINTING),
       mergeMap((action) => this.paintingService.updatePainting(action)
         .pipe(
-          map(response => updatePaintingSuccessAction(response.painting)),
+          map(response => updatePaintingSuccessAction({ painting: response.painting })),
           catchError((err) => of(updatePaintingErrorAction(err)))
         )
       )
@@ -70,7 +70,7 @@ export class PaintingEffects {
 
   deletePainting$ = createEffect(() => this.actions$
     .pipe(
-      ofType(PaintingActions.DeletePainting),
+      ofType(PaintingActions.DELETE_PAINTING),
       mergeMap((action) => this.paintingService.deletePainting((action as any).paintingId)
         .pipe(
           map(response => deletePaintingSuccessAction({ paintingId: (action as any).paintingId })),

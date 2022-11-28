@@ -10,7 +10,7 @@ export class UserEffects {
 
   auth$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.Auth),
+      ofType(UserActions.AUTH),
       mergeMap(action => this.userService.auth(action)
         .pipe(
           map(response => authSuccessAction({ token: response.token, user: response.user })),
@@ -22,7 +22,7 @@ export class UserEffects {
 
   createUser$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.CreateUser),
+      ofType(UserActions.CREATE_USER),
       mergeMap(action => this.userService.createUser(action)
         .pipe(
           map(response => createUserSuccessAction({ token: response.token, user: response.user })),
@@ -34,10 +34,10 @@ export class UserEffects {
 
   getUser$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.GetUser),
+      ofType(UserActions.GET_USER),
       mergeMap(action => this.userService.getUser((action as any).userId)
         .pipe(
-          map(response => getUserSuccessAction(response.user)),
+          map(response => getUserSuccessAction({ user: response.user })),
           catchError((err) => of(getUserErrorAction(err)))
         )
       )
@@ -46,7 +46,7 @@ export class UserEffects {
 
   getUsers$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.GetUsers),
+      ofType(UserActions.GET_USERS),
       mergeMap(() => this.userService.getAllUsers()
         .pipe(
           map(response => getUsersSuccessAction({ users: response.users })),
@@ -58,10 +58,10 @@ export class UserEffects {
 
   updateUser$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.UpdateUser),
+      ofType(UserActions.UPDATE_USER),
       mergeMap((action) => this.userService.updateUser({ userId: (action as any).id, body: action })
         .pipe(
-          map(response => updateUserSuccessAction(response.user)),
+          map(response => updateUserSuccessAction({ user: response.user })),
           catchError((err) => of(updateUserErrorAction(err)))
         )
       )
@@ -70,7 +70,7 @@ export class UserEffects {
 
   deleteUser$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.DeleteUser),
+      ofType(UserActions.DELETE_USER),
       mergeMap((action) => this.userService.deleteUser((action as any).userId)
         .pipe(
           map(response => deleteUserSuccessAction({ userId: (action as any).userId })),
@@ -82,13 +82,13 @@ export class UserEffects {
 
   changePassword$ = createEffect(() => this.actions$
     .pipe(
-      ofType(UserActions.ChangePassword),
+      ofType(UserActions.CHANGE_PASSWORD),
       mergeMap((action) => this.userService.changePassword({
         userId: (action as any).userId,
         body: { password: (action as any).password }
       })
         .pipe(
-          map(response => changePasswordSuccessAction(response.user)),
+          map(response => changePasswordSuccessAction({ user: response.user })),
           catchError((err) => of(changePasswordErrorAction(err)))
         )
       )
