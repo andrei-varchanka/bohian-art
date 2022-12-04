@@ -7,4 +7,4 @@ https://angular.io/guide/testing-services
 https://timdeschryver.dev/blog/testing-an-ngrx-project#reducers
 https://christianlydemann.com/the-complete-guide-to-ngrx-testing/
 
-Actions are not containing any business logic so this provides less value to test.
+Actions and selectors are not containing any business logic so this provides less value to test. It is already typesafe by using Typescript

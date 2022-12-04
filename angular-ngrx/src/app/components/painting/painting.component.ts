@@ -42,7 +42,7 @@ export class PaintingComponent implements OnInit, OnDestroy {
       ofType(PaintingActions.GET_PAINTING_SUCCESS),
       takeUntil(this.componentDestroyed),
     ).subscribe(response => {
-      this.painting = response;
+      this.painting = (response as any).painting;
       this.cdr.markForCheck();
       this.store.dispatch(getUserAction({ userId: this.painting.userId }))
     });
