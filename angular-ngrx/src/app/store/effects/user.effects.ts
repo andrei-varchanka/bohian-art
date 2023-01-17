@@ -50,7 +50,7 @@ export class UserEffects {
       mergeMap(() => this.userService.getAllUsers()
         .pipe(
           map(response => getUsersSuccessAction({ users: response.users })),
-          catchError((err) => of(getUsersErrorAction(err)))
+          catchError((err) => of(getUsersErrorAction({error: err})))
         )
       )
     )
