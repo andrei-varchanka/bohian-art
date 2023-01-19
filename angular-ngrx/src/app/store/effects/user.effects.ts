@@ -14,7 +14,7 @@ export class UserEffects {
       mergeMap(action => this.userService.auth(action)
         .pipe(
           map(response => authSuccessAction({ token: response.token, user: response.user })),
-          catchError((err) => of(authErrorAction(err)))
+          catchError((err) => of(authErrorAction({error: err})))
         )
       )
     )
@@ -26,7 +26,7 @@ export class UserEffects {
       mergeMap(action => this.userService.createUser(action)
         .pipe(
           map(response => createUserSuccessAction({ token: response.token, user: response.user })),
-          catchError((err) => of(createUserErrorAction(err)))
+          catchError((err) => of(createUserErrorAction({error: err})))
         )
       )
     )
@@ -38,7 +38,7 @@ export class UserEffects {
       mergeMap(action => this.userService.getUser((action as any).userId)
         .pipe(
           map(response => getUserSuccessAction({ user: response.user })),
-          catchError((err) => of(getUserErrorAction(err)))
+          catchError((err) => of(getUserErrorAction({error: err})))
         )
       )
     )
@@ -62,7 +62,7 @@ export class UserEffects {
       mergeMap((action) => this.userService.updateUser({ userId: (action as any).id, body: action })
         .pipe(
           map(response => updateUserSuccessAction({ user: response.user })),
-          catchError((err) => of(updateUserErrorAction(err)))
+          catchError((err) => of(updateUserErrorAction({error: err})))
         )
       )
     )
@@ -74,7 +74,7 @@ export class UserEffects {
       mergeMap((action) => this.userService.deleteUser((action as any).userId)
         .pipe(
           map(response => deleteUserSuccessAction({ userId: (action as any).userId })),
-          catchError((err) => of(deleteUserErrorAction(err)))
+          catchError((err) => of(deleteUserErrorAction({error: err})))
         )
       )
     )
@@ -89,7 +89,7 @@ export class UserEffects {
       })
         .pipe(
           map(response => changePasswordSuccessAction({ user: response.user })),
-          catchError((err) => of(changePasswordErrorAction(err)))
+          catchError((err) => of(changePasswordErrorAction({error: err})))
         )
       )
     )
