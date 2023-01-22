@@ -14,7 +14,7 @@ export class PaintingEffects {
       mergeMap(action => this.paintingService.uploadPainting(action)
         .pipe(
           map(response => createPaintingSuccessAction({ painting: response.painting })),
-          catchError((err) => of(createPaintingErrorAction(err)))
+          catchError((err) => of(createPaintingErrorAction({error: err})))
         )
       )
     )
@@ -26,7 +26,7 @@ export class PaintingEffects {
       mergeMap(action => this.paintingService.getPainting((action as any).paintingId)
         .pipe(
           map(response => getPaintingSuccessAction({ painting: response.painting })),
-          catchError((err) => of(getPaintingErrorAction(err)))
+          catchError((err) => of(getPaintingErrorAction({error: err})))
         )
       )
     )
@@ -38,7 +38,7 @@ export class PaintingEffects {
       mergeMap(() => this.paintingService.getParameters()
         .pipe(
           map(response => getPaintingsParametersSuccessAction({ paintingParameters: response })),
-          catchError((err) => of(getPaintingsParametersErrorAction(err)))
+          catchError((err) => of(getPaintingsParametersErrorAction({error: err})))
         )
       )
     )
@@ -50,7 +50,7 @@ export class PaintingEffects {
       mergeMap((action) => this.paintingService.getAllPaintings(action)
         .pipe(
           map(response => getPaintingsSuccessAction({ paintingsResponse: response })),
-          catchError((err) => of(getPaintingsErrorAction(err)))
+          catchError((err) => of(getPaintingsErrorAction({error: err})))
         )
       )
     )
@@ -62,7 +62,7 @@ export class PaintingEffects {
       mergeMap((action) => this.paintingService.updatePainting(action)
         .pipe(
           map(response => updatePaintingSuccessAction({ painting: response.painting })),
-          catchError((err) => of(updatePaintingErrorAction(err)))
+          catchError((err) => of(updatePaintingErrorAction({error: err})))
         )
       )
     )
@@ -74,7 +74,7 @@ export class PaintingEffects {
       mergeMap((action) => this.paintingService.deletePainting((action as any).paintingId)
         .pipe(
           map(response => deletePaintingSuccessAction({ paintingId: (action as any).paintingId })),
-          catchError((err) => of(deletePaintingErrorAction(err)))
+          catchError((err) => of(deletePaintingErrorAction({error: err})))
         )
       )
     )
