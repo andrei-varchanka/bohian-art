@@ -217,17 +217,6 @@ describe('Painting effects', () => {
     });
   });
 
-  // deletePainting$ = createEffect(() => this.actions$
-  //   .pipe(
-  //     ofType(PaintingActions.DELETE_PAINTING),
-  //     mergeMap((action) => this.paintingService.deletePainting((action as any).paintingId)
-  //       .pipe(
-  //         map(response => deletePaintingSuccessAction({ paintingId: (action as any).paintingId })),
-  //         catchError((err) => of(deletePaintingErrorAction({error: err})))
-  //       )
-  //     )
-  //   )
-  // );
   describe('Delete painting effect', () => {
     it('should return a success action', () => {
       actions$ = hot('-a', { a: deletePaintingAction({ paintingId: PAINTINGS[0].id }) });

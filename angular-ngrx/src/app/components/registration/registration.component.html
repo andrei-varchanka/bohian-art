@@ -42,7 +42,7 @@
       <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword2 = !hidePassword2">
         <mat-icon>{{hidePassword2 ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-error>{{getErrorMessage('confirm', 'email confirmation')}}</mat-error>
+      <mat-error>{{getErrorMessage('confirm', 'password confirmation')}}</mat-error>
     </mat-form-field>
 
     <button class="registration-button" mat-raised-button color="primary" (click)="register()">Sign Up</button>

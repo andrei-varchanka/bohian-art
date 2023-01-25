@@ -4,8 +4,8 @@ import { FormsValidators } from "../../utils/forms-validators";
 import { Router } from "@angular/router";
 import { setAuthTokenAction, setCurrentUserAction } from 'src/app/store/actions/system.actions';
 import { AppState } from 'src/app/store/state/app.state';
-import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 import { createUserAction, createUserSuccessAction } from 'src/app/store/actions/user.actions';
 
 @Component({
@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
 
   form: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder, private store: Store<AppState>, private actions$: Actions,
+  constructor(private formBuilder: UntypedFormBuilder, private store: Store<AppState>, public actionsSubject: ActionsSubject,
     private router: Router) { }
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   subscribeOnRegister() {
-    this.actions$.pipe(ofType(createUserSuccessAction)).subscribe(response => {
+    this.actionsSubject.pipe(ofType(createUserSuccessAction)).subscribe(response => {
       this.store.dispatch(setCurrentUserAction({ user: (response as any).user }));
       this.store.dispatch(setAuthTokenAction({ token: (response as any).token }));
       this.router.navigate(['/']);
